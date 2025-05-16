@@ -74,4 +74,6 @@ As you might notice, when we browse the Web with a Web browser, we usually use t
 
 Both intranets and extranets run on the same kind of infrastructure as the Internet, and use the same protocols. They can therefore be accessed by authorized members from different physical locations.
 
+![Internet Vs Extranet Vs Intranet](../../src/images/00_web/w-9.png)
+
 > read more on [how does the internet works?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work)
