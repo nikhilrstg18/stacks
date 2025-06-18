@@ -109,6 +109,7 @@ export const query = graphql`
       filter: {
         sourceInstanceName: { eq: "content" }
         relativeDirectory: { eq: $slug }
+        
       }
       sort: { name: ASC }
     ) {

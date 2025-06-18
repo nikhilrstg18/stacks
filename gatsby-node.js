@@ -3,7 +3,7 @@ const path = require("path");
 exports.createPages = async ({ graphql, actions }) => {
   const { data } = await graphql(`
     query BookInfo {
-      allMarkdownRemark(filter: {}, sort: { frontmatter: { stack: ASC } }) {
+      allMarkdownRemark(filter: {frontmatter:{draft:{eq:false}}}, sort: { frontmatter: { stack: ASC } }) {
         nodes {
           frontmatter {
             slug

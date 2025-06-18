@@ -6,15 +6,6 @@ date: "2025-05-10T07:26:45.889Z"
 draft: false
 ---
 
-## You learn
-
-- Clients and servers and their roles in the web.
-- DNS and how it works at a high level.
-- The purpose of TCP/IP, HTTP, and packets.
-- HTTP syntax at a basic level.
-- Common HTTP response codes (e.g., 200, 301, 403, 404, and 500).
-- Basic components of a URL (protocol, domain, subdomain, path).
-
 ## Client and Servers
 
 Computers connected to the internet are called **clients** and **servers**. A simplified diagram of how they interact might look like this:
@@ -160,21 +151,7 @@ The path to the resource on the server that you are accessing. MDN keeps all its
 
 If you have your browser set up to prefer English content by default, then this is the URL you will be redirected to when you type in `developer.mozilla.org`. If you have your browser set up to prefer a different language that MDN supports, such as French, you will be redirected to a different URL, such as `https://developer.mozilla.org/fr/` instead. This isn't available to every website by default; the MDN developers have set MDN up like this to allow people to easily access the language they prefer.
 
+📖 read more about [web standard model](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/The_web_standards_model)
 
-read more [how browsers load websites?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_browsers_load_websites)
+📖 read more on [how browsers load websites?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_browsers_load_websites)
 
-
-
-## [What_are_hyperlinks?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_are_hyperlinks)
-
-## [What is domain?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_domain_name)
-
-## [What is Url?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_URL)
-
-## [What is a web browser?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_web_server)
-
-## [Browsing the Web](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Browsing_the_web)
-
-## [How does the web works?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works)
-
-## [What is web hosting?](https://www.namecheap.com/guru-guides/what-is-web-hosting/)

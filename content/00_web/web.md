@@ -76,4 +76,3 @@ Both intranets and extranets run on the same kind of infrastructure as the Inter
 
 ![Internet Vs Extranet Vs Intranet](../../src/images/00_web/w-9.png)
 
-> read more on [how does the internet works?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/How_does_the_Internet_work)
