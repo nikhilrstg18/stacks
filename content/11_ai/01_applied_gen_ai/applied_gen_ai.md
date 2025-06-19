@@ -8,36 +8,12 @@ draft: false
 
 ## Importance of GenAI
 
-### Creativity and Innovation
+GenAI is a subset of AI that focuses on creating models capable of generating new content, such as text, images, music and more.
 
+### Creativity and Innovation
+- Foster creativity and innovation
 ### Automation and Efficiency
 
 ### Personalization and Problem Solving
 
 ### Industry Applications
-
-
-
-### AutoEncoders `AE`
-
-### Recurrent Neural Netowrk `RNN`
-
-### Variational AutoEncoders `VAE`
-
-### Generative Adversarial Network `GAN`
-
-### Transformers
-
-## How GenAI works?
-
-### Traning generative model
-
-### Sampling and content generation
-
-### Fine-Tuning for Specialized Tasks
-
-## Evaluating Model Quality
-
-1. Speed
-2. Diversity
-3. Quality
