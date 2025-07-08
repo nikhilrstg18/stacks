@@ -59,6 +59,7 @@ module.exports = {
       options: {
         plugins: [
           "gatsby-remark-markmap",
+          "gatsby-remark-gifs",
           `gatsby-remark-autolink-headers`,
           `gatsby-remark-prismjs`,
           {

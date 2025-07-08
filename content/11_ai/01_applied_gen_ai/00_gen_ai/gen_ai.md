@@ -29,13 +29,44 @@ empowering creativity, innovation, and personalization.
 | Healthcare           | Assists in medical diagnosis, drug discovery and genomics         | traditional medical data analysis and diagnosis by doctor |
 | Finance              | enahnces risk management, fraud detection and algorithmic trading | rule-based systems and manual analysis                    |
 
+#### Example: 🍎 & 🍊
+
+- for Non-Gen Model :: _Classification_ i.e. image of fruit -> label.
+
+`P(y = AO | features of fruit)`, where model learns features of fruit (color, size, task, price, etc) so that it can classify 🍎 and 🍊.
+
+- Classification is handled by
+
+1. feature of fruit are extracted and classified by Neural Network (automated)
+2. feature of fruit are extracted by a human and feed to Machine Learning model for classification (manual)
+
+- for Gen Model :: _Generative_ i.e. label -> image of fruit
+
+`P(x) -> A|O`, here a fruit image is generated (can be 🍎 can be 🍊)
+
+or
+
+`P(x|y=color is red) -> A`, since we provided a label `y`, a fruit image is generated (which 🍎)
+
+✏️: Non-Gen AI learns the feature of 🍎 and 🍊 so that it can classify (label) the fruit feature where as Gen AI learns the feature of 🍎 and 🍊
+
 ## GenAI Model types
 
-1. AutoEncoders `AE`
-2. Recurrent Neural Netowrk `RNN`
-3. Variational AutoEncoders `VAE`
-4. Generative Adversarial Network `GAN`
-5. Transformers
+1. AutoEncoders `AE`: Autoencoders, a type of neural network, and decode data for tasks such as image generation.
+2. Recurrent Neural Netowrk `RNN`: RNNs handle sequences and generate text with LSTM networks for context-based tasks.
+3. Variational AutoEncoders `VAE`: Models represent data distribution, enabling sampling. Example: VAEs for diverse images. Real-world eg imagine you have high resolution images and you want to save storage space wihtout loosing too much quality.
+
+✏️: In industries like e-commerce, using VAEs for image compression can save server space and improve website loading times without compromising image quality.
+
+4. Generative Adversarial Network `GAN`: GANs, with a generator and discriminator, produce realistic images like StyleGAN.
+
+✏️: While deepfake technology has raised concerns about misinformation and privacy, it also has promising applications in the entertainment and film industry. GANs continue to evolve and are making waves in fields like healthcare, art, and more, demonstrating their versatility and creative potential
+
+5. Transformers : Transformers efficiently handle sequences with self-attention, popular in natural language processing.
+
+✏️: Transformer-based models continue to revolutionize NLP and have a wide range of applications, including chatbots, content summarization, and sentiment analysis.
+
+![Application of GenAI Models Types](../../../../src/images/11_ai/01_agen_ai/agi-12.png)
 
 ## How GenAI works?
 

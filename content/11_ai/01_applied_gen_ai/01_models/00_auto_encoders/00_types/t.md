@@ -145,7 +145,7 @@ Here’re the steps for training process of a VAE, which provides valuable insig
 - The process computes gradients in relation to the encoder and decoder parameters.
 - The system updates the parameters to minimize the objective function.
 
-### Capabilities
+**Capabilities**
 
 - The unique feature of a VAE is its continuous
   latent space.
