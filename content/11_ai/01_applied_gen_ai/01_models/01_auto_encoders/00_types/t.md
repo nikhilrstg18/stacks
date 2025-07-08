@@ -1,6 +1,6 @@
 ---
 title: "Types of AutoEncoder"
-slug: "11_ai/01_applied_gen_ai/01_models/00_auto_encoders/00_types"
+slug: "11_ai/01_applied_gen_ai/01_models/01_auto_encoders/00_types"
 stack: "GenAI"
 date: "2025-06-03T07:26:45.889Z"
 draft: false
