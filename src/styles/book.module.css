@@ -15,6 +15,12 @@
   text-align: justify;
 }
 .book p > code {
+  background: var(--bg-grey);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: var(--global-fs);
+}
+.book ul > li > code {
   background: var(--table-grey);
   border-radius: 4px;
   padding: 2px 4px;

@@ -8,12 +8,12 @@ draft: false
 
 > Given the sequence of words, what is the probability of next word?
 
-## N-Gram Language Model
+## Facts
 
-- `N-gram` is a contiguous sequence of 'N' items like words or characters from text or speech.
+- `N-gram` is a contiguous sequence of `N` items (words or characters) from text/speech.
 - The items can be letters, words or base pairs according to the application.
-- The value of ’N’ determines the order of the `N-gram`.
 - They are fundamental concept used in various NLP tasks such as language modeling, text classification, machine translation and more.
+- The value of `N` determines the order of the `N-gram`. 
 
 ### Types
 

@@ -8,7 +8,7 @@ draft: false
 
 ## Recurrent Neural Network
 
-let understand RNN by continuing above example
+Let understand RNN by continuing above example
 
 ![Understanding Recurrent Neural Network](../../../../../../src/images/11_ai/01_agen_ai/agi-14a.png)
 
