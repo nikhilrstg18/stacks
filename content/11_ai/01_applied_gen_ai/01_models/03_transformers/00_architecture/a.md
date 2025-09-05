@@ -73,6 +73,12 @@ The **decoder** has both those layers, but between them is an **attention** laye
 <br/>
 <br/>
 
-read more at [Attention is all you need - White paper](https://arxiv.org/pdf/1706.03762)
+---
 
-read more at [Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
+Landmark Transformer paper
+
+- _Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). **Attention is all you need**. Proceedings of the 31st International Conference on Neural Information Processing Systems (NeurIPS), 6000–6010. Retrieved from https://arxiv.org/abs/1706.03762_
+
+For a visual deep dive, see
+
+- _Alammar, J (2018). **The Illustrated Transformer** [Blog post]. Retrieved from https://jalammar.github.io/illustrated-transformer/_

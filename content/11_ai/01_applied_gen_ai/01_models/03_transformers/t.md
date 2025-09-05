@@ -13,22 +13,50 @@ g { color: #70bf41 }
 b { color: #62aefa }
 </style>
 
-## Limitations of Traditional Model
+> Limitations of Traditional Model
 
 ### 🧠 RNNs, LSTMs, and GRUs — The Old Champions
 
-![Traditional Architecture](../../../../../src/images/11_ai/01_agen_ai/agi-13.png)
+![Traditional Architecture - RNN](../../../../../src/images/11_ai/01_agen_ai/agi-13.png)
 
-- These models were once top-tier for sequence-based tasks like **language modeling** and **machine translation**.
-- They work by processing one word or symbol at a time, passing information forward using **hidden states**.
-- But because they’re sequential, they can’t run in parallel — training gets slow, especially with long sequences.
-- Workarounds (like smarter memory and selective computation) helped, but didn’t fully solve the issue.
+🧠 **Introduction to Sequence Models**
 
-**Limitation of Traditional Architecture**
+- Designed for tasks where **order matters** — like speech, language, and time series.
+- Dominated early breakthroughs in **language modeling, machine translation, and speech recognition**.
 
-**Information Bottleneck**: The final hidden state of the encoder must encapsulate the entire input sequence, posing challenges for long sequences as early information might be lost.
+❓**How They Work** `Sequential Dynamics`
 
-**Challenges with Bottlenack** Traditional architectures struggle with long sequences as they compress all information into a single, fixed representation, making it difficult to maintain the integrity of the entire sequence.
+- **R**ecurrent **N**eural **N**etworks `RNN`s process input one time-step at a time.
+- At each step, they pass a hidden state forward to carry information.
+- Memory is encoded within these hidden states, enabling context retention
+
+🧠 **Variants with Memory Booster**
+
+| Model | Core Feature           | Strengths                       | Weaknesses                |
+| ----- | ---------------------- | ------------------------------- | ------------------------- |
+| RNN   | Basic recurrence       | Simple and interpretable        | Poor long-term memory     |
+| LSTM  | Long Short-Term Memory | Remembers over long distances   | Complex architecture      |
+| GRU   | Gated Recurrent Unit   | Lightweight alternative to LSTM | Less expressive than LSTM |
+
+❓ **Why They Fell Behind**
+
+- _Information Bottleneck_ means **struggle with long sequences**
+- Sequential computation means **no parallelism** — slows down training. 🐌
+- As sequences grow, **vanishing gradients** and **memory decay** kick in.🌈
+- No Scalibility means **unable to extend to massive datasets**
+- Workarounds like:
+  - Memory cells `LSTM`
+  - Gating mechanisms `GRU`
+  - Selective attention  
+    ...helped, but couldn’t fully match the scalability needs of modern NLP.
+
+🧠 **Legacy & Transition**
+
+- RNN-family models are still relevant in niche use cases or where simplicity matters.
+- The rise of **Transformers** introduced parallelism and better long-range modeling.
+- However, understanding **RNNs is essential** for grasping the evolution of sequence modeling.
+
+> The Transformer Era — Parallelism Over Recurrence
 
 ### ✨ Attention Mechanisms — A Breakthrough
 
@@ -43,11 +71,4 @@ b { color: #62aefa }
 
 ![Essence](../../../../../src/images/11_ai/01_agen_ai/agi-19a.png)
 ![Essence](../../../../../src/images/11_ai/01_agen_ai/agi-19b.png)
-<br/>
-<br/>
-<br/>
-<br/>
 
-read more at [Attention is all you need - White paper](https://arxiv.org/pdf/1706.03762)
-
-read more at [Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)

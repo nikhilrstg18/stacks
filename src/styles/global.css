@@ -2,6 +2,7 @@
   box-sizing: border-box;
   scrollbar-width: thin;
 }
+
 :root {
   --site-content: #f5f5f5;
   --secondary: #55ad9b;
@@ -26,6 +27,48 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: var(--global-fs);
   max-width: 100%;
+}
+p,
+ul li {
+  line-height: 1.2rem;
+}
+ul li {
+  padding: 0.25rem 0;
+}
+table {
+  padding: 1.5rem 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  margin:1.5rem 0;
+}
+table caption {
+  color: var(--table-caption);
+  text-align: center;
+  font-style: italic;
+  font-size: var(--global-fs-sm);
+}
+table thead {
+  color: var(--table-caption);
+  background: linear-gradient(
+    90deg,
+    var(--table-grey) 0%,
+    rgba(9, 9, 121, 0) 50%,
+    var(--table-grey) 100%
+  );
+  text-align: left;
+}
+table thead tr th {
+  padding: 0.4rem;
+}
+table thead tr {
+  border-bottom: 1px solid var(--table-caption);
+}
+table tbody tr:nth-child(2n) {
+  background: var(--bg-grey);
+  
+}
+table tbody tr td {
+  padding: 0.4rem;
 }
 .site-content,
 .notebook-content {
