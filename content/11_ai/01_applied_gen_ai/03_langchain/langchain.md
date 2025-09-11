@@ -6,4 +6,32 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
-comming soon...
+Background
+
+## Intro
+
+### Key Concepts
+### How it works?
+### Working Analogy?
+### Compatibility
+### Features
+### Benefits
+### Data Privacy and Security
+
+
+
+## Architecture
+
+### Framework
+### Components
+### Model
+### Prompt
+### Memory
+### Chain
+
+## Working With LangChain
+
+### System Requirements
+### Installation
+### Building Applications
+### Customizing Language Model
