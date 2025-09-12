@@ -69,12 +69,12 @@ if you are interested in using models from `HF`, there are 2 ways:
 
 6. Paste the code and you can rename `pipe` to sentiment_analyzer
 
-   ```py
-   # Use a pipeline as a high-level helper
-   from transformers import pipeline
+```py:title=Code
+# Use a pipeline as a high-level helper
+from transformers import pipeline
 
-   sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
-   ```
+sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
+```
 
    /usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/\_auth.py:94: UserWarning: The secret `HF_TOKEN` does not exist in your Colab secrets.
    To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
@@ -99,7 +99,7 @@ if you are interested in using models from `HF`, there are 2 ways:
 
 7. Let's test our brand new sentiment_analyzer with some sample input
 
-   ```py
+   ```py:title=Code
    result = sentiment_analyzer("I loved learning transformers in today's session")
 
    result
@@ -112,7 +112,7 @@ if you are interested in using models from `HF`, there are 2 ways:
    - It will execute blazing fast and the analysis has labelled the input as POSITIVE
    - Let try another input
 
-   ```py
+   ```py:title=Code
    result = sentiment_analyzer("I hated learning transformers in today's session")
 
    result
@@ -126,7 +126,7 @@ if you are interested in using models from `HF`, there are 2 ways:
 
 **💪 Try remove model and run test again as below**
 
-```py
+```py:title=Code
 # Use a pipeline as a high-level helper
 from transformers import pipeline
 
@@ -151,7 +151,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 6.  Paste the code and Run
 
-    ```py
+    ```py:title=Code
     # Load model directly
     from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -164,7 +164,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 7.  Let's assume sample input and see how it looks in tokenized form
 
-    ```py
+    ```py:title=Code
     input = "I loved learning huggingface today"
 
     tokenizer(input)
@@ -178,7 +178,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 8.  Runs the forward pass of the model using the tokenized input
 
-    ```py
+    ```py:title=Code
     import torch
 
     with torch.no_grad():
@@ -195,7 +195,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 9.  Apply `softmax function` to the logits tensor along the last dimension (dim=-1), converting raw scores into a probability distribution.
 
-    ```py
+    ```py:title=Code
     tensors = torch.nn.functional.softmax(output.logits, dim=-1)
 
     tensors
@@ -209,7 +209,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 10. Applies the `argmax` to tensors
 
-    ```py
+    ```py:title=Code
     torch.argmax(tensors)
     ```
 
@@ -232,7 +232,7 @@ Transformers can be used for machine translations as below
 
 - You can repeat the steps learn so far to create english to german translator
 
-  ```py
+  ```py:title=Code
   # Use a pipeline as a high-level helper
   from transformers import pipeline
 
@@ -263,7 +263,7 @@ Transformers can be used for machine translations as below
 
   ***
 
-  ```py
+  ```py:title=Code
   translator("I had visited Newyork couple of weeks ago")
   ```
 
@@ -312,7 +312,16 @@ They are good at tasks where only understanding is required i.e. tasks under `te
 
 ### Decoder-only Models
 
-- GPT. Llama and Mistral, etc.
+- `GPT` - **G**enerative **P**rompt **T**ransformer by [OpenAI](https://openai.com/)
+   - [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5),
+   - [gpt-4-turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), etc
+- `LLaMa` - **L**arge **La**nguage **M**eta **a**i by [Meta](https://www.meta.ai/)
+   - [LLaMa-3](https://www.llama.com/models/llama-3/),
+   - [LLaMA-4](https://www.llama.com/models/llama-4/), etc.
+- `Mistral` by [MistralAI](https://mistral.ai/)
+   - [Mistral 7B](https://huggingface.co/plawanrath/minstral-7b-rust-fine-tuned)  A foundational model focusing on balancing cost and performance with efficient inference features. 
+   - [Mixtral 8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)  An open-source model using a "Mixture of Experts" architecture. . 
+
 - AutoRegressive models (Time Series)
 - Learn from left to right context (Unlike BERT)
 - Trained via Next word predication technique (No Masking)
@@ -350,3 +359,13 @@ OpenAI claims to be able to train their models with larger and larger datasets i
 ✏️: You can not use models which have gated permission on HF, you can request them on model details page by providing some info and submit as below screen
 
 ![HF Models with gated permission](../../../../../src/images/11_ai/01_agen_ai/agi-21f.png)
+
+## Exercise
+
+Use BERT model for these three use cases
+
+1. Text Classification - Product Reviews (Get some actual reviews from internet)
+
+2. Named Entity Recognition - Take a sample paragraph with mentions of entities ( name of person, name of organization, country, currency, location etc)
+
+3. Question Answering - Take a random paragraph from the internet and a question based on that paragraph and see if it can answer it for you

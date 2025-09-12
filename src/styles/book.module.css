@@ -21,7 +21,7 @@
   font-size: var(--global-fs);
 }
 .book ul > li > code {
-  background: var(--table-grey);
+  background: var(--bg-grey);
   border-radius: 4px;
   padding: 2px 4px;
   font-size: var(--global-fs);
@@ -138,6 +138,9 @@ p img {
 .tableOfContent ul li a {
   text-decoration: none;
   color: var(--secondary);
+}
+.tableOfContent ul li a code{
+  font-size: 0.75rem;
 }
 .tags{
   font-size: var(--global-fs-sm);

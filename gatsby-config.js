@@ -20,7 +20,7 @@ module.exports = {
       },
     },
     "gatsby-plugin-sharp",
-     {
+    {
       resolve: `gatsby-plugin-sharp`,
       options: {
         defaults: {
@@ -61,7 +61,19 @@ module.exports = {
           "gatsby-remark-markmap",
           "gatsby-remark-gifs",
           `gatsby-remark-autolink-headers`,
-          `gatsby-remark-prismjs`,
+          {
+            resolve: "gatsby-remark-code-titles",
+            options: {
+              className: "gatsby-remark-code-title",
+            },
+          },`gatsby-remark-prismjs-copy-button`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              showLineNumbers: true,
+              noInlineHighlight: false,
+            },
+          },
           {
             resolve: `gatsby-remark-images`,
             options: {
@@ -75,9 +87,9 @@ module.exports = {
             resolve: "gatsby-remark-embed-youtube",
             options: {
               width: 794,
-              height: 447
-            }
-          }
+              height: 447,
+            },
+          },
         ],
       },
     },
