@@ -14,6 +14,9 @@
 .book p {
   text-align: justify;
 }
+.book div ul li p {
+  margin: .3rem 0;
+}
 .book p > code {
   background: var(--bg-grey);
   border-radius: 4px;

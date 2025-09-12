@@ -6,6 +6,24 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
+<style>
+op { 
+   background: #d8efd3;
+   padding: 1rem .5rem;
+   border-radius: .5rem 0;
+   display:block;
+   font-family:Consolas;
+   margin-top: 1rem;
+}
+op::before {
+  content: "🤖";
+  width:2rem;
+  position:relative;
+  top: -1.5rem;
+  left:.5rem
+}
+</style>
+
 > You don't build LLM instead you fine-tune or use pre-trained model in an enterprise
 
 - We don't tend to train LLMs from scratch, because the amount of data that you need and the amount of compute you need is massive.
@@ -69,18 +87,18 @@ if you are interested in using models from `HF`, there are 2 ways:
 
 6. Paste the code and you can rename `pipe` to sentiment_analyzer
 
-```py:title=Code
-# Use a pipeline as a high-level helper
-from transformers import pipeline
+   ```py:title=training.ipynb
+   # Use a pipeline as a high-level helper
+   from transformers import pipeline
 
-sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
-```
+   sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
+   ```
 
+   <op>
    /usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/\_auth.py:94: UserWarning: The secret `HF_TOKEN` does not exist in your Colab secrets.
    To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
    You will be able to reuse this secret in all of your notebooks.
    Please note that authentication is recommended but still optional to access
-
    public models or datasets.
    warnings.warn(
    config.json: 100%
@@ -91,6 +109,8 @@ sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert
 
    Device set to use cpu
 
+   </op>
+
    ***
 
    - If model-[distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) not specified, it will be supplied by defaulted to distilbert on you notebook in collab using pipeline.
@@ -99,26 +119,31 @@ sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert
 
 7. Let's test our brand new sentiment_analyzer with some sample input
 
-   ```py:title=Code
+   ```py:title=training.ipynb
    result = sentiment_analyzer("I loved learning transformers in today's session")
 
    result
    ```
 
-   [{'label': 'POSITIVE', 'score': 0.99791020154953}]
+   <op>
+      [{'label': 'POSITIVE', 'score': 0.99791020154953}]
+
+   </op>
 
    ***
 
    - It will execute blazing fast and the analysis has labelled the input as POSITIVE
    - Let try another input
 
-   ```py:title=Code
+   ```py:title=training.ipynb
    result = sentiment_analyzer("I hated learning transformers in today's session")
 
    result
    ```
 
+   <op>
    [{'label': 'NEGATIVE', 'score': 0.9986257553100586}]
+   </op>
 
    ***
 
@@ -126,7 +151,7 @@ sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert
 
 **💪 Try remove model and run test again as below**
 
-```py:title=Code
+```py:title=training.ipynb
 # Use a pipeline as a high-level helper
 from transformers import pipeline
 
@@ -151,7 +176,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 6.  Paste the code and Run
 
-    ```py:title=Code
+    ```py:title=training.ipynb
     # Load model directly
     from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -164,7 +189,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 7.  Let's assume sample input and see how it looks in tokenized form
 
-    ```py:title=Code
+    ```py:title=training.ipynb
     input = "I loved learning huggingface today"
 
     tokenizer(input)
@@ -178,7 +203,7 @@ If you want to try out any model and see its performance, you don't have to set 
 
 8.  Runs the forward pass of the model using the tokenized input
 
-    ```py:title=Code
+    ```py:title=training.ipynb
     import torch
 
     with torch.no_grad():
@@ -187,21 +212,25 @@ If you want to try out any model and see its performance, you don't have to set 
     output
     ```
 
-    SequenceClassifierOutput(loss=None, logits=tensor([[-3.3122,  3.4629]]), hidden_states=None, attentions=None)
+       <op>
+       SequenceClassifierOutput(loss=None, logits=tensor([[-3.3122,  3.4629]]), hidden_states=None, attentions=None)
+       </op>
 
     ***
 
-    - `**` unpacks the dictionary returned by the tokenizer, so you're passing the tokenized inputs directly into the model.
+- `**` unpacks the dictionary returned by the tokenizer, so you're passing the tokenized inputs directly into the model.
 
 9.  Apply `softmax function` to the logits tensor along the last dimension (dim=-1), converting raw scores into a probability distribution.
 
-    ```py:title=Code
+    ```py:title=training.ipynb
     tensors = torch.nn.functional.softmax(output.logits, dim=-1)
 
     tensors
     ```
 
+    <op>
     tensor([[0.0011, 0.9989]])
+    </op>
 
     ***
 
@@ -209,11 +238,13 @@ If you want to try out any model and see its performance, you don't have to set 
 
 10. Applies the `argmax` to tensors
 
-    ```py:title=Code
+    ```py:title=training.ipynb
     torch.argmax(tensors)
     ```
 
+    <op>
     tensor(1)
+    </op>
 
     ***
 
@@ -232,13 +263,14 @@ Transformers can be used for machine translations as below
 
 - You can repeat the steps learn so far to create english to german translator
 
-  ```py:title=Code
+  ```py:title=training.ipynb
   # Use a pipeline as a high-level helper
   from transformers import pipeline
 
   translator = pipeline("translation", model="Helsinki-NLP/opus-mt-en-de")
   ```
 
+  <op>
   /usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/\_auth.py:94: UserWarning:
   The secret `HF_TOKEN` does not exist in your Colab secrets.
   To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
@@ -261,13 +293,18 @@ Transformers can be used for machine translations as below
   warnings.warn("Recommended: pip install sacremoses.")
   Device set to use cpu
 
+  </op>
+
   ***
 
-  ```py:title=Code
+  ```py:title=training.ipynb
   translator("I had visited Newyork couple of weeks ago")
   ```
 
+  <op>
   [{'translation_text': 'Ich hatte Newyork vor ein paar Wochen besucht'}]
+
+  </op>
 
   ***
 
@@ -297,8 +334,11 @@ Transformers can be used for machine translations as below
    - Hence, we need a model i.e. good at understanding the input
 
 This brings up with the questions,
+
 **What variant of model you actually need**❓
+
 **Do I need Encoder only model**❓
+
 **Do I need Decoder only model**❓
 
 ### Encoder-only Models:
@@ -313,14 +353,15 @@ They are good at tasks where only understanding is required i.e. tasks under `te
 ### Decoder-only Models
 
 - `GPT` - **G**enerative **P**rompt **T**ransformer by [OpenAI](https://openai.com/)
-   - [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5),
-   - [gpt-4-turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), etc
+  - [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5),
+  - [gpt-4-turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), etc
 - `LLaMa` - **L**arge **La**nguage **M**eta **a**i by [Meta](https://www.meta.ai/)
-   - [LLaMa-3](https://www.llama.com/models/llama-3/),
-   - [LLaMA-4](https://www.llama.com/models/llama-4/), etc.
+  - [LLaMa-3](https://www.llama.com/models/llama-3/),
+  - [LLaMA-4](https://www.llama.com/models/llama-4/), etc.
 - `Mistral` by [MistralAI](https://mistral.ai/)
-   - [Mistral 7B](https://huggingface.co/plawanrath/minstral-7b-rust-fine-tuned)  A foundational model focusing on balancing cost and performance with efficient inference features. 
-   - [Mixtral 8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)  An open-source model using a "Mixture of Experts" architecture. . 
+
+  - [Mistral 7B](https://huggingface.co/plawanrath/minstral-7b-rust-fine-tuned) A foundational model focusing on balancing cost and performance with efficient inference features.
+  - [Mixtral 8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) An open-source model using a "Mixture of Experts" architecture. .
 
 - AutoRegressive models (Time Series)
 - Learn from left to right context (Unlike BERT)
