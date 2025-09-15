@@ -6,24 +6,6 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
-<style>
-op { 
-   background: #d8efd3;
-   padding: 1rem .5rem;
-   border-radius: .5rem 0;
-   display:block;
-   font-family:Consolas;
-   margin-top: 1rem;
-}
-op::before {
-  content: "🤖";
-  width:2rem;
-  position:relative;
-  top: -1.5rem;
-  left:.5rem
-}
-</style>
-
 > You don't build LLM instead you fine-tune or use pre-trained model in an enterprise
 
 - We don't tend to train LLMs from scratch, because the amount of data that you need and the amount of compute you need is massive.
@@ -57,110 +39,7 @@ When you visit above link, you can view related information like:
 
 ✏️: For each open-source model, you can access respective code and generate the model by your self
 
-## Using models from `HF` and `Colab`
-
-if you are interested in using models from `HF`, there are 2 ways:
-
-1. Use `pipeline` as high level helper
-2. Load model directly
-
-### UseCase: Sentiment Analysis
-
-**Steps**
-
-1. Sign in to `HF` and you should see landing screen as below
-   ![HuggingFace - Models](../../../../../src/images/11_ai/01_agen_ai/agi-21b.png)
-2. Navigate to Models. From left menu, navigate **Tasks** > **Text Classification** under `NLP` section and select model of your choice for eg. [distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)
-3. On Model Details page, click on `use this Model` button
-   ![HuggingFace - Models - 'use this Model'](../../../../../src/images/11_ai/01_agen_ai/agi-21a.png)
-
-#### For using model as `pipeline`
-
-4. Copy first section from popup
-
-5. Now Navigate to [Colab Research by Google](https://colab.research.google.com/) and Sign in (if required)
-
-   ![Google Colab - Home Page](../../../../../src/images/11_ai/01_agen_ai/agi-21d.png)
-   & Create new Notebook
-
-   ![Google Colab - New Notebook](../../../../../src/images/11_ai/01_agen_ai/agi-21e.png)
-
-6. Paste the code and you can rename `pipe` to sentiment_analyzer
-
-   ```py:title=training.ipynb
-   # Use a pipeline as a high-level helper
-   from transformers import pipeline
-
-   sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
-   ```
-
-   <op>
-   /usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/\_auth.py:94: UserWarning: The secret `HF_TOKEN` does not exist in your Colab secrets.
-   To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
-   You will be able to reuse this secret in all of your notebooks.
-   Please note that authentication is recommended but still optional to access
-   public models or datasets.
-   warnings.warn(
-   config.json: 100%
-   629/629 [00:00<00:00, 12.2kB/s] model.safetensors: 100%
-   268M/268M [00:06<00:00, 51.7MB/s] tokenizer_config.json: 100%
-   48.0/48.0 [00:00<00:00, 4.07kB/s] vocab.txt:
-   232k/? [00:00<00:00, 5.78MB/s]
-
-   Device set to use cpu
-
-   </op>
-
-   ***
-
-   - If model-[distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) not specified, it will be supplied by defaulted to distilbert on you notebook in collab using pipeline.
-   - Where is model coming from ? it's from `HF` @ [distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)
-   - It also outputs the steps authenticate with `HF_TOKEN` and to use any other model from `HF`.
-
-7. Let's test our brand new sentiment_analyzer with some sample input
-
-   ```py:title=training.ipynb
-   result = sentiment_analyzer("I loved learning transformers in today's session")
-
-   result
-   ```
-
-   <op>
-      [{'label': 'POSITIVE', 'score': 0.99791020154953}]
-
-   </op>
-
-   ***
-
-   - It will execute blazing fast and the analysis has labelled the input as POSITIVE
-   - Let try another input
-
-   ```py:title=training.ipynb
-   result = sentiment_analyzer("I hated learning transformers in today's session")
-
-   result
-   ```
-
-   <op>
-   [{'label': 'NEGATIVE', 'score': 0.9986257553100586}]
-   </op>
-
-   ***
-
-   - Analysis has labelled the input as NEGATIVE
-
-**💪 Try remove model and run test again as below**
-
-```py:title=training.ipynb
-# Use a pipeline as a high-level helper
-from transformers import pipeline
-
-#sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
-
-sentiment_analyzer = pipeline("sentiment-analysis")
-```
-
-**Inference provider on HF**
+## Inference provider on HF
 
 If you want to try out any model and see its performance, you don't have to set it up in collab, instead you can do that from HF inferace provider section on model detail page.
 
@@ -168,245 +47,286 @@ If you want to try out any model and see its performance, you don't have to set 
 
 ✏️ Not all model with have inference providers, but if its there you can try them without any setup
 
-#### For using model directly
+## Using LLMs
 
-4.  Copy second section from popup
+- LLMs are just language generators, the better you know how to use them the better you will be relevant in the industry and we will see why its important
 
-5.  Now Navigate to [Colab Research by Google](https://colab.research.google.com/) and Sign in (if required) & Create new/Open Notebook
+Open HF playground using [openai/gpt-oss-120b](https://huggingface.co/playground?modelId=openai/gpt-oss-120b&provider=cerebras)
 
-6.  Paste the code and Run
+```py:title=input_11_output_88
+Hii
+```
 
-    ```py:title=training.ipynb
-    # Load model directly
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+<op>
 
-    tokenizer = AutoTokenizer.from_pretrained("distilbert/distilbert-base-uncased-finetuned-sst-2-english")
+Hey there! 👋 How can I help you today?
 
-    model = AutoModelForSequenceClassification.from_pretrained("distilbert/distilbert-base-uncased-finetuned-sst-2-english")
-    ```
+</op>
 
-    ![Recall Decoder stack output in the transformer](../../../../../src/images/11_ai/01_agen_ai/agi-18i.png)
+📌 Notice input only has 1 word (1 token), but # input token to LLM are 11, this is because, while calling LLM we augment some default params as input like `temperature`, `topP`, `topK`, `system prompts` etc to configure the LLMs
 
-7.  Let's assume sample input and see how it looks in tokenized form
+```py:title=input_119_output_388
+I am a seven year old kid. How are you ?
+```
 
-    ```py:title=training.ipynb
-    input = "I loved learning huggingface today"
+<op>
 
-    tokenizer(input)
-    ```
+Hi there! I'm doing great—thanks for asking. 😊 How about you? What fun thing are you up to today?
 
-    {'input_ids': [101, 1045, 3866, 4083, 17662, 12172, 2651, 102], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1]}
+</op>
 
-    ***
+📌 Notice the # of input and output token increased. this is because LLMs do not have memory, they are just language model working on principle of generating next best word based in prev input.
 
-    - `tokenizer` converts the raw input string into token IDs and attention masks, formatted as PyTorch tensors ('pt' stands for PyTorch).
+Now, let conversate 1 more time
 
-8.  Runs the forward pass of the model using the tokenized input
+```py:title=input_286_output_769
+Explain me Artificial Intelligence
+```
 
-    ```py:title=training.ipynb
-    import torch
+<op>
 
-    with torch.no_grad():
-        output = model(**tokenizer(input, return_tensors='pt'))
+### What Is Artificial Intelligence?
 
-    output
-    ```
+**Think of a robot that can think a little bit like a person.**
 
-       <op>
-       SequenceClassifierOutput(loss=None, logits=tensor([[-3.3122,  3.4629]]), hidden_states=None, attentions=None)
-       </op>
+| Word             | What It Means (for you)                                    |
+| ---------------- | ---------------------------------------------------------- |
+| **Artificial**   | Made by people (not born in nature).                       |
+| **Intelligence** | Being able to learn, solve problems, or understand things. |
 
-    ***
+So **Artificial Intelligence (AI)** is a special kind of computer “brain” that people create to help it **learn** and **make decisions**, just like you learn new things at school or when you play.
 
-- `**` unpacks the dictionary returned by the tokenizer, so you're passing the tokenized inputs directly into the model.
+---
 
-9.  Apply `softmax function` to the logits tensor along the last dimension (dim=-1), converting raw scores into a probability distribution.
+#### 📚 How AI Learns
 
-    ```py:title=training.ipynb
-    tensors = torch.nn.functional.softmax(output.logits, dim=-1)
+1. **Seeing Lots of Pictures** – Imagine you look at 100 pictures of cats. After a while you can say, “That’s a cat!” AI looks at many pictures, too, and learns to recognize cats, dogs, or even your favorite cartoon characters.
+2. **Listening to Words** – When you talk to a voice assistant (like Siri or Alexa), it hears many words and learns which words mean what, so it can answer you.
+3. **Playing Games** – Some AI programs play video games. They try different moves, see what works, and get better—just like you get better at a game the more you play it.
 
-    tensors
-    ```
+---
 
-    <op>
-    tensor([[0.0011, 0.9989]])
-    </op>
+#### 🎮 Where You Might Meet AI
 
-    ***
+| Where you see it                            | What it does                                                                 |
+| ------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Voice assistants** (Siri, Alexa)          | Understands your voice and answers questions.                                |
+| **Video games**                             | Controls the “computer” characters that try to beat you or help you.         |
+| **YouTube or TikTok**                       | Shows you videos it thinks you’ll like, based on what you’ve watched before. |
+| **Smart toys** (like a robot that can talk) | Talks back, learns your favorite songs or stories.                           |
 
-    - Softmax transforms these into values between 0 and 1 that sum to 1, making them interpretable as probabilities.
+---
 
-10. Applies the `argmax` to tensors
+#### 🧩 A Simple Example
 
-    ```py:title=training.ipynb
-    torch.argmax(tensors)
-    ```
+_Imagine you have a magic box that can sort Legos by color._
 
-    <op>
-    tensor(1)
-    </op>
+1. **You show the box a red LEGO, a blue LEGO, a green LEGO…**
+2. **The box remembers each color.**
+3. **Next time you drop a bunch of Legos in, the box quickly puts all the reds together, all the blues together, etc.**
 
-    ***
+That magic box is doing a tiny piece of what AI does: it looks at something, learns a rule (color), and then uses that rule to help you.
 
-    - Returns the index of the largest value in the input tensor. i.e. tensor(1) as `Positive` and tensor(0) as `Negative`
-    - If the tensor is multi-dimensional, you can specify the dim argument to get the index along a particular axis.
+---
 
-✨ : We just used transformer for sentiment analysis, but transformers can be used for various usecases as well, for eg machine translation
+#### 🤖 Why AI Is Cool (and Helpful)
 
-### UseCase: Translation
+- **Helps doctors** find out if someone is sick faster.
+- **Makes cars smarter** so they can drive safely.
+- **Finds fun movies** you might enjoy.
+- **Answers questions** when you’re curious about dinosaurs, space, or anything else.
 
-Transformers can be used for machine translations as below
+---
 
-**Task** : Translate from English to German
+#### 🌟 A Little Reminder
 
-- Navigate to Models. From left menu, navigate **Tasks** > **Text Classification** under `NLP` section and select model of your choice for eg. [Helsinki-NLP](https://huggingface.co/Helsinki-NLP/opus-mt-en-de)
+AI is made by people, so it’s not perfect. It can make mistakes, just like we do. That’s why grown‑ups always check what AI says and help it get better.
 
-- You can repeat the steps learn so far to create english to german translator
+---
 
-  ```py:title=training.ipynb
-  # Use a pipeline as a high-level helper
-  from transformers import pipeline
+### Quick Recap (in 3 sentences)
 
-  translator = pipeline("translation", model="Helsinki-NLP/opus-mt-en-de")
-  ```
+- AI is a computer brain that learns from lots of examples, like pictures or words.
+- It helps us do things like talk to voice assistants, play smarter games, and find videos we like.
+- Even though it’s super helpful, we still need people to guide it and fix it when it gets something wrong.
+
+Hope that makes AI feel a bit like a friendly, learning robot! 🚀 If you have any more questions, just ask.
+
+</op>
+
+📌 Notice the explaination is not using complex vacabulary, since it explain AI to seven year old kid because it is making use of **history** + **system prompt**
+
+Below is the curl looks like
+
+```js
+async function query(data) {
+  const response = await fetch(
+    "https://router.huggingface.co/v1/chat/completions",
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.HF_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+  const result = await response.json();
+  return result;
+}
+
+query({
+  messages: [
+    {
+      role: "user",
+      content: "Hii",
+    },
+    {
+      role: "assistant",
+      content: "Hey there! 👋 How can I help you today?",
+    },
+    {
+      role: "user",
+      content: "I am a seven year old kid. How are you ?",
+    },
+    {
+      role: "assistant",
+      content:
+        "Hi there! I'm doing great—thanks for asking. 😊 How about you? What fun thing are you up to today?",
+    },
+    {
+      role: "user",
+      content: "Explain me Artificial Intelligence",
+    },
+    {
+      role: "assistant",
+      content:
+        "### What Is Artificial Intelligence?  \n\n**Think of a robot that can think a little bit like a person.**  \n\n| Word | What It Means (for you) |\n|------|--------------------------|\n| **Artificial** | Made by people (not born in nature). |\n| **Intelligence** | Being able to learn, solve problems, or understand things. |\n\nSo **Artificial Intelligence (AI)** is a special kind of computer “brain” that people create to help it **learn** and **make decisions**, just like you learn new things at school or when you play.\n\n---\n\n#### 📚 How AI Learns  \n1. **Seeing Lots of Pictures** – Imagine you look at 100 pictures of cats. After a while you can say, “That’s a cat!” AI looks at many pictures, too, and learns to recognize cats, dogs, or even your favorite cartoon characters.  \n2. **Listening to Words** – When you talk to a voice assistant (like Siri or Alexa), it hears many words and learns which words mean what, so it can answer you.  \n3. **Playing Games** – Some AI programs play video games. They try different moves, see what works, and get better—just like you get better at a game the more you play it.\n\n---\n\n#### 🎮 Where You Might Meet AI  \n\n| Where you see it | What it does |\n|------------------|--------------|\n| **Voice assistants** (Siri, Alexa) | Understands your voice and answers questions. |\n| **Video games** | Controls the “computer” characters that try to beat you or help you. |\n| **YouTube or TikTok** | Shows you videos it thinks you’ll like, based on what you’ve watched before. |\n| **Smart toys** (like a robot that can talk) | Talks back, learns your favorite songs or stories. |\n\n---\n\n#### 🧩 A Simple Example  \n\n*Imagine you have a magic box that can sort Legos by color.*  \n\n1. **You show the box a red LEGO, a blue LEGO, a green LEGO…**  \n2. **The box remembers each color.**  \n3. **Next time you drop a bunch of Legos in, the box quickly puts all the reds together, all the blues together, etc.**  \n\nThat magic box is doing a tiny piece of what AI does: it looks at something, learns a rule (color), and then uses that rule to help you.\n\n---\n\n#### 🤖 Why AI Is Cool (and Helpful)\n\n- **Helps doctors** find out if someone is sick faster.  \n- **Makes cars smarter** so they can drive safely.  \n- **Finds fun movies** you might enjoy.  \n- **Answers questions** when you’re curious about dinosaurs, space, or anything else.\n\n---\n\n#### 🌟 A Little Reminder  \n\nAI is made by people, so it’s not perfect. It can make mistakes, just like we do. That’s why grown‑ups always check what AI says and help it get better.\n\n---\n\n### Quick Recap (in 3 sentences)\n\n- AI is a computer brain that learns from lots of examples, like pictures or words.  \n- It helps us do things like talk to voice assistants, play smarter games, and find videos we like.  \n- Even though it’s super helpful, we still need people to guide it and fix it when it gets something wrong.\n\nHope that makes AI feel a bit like a friendly, learning robot! 🚀 If you have any more questions, just ask.",
+    },
+  ],
+  temperature: 0.9,
+  top_p: 1,
+  model: "openai/gpt-oss-120b:cerebras",
+}).then((response) => {
+  console.log(JSON.stringify(response));
+});
+```
 
-  <op>
-  /usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/\_auth.py:94: UserWarning:
-  The secret `HF_TOKEN` does not exist in your Colab secrets.
-  To authenticate with the Hugging Face Hub, create a token in your settings tab (https://huggingface.co/settings/tokens), set it as secret in your Google Colab and restart your session.
-  You will be able to reuse this secret in all of your notebooks.
-  Please note that authentication is recommended but still optional to access public models or datasets.
+📌 Notice the increase in number of input and output tokens. Every time you conversate on chat, it using memory and to get history+system prompt and passing it to LLMs
 
-  warnings.warn(
-  config.json:
-  1.33k/? [00:00<00:00, 21.0kB/s] pytorch_model.bin: 100%
-  298M/298M [00:03<00:00, 103MB/s] model.safetensors:  60%
-  178M/298M [00:03<00:01, 61.4MB/s] generation_config.json: 100%
-  293/293 [00:00<00:00, 6.59kB/s] tokenizer_config.json: 100%
-  42.0/42.0 [00:00<00:00, 1.56kB/s] source.spm: 100%
-  768k/768k [00:00<00:00, 4.78MB/s] target.spm: 100%
-  797k/797k [00:00<00:00, 6.33MB/s] vocab.json:
-  1.27M/? [00:00<00:00, 3.85MB/s])
+- Seeing above evidence, you are are going to do the required engineering
+  - for chatbot you engineer information retrieval system.
+  - for information extraction, you will do different engineering, etc
 
-  /usr/local/lib/python3.12/dist-packages/transformers/models/marian/tokenization_marian.py:175: UserWarning: Recommended: pip install sacremoses.
+### Randomness and diversity prompts
 
-  warnings.warn("Recommended: pip install sacremoses.")
-  Device set to use cpu
+The nature of generation would not be monotonous, it going to generate creatively, excitingly, grammatically different sentences.
 
-  </op>
+The question is do you always want elements to be creative?
+for eg. you are building a dialogue system for lawyers which is under some compliance. can you be creative there? or you have to be very consistent in your answers.
 
-  ***
+That's where you need to control the randomness and diversity of LLMs by adjusting below params
 
-  ```py:title=training.ipynb
-  translator("I had visited Newyork couple of weeks ago")
-  ```
+1. Temperature `K`
+   - **Higher Values** (0.9) - More creativity / randomness in response
+   - **Lower Values** (0.1) - Less creativity / mmore consistent response
+2. Nucleaus Sampling `topP`
+   - **Higher Values** (0.9) - More diverse word choice
+   - **Lower Values** (0.1) - Less diverse, more focussed word choice
+3. Word Limit `topK`
 
-  <op>
-  [{'translation_text': 'Ich hatte Newyork vor ein paar Wochen besucht'}]
+   - **Higher Values** (0.9) - More variation in response
+   - **Lower Values** (0.1) - Less variation / more predictable response
 
-  </op>
+4. Length - to limit the maximum # of output tokens
+5. StopSequence - to stop the generation when stop sequence criteria is matched like (,) or (.)
 
-  ***
+### System Prompts
 
-## Variants of Transformers
+> A system prompt is a set of instructions given to an AI model at initialization.
 
-- As we know, Transformer has `Encoder` and `Decoder`.
-- `Encoder` is good at understanding the text
-- `Decoder` is good at generating the text
+It defines:
 
-❓ **Do Transformer require to **understand** and **generate** for below use cases**
+- The AI’s role (e.g., tutor, assistant, moderator)
+- Its tone (e.g., friendly, professional, concise)
+- Any constraints (e.g., avoid political opinions, don’t generate code)
+- Ethical or safety guidelines (e.g., don’t share personal data)
 
-1. Sentiment Analysis Transformer
-   - require only **Understanding**
-   - Reason: In sentiment analysis, it undertands the text and labels it.
-   - Hence, we need a model i.e. good at understanding the input
-2. Translation Transformer
-   - require both **Understanding** & **Generate**
-   - Reason: In translation, it undertands the entire text and generate the stream of output tokens in traget language.
-   - Hence, we need a model i.e. good at both understanding as well as generating text
-3. Summarization Analysis Transformer
-   - require both **Understanding** & **Generate**
-   - Reason: In summarization, it undertands the entire text and generate the stream of output tokens of summarization.
-   - Hence, we need a model i.e. good at both understanding as well as generating text
-4. Semantic Similarity Transformer (pass 2 sentences and generate semantic similarity score)
-   - require only **Understanding**
-   - Reason: In sentiment analysis, it undertands the text and labels it.
-   - Hence, we need a model i.e. good at understanding the input
+📌 Think of it as the backstage script that tells the AI how to behave before the curtain rises.
 
-This brings up with the questions,
+E.g. using HF playground using [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/playground?modelId=meta-llama/Llama-3.1-8B-Instruct&provider=cerebras)
 
-**What variant of model you actually need**❓
+**Without System Prompt**
 
-**Do I need Encoder only model**❓
+```py
+Hi
+```
 
-**Do I need Decoder only model**❓
+<op>
 
-### Encoder-only Models:
+It's nice to meet you. Is there something I can help you with or would you like to chat?
 
-1. `BERT` - Bi-directional Encoder Respresentational Transformer
-2. `RoBERTa` - Robustly Optimized BERT, for maximum accuracy
-3. `AlBERT` - (A Lite BERT), lighter BERT, for balancing performance and efficiency.
-4. `DistilBERT` - A compressed version of BERT, fastest and smallest model suitable for deployments with limited resource at slightly decreased performance.
+</op>
 
-They are good at tasks where only understanding is required i.e. tasks under `text classification` category for tasks like sentiment analysis, Named Entity Recognition `NER`, Sentence Similarity. Fill Mask
+**With System Prompt**
 
-### Decoder-only Models
+`Reply as E-Connect shop customer care`
 
-- `GPT` - **G**enerative **P**rompt **T**ransformer by [OpenAI](https://openai.com/)
-  - [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5),
-  - [gpt-4-turbo](https://platform.openai.com/docs/models/gpt-4-turbo-and-gpt-4), etc
-- `LLaMa` - **L**arge **La**nguage **M**eta **a**i by [Meta](https://www.meta.ai/)
-  - [LLaMa-3](https://www.llama.com/models/llama-3/),
-  - [LLaMA-4](https://www.llama.com/models/llama-4/), etc.
-- `Mistral` by [MistralAI](https://mistral.ai/)
+```py
+Hi
+```
 
-  - [Mistral 7B](https://huggingface.co/plawanrath/minstral-7b-rust-fine-tuned) A foundational model focusing on balancing cost and performance with efficient inference features.
-  - [Mixtral 8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) An open-source model using a "Mixture of Experts" architecture. .
+<op>
 
-- AutoRegressive models (Time Series)
-- Learn from left to right context (Unlike BERT)
-- Trained via Next word predication technique (No Masking)
+Hello! Welcome to E-Connect, your premier destination for electronic solutions. How can I assist you today?
 
-❓ **Data Preparation**
+</op>
 
-Take a sentence
+System prompt ensures the AI:
 
-Sentence : I am excited to learn about generative artificial intelligence
+- Stays within its domain
+- Avoids risky or unverifiable claims
+- Maintains a consistent tone across interactions
 
-| Input                                                          | Output       |
-| -------------------------------------------------------------- | ------------ |
-| I                                                              | am           |
-| I am                                                           | excited      |
-| I am excited                                                   | to           |
-| I am excited to                                                | learn        |
-| I am excited to learn                                          | about        |
-| I am excited to learn about                                    | generative   |
-| I am excited to learn about generative                         | artificial   |
-| I am excited to learn about generative artificial              | intelligence |
-| I am excited to learn about generative artificial intelligence | EOS          |
+❓**How it differs from a User Prompt**
 
-❓ Training data preparation is easy ? for `Decoder-only` or `Encoder-only` models?
+- System Prompt: `Sets the AI’s behavior globally`
+  Example: “You are a helpful assistant that speaks in a formal tone.”
+- User Prompt: `A specific instruction or question from the user`
+  Example: “Summarize the audit findings from Q2.
 
-> Labelling or annotating data is difficult, expensive, some times require Human intervention, error-prone, etc
+### GuardRails
 
-- Endcoder-only trains on `Supervised Learning Algorithm` which is diffcult to scale
+`GuardRails` are **configurable safety mechanisms** that **enforce responsible behavior** in AI systems. They act as a protective layer over model inputs and outputs.
 
-- Docoder-only trains on `Self-Supervised Learning Algorithms` which is much easier to scale
+📌: In a financial chatbot, GuardRails can prevent the model from offering investment advice or making speculative claims, ensuring compliance with regulatory standards.
 
-So in terms of scalability, `Decoder-only` models are the best choice
+#### Content filtering
 
-OpenAI claims to be able to train their models with larger and larger datasets i.e. the `Decoder-only` models.
+Content filtering detects and blocks harmful or inappropriate content in prompts or responses. Filters can be tuned for categories like hate speech, violence, sexual content, or misconduct.
 
-✏️: You can not use models which have gated permission on HF, you can request them on model details page by providing some info and submit as below screen
+📌: A customer support bot automatically filters out abusive language from users and prevents the model from generating toxic replies.
 
-![HF Models with gated permission](../../../../../src/images/11_ai/01_agen_ai/agi-21f.png)
+#### Denied topics
 
-## Exercise
+This feature allows developers to define specific topics that should be blocked entirely from conversation.
 
-Use BERT model for these three use cases
+📌: In a healthcare assistant, topics like “self-harm methods” or “unverified medical treatments” can be denied to prevent unsafe interactions.
 
-1. Text Classification - Product Reviews (Get some actual reviews from internet)
+#### Word filters
 
-2. Named Entity Recognition - Take a sample paragraph with mentions of entities ( name of person, name of organization, country, currency, location etc)
+Word filters block specific words or phrases—either exact matches or via pattern recognition.
 
-3. Question Answering - Take a random paragraph from the internet and a question based on that paragraph and see if it can answer it for you
+📌: An enterprise knowledge assistant might filter out competitor names or profanity to maintain brand integrity and professionalism.
+
+#### Senitive information filters
+
+These filters detect and mask or block personally identifiable information (PII) or other sensitive data using pattern matching or probabilistic detection.
+
+📌: A call center summarization tool redacts names, phone numbers, and addresses from transcripts before storing or sharing them.
+
+#### Contextual Grounding check
+
+This ensures that model responses are factually grounded in a trusted source and relevant to the user query—helping reduce hallucinations.
+
+📌: In an internal audit assistant, if the model claims a policy exists, the grounding check verifies whether that policy is actually present in the enterprise documentation before surfacing it.
