@@ -6,7 +6,7 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
-## Simple LLM app : completed
+## Simple LLM app: completed
 
 ```py:title=Simple_LLM_App
 from langchain_ollama.chat_models import ChatOllama
@@ -23,12 +23,12 @@ llm = ChatOllama(
 # template
 from langchain_core.prompts.prompt import PromptTemplate
 
-explaination_template = PromptTemplate(
+explanation_template = PromptTemplate(
     input_variables=["topic"],
     template="Explain '{topic}' in simple words",
 )
 # chain as Runnable expression
-chain  = explaination_template| llm
+chain  = explanation_template | llm
 print(f"\nchain:\n\n{chain}")
 
 # invoke chain
@@ -83,9 +83,9 @@ It’s a flexible way to define multi-turn conversations using system, human, an
 
 ### Use Cases
 
-| Use Case            | Descrition                                                    |
+| Use Case            | Description                                                   |
 | ------------------- | ------------------------------------------------------------- |
-| Multi-turn chatbots | maintain context across turns                                 |
+| Multi-turn chatbot  | maintain context across turns                                 |
 | Agent Scratchpad    | Inject intermediate reasoning steps                           |
 | Tool                | format prompts for tool-aware agents                          |
 | LangGraph workflows | Use placeholders like Message PlaceHolder for dynamic routing |
@@ -200,9 +200,9 @@ Does that make sense?
 
 </op>
 
-📌 If we continue in same fashion, this is called coversational chat
+📌 If we continue in same fashion, this is called conversational chat
 
-### Coversation already exists
+### Conversation already exists
 
 ```py:title=Simple_Chat_App
 from langchain_core.messages import AIMessage, HumanMessage
@@ -280,7 +280,7 @@ Please let me know if there's anything else I can help you with!
 
 </op>
 
-📌 Since it multi-turn or coversational chat, you need to append current user_input and response to history
+📌 Since it multi-turn or conversational chat, you need to append current user_input and response to history
 
 ```py:title=Simple_Chat_App
 # appending the response to the history
@@ -290,9 +290,9 @@ history.append(AIMessage(content=response.content))
 # you can continue now for another question
 ```
 
-📌 Notice this still not the optimized way of coversation, let's optimize it with chains.
+📌 Notice this still not the optimized way of conversation, let's optimize it with chains.
 
-### Simple Chat app : Completed
+### Simple Chat app: completed
 
 ```py:title=Simple_Chat_App
 from langchain_ollama.chat_models import ChatOllama
@@ -356,7 +356,7 @@ What is generators in python ?
 history.append(HumanMessage(content=user_input))
 history.append(AIMessage(content=response.text()))
 
-# next trun
+# next turn
 user_input= "How it is helpful in data loaders ?"
 print(f"\nuser_input:\n\n{user_input}")
 
@@ -407,10 +407,10 @@ Think of it as a **workflow engine** for chaining LLM-powered tasks.
 
 🔗 Read more @ [SequentialChain](https://api.python.langchain.com/en/latest/langchain/chains/langchain.chains.sequential.SequentialChain.html)
 
-## App : Content Generator
+## App: Content Generator
 
 - Generate a random **topic** related to `domain`
-- Research the `topic` in detail upto 200 words
+- Research the `topic` in detail up to 200 words
 - Based on **research**, `create MCQs` with 4 options and explain correct answer in 1 line.
 
 ```py:title=EdTech_Content_Generator
@@ -433,7 +433,7 @@ topic_chain  = LLMChain( llm = llm, prompt= topic_prompt, output_key="topic" )
 print(f"\ntopic_chain:\n\n{topic_chain}")
 
 
-research_prompt = PromptTemplate.from_template("Explain '{topic}' in details upto 200 words")
+research_prompt = PromptTemplate.from_template("Explain '{topic}' in details up to 200 words")
 # research chain
 research_chain  =  LLMChain( llm = llm, prompt= research_prompt, output_key="research" )
 print(f"\nresearch_chain:\n\n{research_chain}")
@@ -468,7 +468,7 @@ verbose=False prompt=PromptTemplate(input_variables=['domain'], input_types={}, 
 
 research_chain:
 
-verbose=False prompt=PromptTemplate(input_variables=['topic'], input_types={}, partial_variables={}, template="Explain '{topic}' in details upto 200 words") llm=ChatOllama(model='llama3.2', temperature=0.3, top_p=0.9) output_key='research' output_parser=StrOutputParser() llm_kwargs={}
+verbose=False prompt=PromptTemplate(input_variables=['topic'], input_types={}, partial_variables={}, template="Explain '{topic}' in details up to 200 words") llm=ChatOllama(model='llama3.2', temperature=0.3, top_p=0.9) output_key='research' output_parser=StrOutputParser() llm_kwargs={}
 
 questionnaire_chain:
 

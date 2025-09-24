@@ -32,7 +32,7 @@ draft: false
 
 1. We start be checking if the model to use is available.
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 !ollama list
 ```
 
@@ -46,13 +46,13 @@ llama3.2:latest a80c4f17acd5 2.0 GB 12 days ago
 
 2. Installing langchain partner package(s)
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 %pip install langchain, langchain-ollama
 ```
 
 3. **Instantiate chatmodel** and specify INIT KEY: completion params
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 from langchain_ollama.chat_models import ChatOllama
 from langchain_core.messages.ai import AIMessage
 
@@ -81,7 +81,7 @@ response
 <op>
 
 AIMessage(
-content='An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here\'s how it works:\n\n**How it works:**\n\n1. The AI model is trained on a massive dataset of text, such as books or articles.\n2. When you give the AI a prompt or input, like "Write a story about a cat."\n3. The AI starts generating text based on what it learned from its training data.\n4. For each word in the generated text, the AI asks itself: "What word comes next to make sense?"\n5. Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.\n6. The AI keeps generating words until it reaches the end of the desired length or until it stops.\n\n**Example:**\n\nLet\'s say you give an ARLM the prompt "Write a story about a cat." Here\'s how it might generate text:\n\n1. Word 1: "The"\n2. Word 2: "cat" (because cats are the main subject)\n3. Word 3: "was" (because we need a verb to describe what the cat is doing)\n4. Word 4: "sleeping" (because cats sleep a lot)\n\nAnd so on.\n\n**Key benefits:**\n\n* ARLMs can generate coherent and contextually relevant text.\n* They can be used for tasks like writing articles, chatbots, or even entire books.\n* They\'re particularly useful when you need to generate text quickly, like in chatbots or customer service systems.\n\nHowever, keep in mind that ARLMs have limitations. For example:\n\n* They may not always understand the nuances of language or context.\n\* They can be biased towards the training data they were trained on.\n\nI hope this explanation helped!',
+content='An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here\'s how it works:\n\n**How it works:**\n\n1. The AI model is trained on a massive dataset of text, such as books or articles.\n2. When you give the AI a prompt or input, like "Write a story about a cat."\n3. The AI starts generating text based on what it learned from its training data.\n4. For each word in the generated text, the AI asks itself: "What word comes next to make sense?"\n5. Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.\n6. The AI keeps generating words until it reaches the end of the desired length or until it stops.\n\n**Example:**\n\nLet\'s say you give an ARLM the prompt "Write a story about a cat." Here\'s how it might generate text:\n\n1. Word 1: "The"\n2. Word 2: "cat" (because cats are the main subject)\n3. Word 3: "was" (because we need a verb to describe what the cat is doing)\n4. Word 4: "sleeping" (because cats sleep a lot)\n\nAnd so on.\n\n**Key benefits:**\n\n* ARLMs can generate coherent and contextually relevant text.\n* They can be used for tasks like writing articles, chatbot, or even entire books.\n* They\'re particularly useful when you need to generate text quickly, like in chatbot or customer service systems.\n\nHowever, keep in mind that ARLMs have limitations. For example:\n\n* They may not always understand the nuances of language or context.\n\* They can be biased towards the training data they were trained on.\n\nI hope this explanation helped!',
 additional_kwargs={},
 response_metadata={'model': 'llama3.2', 'created_at': '2025-09-22T08:54:14.3042242Z', 'done': True, 'done_reason': 'stop', 'total_duration': 13637129800, 'load_duration': 181024400, 'prompt_eval_count': 35, 'prompt_eval_duration': 308904000, 'eval_count': 384, 'eval_duration': 13145725500, 'model_name': 'llama3.2'},
 id='run--e808153e-4c6e-4332-bf45-a48e4d7ab607-0',
@@ -92,7 +92,7 @@ usage_metadata={'input_tokens': 35, 'output_tokens': 384, 'total_tokens': 419}
 
 📌: for better understanding of params in AiMessage, read more @ [AIMessage](https://python.langchain.com/api_reference/core/messages/langchain_core.messages.ai.AIMessage.html)
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 # view string formatted content
 print(f"\nresponse.content:\n{response.content}")
 ```
@@ -126,8 +126,8 @@ And so on.
 **Key benefits:**
 
 - ARLMs can generate coherent and contextually relevant text.
-- They can be used for tasks like writing articles, chatbots, or even entire books.
-- They're particularly useful when you need to generate text quickly, like in chatbots or customer service systems.
+- They can be used for tasks like writing articles, chatbot, or even entire books.
+- They're particularly useful when you need to generate text quickly, like in chatbot or customer service systems.
 
 However, keep in mind that ARLMs have limitations. For example:
 
@@ -142,7 +142,7 @@ I hope this explanation helped!
 
 > I am creating an application for younger sibling who can learn about any topic using llm
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 # user input
 topic = input("Enter the topic:")
 print(f"\ntopic:\n{topic}")
@@ -198,16 +198,16 @@ Newton's First Law of Motion says that objects tend to keep their state - either
 
 1. Creating a template
 
-```py:title=Build_Simple_LLM_App
+```py:title=Simple_LLM_App
 # import
 from langchain_core.prompts.prompt import PromptTemplate
 
 # intiate PromptTemplate
-explaination_template = PromptTemplate(
+explanation_template = PromptTemplate(
     input_variables=["topic"],
     template="Explain '{topic}' in simple words",
 )
-explaination_template
+explanation_template
 
 ```
 
@@ -219,8 +219,8 @@ PromptTemplate(input_variables=['topic'], input_types={}, partial_variables={}, 
 
 2. How generating input to llm using template
 
-```py:title=Build_Simple_LLM_App
-input_to_llm:str = explaination_template.format(topic="solar system")
+```py:title=Simple_LLM_App
+input_to_llm:str = explanation_template.format(topic="solar system")
 print(f"\ninput_to_llm:\n{input_to_llm}")
 
 ```
@@ -235,8 +235,8 @@ Explain 'solar system' in simple words
 
 3. Recalling the input of prev example and invoking llm
 
-```py:title=Build_Simple_LLM_App
-input_to_llm:str = explaination_template.format(topic="newton's first law of motion")
+```py:title=Simple_LLM_App
+input_to_llm:str = explanation_template.format(topic="newton's first law of motion")
 print(f"\ninput_to_llm:\n{input_to_llm}")
 response:AIMessage = llm.invoke(input_to_llm)
 print(f"\nresponse.content:\n{response.content}")
@@ -265,14 +265,14 @@ That's Newton's First Law of Motion!
 
 </op>
 
-So, we have created our first simple prompt template, which take in user input and rephrase it as input_to_llm as per the templat. Similarly we can create template for repeated tasks
+So, we have created our first simple prompt template, which take in user input and rephrase it as input_to_llm as per the template. Similarly we can create template for repeated tasks
 
 ## Exercise
 
 ### Summarization with (less than 50 words)
 
-```py:title=Build_Simple_LLM_App
-## intatiate template
+```py:title=Simple_LLM_App
+## instantiate template
 summarization_template = PromptTemplate(
     input_variables=["sentences"],
     template="Summarize '{sentences}' in less than 50 words",
@@ -328,8 +328,8 @@ Newton's First Law (Law of Inertia) states that objects maintain their state unl
 
 ### Translation (from Eng to French)
 
-```py:title=Build_Simple_LLM_App
-## intatiate template
+```py:title=Simple_LLM_App
+## instantiate template
 translation_template = PromptTemplate(
     input_variables=["sentences", "language"],
     template="Translate '{sentences}' in {language}",
@@ -398,6 +398,6 @@ Both translations convey the same meaning as the original sentence.
 
 </op>
 
-📌 Observe we are writing two lines of code, one to populate the template and other to call the model with formated template.
+📌 Observe we are writing two lines of code, one to populate the template and other to call the model with formatted template.
 
 ❓ How can we optimize it, using [chains](../01_chains)

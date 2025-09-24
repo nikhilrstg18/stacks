@@ -6,6 +6,8 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
+- read more @ [LangChain Cookbook](https://github.com/langchain-ai/langchain-cookbook)
+
 ## Background: Why LangChain Was Created
 
 `LangChain` was founded in 2022 by Harrison Chase to address a key limitation in `LLM`s:

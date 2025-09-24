@@ -8,7 +8,8 @@ draft: false
 
 ## Memory
 
-LangChain memory stores and retrieves **conversation history** or **state** so that the model can respond with awareness of prior exchanges. Without memory, every prompt is treated as a standalone input.
+- LangChain memory stores and retrieves **conversation history** or **state** so that the model can respond with awareness of prior exchanges.
+- Without memory, every prompt is treated as a standalone input.
 
 ### Use Cases
 
@@ -27,7 +28,7 @@ LangChain memory stores and retrieves **conversation history** or **state** so t
 | `ConversationBufferMemory`       | Stores full message history sequentially                     |
 | `ConversationBufferWindowMemory` | Stores only the last `k` messages                            |
 | `ConversationSummaryMemory`      | Stores a running summary using LLM-generated compression     |
-| `EntityMemory`                   | Tracks structured facts about entities (e.g., user, topic)   |
+| `ConversationEntityMemory`       | Tracks structured facts about entities (e.g., user, topic)   |
 | `VectorStoreRetrieverMemory`     | Stores and retrieves memory using semantic similarity search |
 
 ---
@@ -43,12 +44,12 @@ LangChain memory stores and retrieves **conversation history** or **state** so t
 - **Token-based limitation**: When the accumulated messages exceed the LLM's token limit, older messages are trimmed.
 - **Impact on performance**: More tokens mean slower performance due to increased data sent to the LLM and higher costs.
 
-### Factors Influencing Memory Length
+**Factors Influencing Memory Length**
 
 - **LLM Token Limit**: The most important factor is the token limit of the specific LLM being used (e.g., 4096 for gpt-3.5-turbo).
 - **Text Length of Messages**: Longer messages from the user and the AI will consume tokens faster, reducing the number of turns the memory can hold before trimming.
 
-### Why This Matters
+### Why it Matters
 
 - **Cost**: Every exchange with the API sends the entire message history, which can quickly add up.
 - **Latency**: A larger conversation history takes longer to send and process, increasing latency.
@@ -93,21 +94,21 @@ conversation_chain = ConversationChain(
     memory=memory
 )
 
-def conversate(input_to_llm:str):
+def converse(input_to_llm:str):
     print(f"\n🙍‍♂️: {input_to_llm}")
     response = conversation_chain.predict(input= input_to_llm)
     print(f"\n🤖: {response}")
 
-conversate("Hi, I'm Nikhil")
+converse("Hi, I'm Nikhil")
 
-conversate("What did I just tell you?")
+converse("What did I just tell you?")
 
-conversate("What was my first input?")
+converse("What was my first input?")
 ```
 
-📌 Notice we are passing `memory` while intantiating the chain, instead of **chat_history** varaibles.
+📌 Notice we are passing `memory` while instantiating the chain, instead of **chat_history** variables.
 
-📌 Notice we are calling `.predict()` with `input` as input variable, since its based on template defined in `CoversartionChain`
+📌 Notice we are calling `.predict()` with `input` as input variable, since its based on template defined in `ConversationChain`
 
 <op>
 
@@ -127,7 +128,8 @@ conversate("What was my first input?")
 
 ## [ConversationSummaryMemory](https://python.langchain.com/api_reference/langchain/memory/langchain.memory.summary.ConversationSummaryMemory.html)
 
-ConversationSummaryMemory allows for very long conversations by continuously summarizing the history into a compact form using an LLM, unlike other methods that store every message. While the length isn't fixed, its design minimizes token usage and avoids exceeding LLM context window limits, making it suitable for extended interactions where other memory types would become overwhelming or too costly.
+- `ConversationSummaryMemory` allows for very long conversations by continuously summarizing the history into a compact form using an LLM, unlike other methods that store every message.
+- While the length isn't fixed, its design minimizes token usage and avoids exceeding LLM context window limits, making it suitable for extended interactions where other memory types would become overwhelming or too costly.
 
 ### How it Works
 
@@ -161,7 +163,7 @@ llm = ChatOllama(
     max_tokens=100
 )
 
-# instantiate memory
+# instantiate memory with llm
 memory = ConversationSummaryMemory(llm=llm, return_messages=True)
 # prompt
 prompt = ChatPromptTemplate.from_messages([
@@ -177,14 +179,14 @@ conversation_chain = ConversationChain(
     memory=memory
 )
 
-def conversate(input_to_llm:str):
+def converse(input_to_llm:str):
     print(f"\n🙍‍♂️: {input_to_llm}")
     response = conversation_chain.predict(input= input_to_llm)
     print(f"\n🤖: {response}")
 
-conversate("Explain LangChain")
+converse("Explain LangChain")
 
-conversate("Now summarize it in 3 lines")
+converse("Now summarize it in 3 lines")
 ```
 
 🧠 Efficient for long chats—uses LLM to summarize history and reduce token usage.
@@ -275,22 +277,22 @@ conversation_chain = ConversationChain(
     memory=memory
 )
 
-def conversate(input_to_llm:str):
+def converse(input_to_llm:str):
     print(f"\n🙍‍♂️: {input_to_llm}")
     response = conversation_chain.predict(input= input_to_llm)
     print(f"\n🤖: {response}")
 
-conversate("Hi, I'm Nikhil.")
+converse("Hi, I'm Nikhil.")
 
-conversate("I am an Engineer")
+converse("I am an Engineer")
 
-conversate("I work at Dell.")
+converse("I work at Dell.")
 
-conversate("Can you tell me what all I said?")
+converse("Can you tell me what all I said?")
 
 ```
 
-🧠 Useful when only recent context matters—like in real-time assistants or chatbots.
+🧠 Useful when only recent context matters—like in real-time assistants or chatbot.
 
 <op>
 
@@ -315,9 +317,10 @@ conversate("Can you tell me what all I said?")
 
 </op>
 
-## [EntityMemory](https://python.langchain.com/api_reference/langchain/memory/langchain.memory.entity.ConversationEntityMemory.html)
+## [ConversationEntityMemory](https://python.langchain.com/api_reference/langchain/memory/langchain.memory.entity.ConversationEntityMemory.html)
 
-The length of the "ConversationEntityMemory" is not fixed; instead, it depends on the specific implementation and the total amount of conversation data it needs to store to provide a coherent and natural experience. As of LangChain v0.3.1, a legacy memory type called ConversationBufferMemory has been deprecated in favor of more robust persistence methods via LangGraph, indicating that it's an evolving feature with new ways to manage context.
+- The length of the `ConversationEntityMemory` is not fixed; instead, it depends on the specific implementation and the total amount of conversation data it needs to store to provide a coherent and natural experience.
+- As of LangChain v0.3.1, a legacy memory type called ConversationBufferMemory has been deprecated in favor of more robust persistence methods via LangGraph, indicating that it's an evolving feature with new ways to manage context.
 
 ### Key Aspects of Conversation Memory Length:
 
@@ -340,7 +343,7 @@ llm = ChatOllama(
     max_tokens=100
 )
 
-# instantiate memory
+# instantiate memory with llm
 memory = ConversationEntityMemory(llm=llm, return_messages=True)
 
 # prompt
@@ -357,21 +360,23 @@ conversation_chain = ConversationChain(
     memory=memory
 )
 
-def conversate(input_to_llm:str):
+def converse(input_to_llm:str):
     print(f"\n🙍‍♂️: {input_to_llm}")
     response = conversation_chain.predict(input= input_to_llm)
     print(f"\n🤖: {response}")
 
-conversate("Hi, I'm Nikhil.")
+converse("Hi, I'm Nikhil.")
 
-conversate("I work at Dell.")
+converse("I work at Dell.")
 
-conversate("I am an Engineer")
+converse("I am an Engineer")
 
-conversate("Where do I work?")
+converse("Where do I work?")
 ```
 
 🧠 Tracks facts about entities—great for personalized assistants or CRM bots.
+
+📌 Your prompt must explicitly reference {entities} to avoid validation errors.
 
 <op>
 
