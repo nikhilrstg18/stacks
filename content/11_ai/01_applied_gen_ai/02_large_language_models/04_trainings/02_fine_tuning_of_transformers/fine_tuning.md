@@ -8,16 +8,16 @@ draft: false
 
 ## Fine-Tuning
 
-> After finetuning the model could do summarization, translation, dialogue systems, perform reasoning tasks, perform code generation.
+> After fine-tuning the model could do summarization, translation, dialogue systems, perform reasoning tasks, perform code generation.
 
-Uptil now what we have learnt
+until now what we have learnt
 
 1. `Transformers`
-   - can leverage benfits of both Encoder & Decoder.
+   - can leverage benefits of both Encoder & Decoder.
 2. `Encoder-only`
    - Guarantees language Understanding
 3. `Decoder-only Language model`
-   - Gurantees text generation without ability to understand intent
+   - Guarantees text generation without ability to understand intent
 4. `Decoder-only LLM`
    - Guarantees text generation and Understanding capability which is more like transformer but it still misses Understanding the intent
 5. `Fine-tuned Decoder-only LLM`
@@ -78,7 +78,7 @@ prompt = f"{input} in 3 bullet points"
 
 ### Memory aspect
 
-If you want to do conversation do you think whatever ability we saw above is suffcient?
+If you want to do conversation do you think whatever ability we saw above is sufficient?
 
 1. Understanding user input
 2. Identifying the intent

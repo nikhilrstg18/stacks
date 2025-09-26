@@ -12,7 +12,7 @@ Continuing the example of 🍎 and 🍊
 
 - When generating an image of fruit, model was considering feature of fruit
 
-fruit = `P(y= AO | color, price, texture of friut, etc)`
+fruit = `P(y= AO | color, price, texture of fruit, etc)`
 
 - When generating price of a house, model will consider features of a house
 

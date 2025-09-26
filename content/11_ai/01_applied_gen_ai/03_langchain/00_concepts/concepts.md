@@ -100,7 +100,7 @@ read more on [Why Langchain?](https://python.langchain.com/docs/concepts/why_lan
 
 > Memory lets your AI remember past conversations.
 
-- Useful for chatbots or agents that need context
+- Useful for chatbot or agents that need context
   Example: “What did I ask earlier?” → AI recalls previous input
 - LangChain offers different memory types: buffer, summary, vector-based
 
@@ -108,7 +108,7 @@ read more on [Why Langchain?](https://python.langchain.com/docs/concepts/why_lan
 
 LangChain is like a **Swiss Army knife** for AI apps—whether you're building assistants, automating workflows, or turning messy data into smart answers. Keep exploring—it’s a powerful playground for GenAI engineers like you.
 
-1. 💬 `Chatbots & Virtual Assistants`
+1. 💬 `Chatbot & Virtual Assistants`
 
 LangChain lets you create smart bots that:
 
@@ -153,4 +153,4 @@ You can ask questions in plain English and get:
 
 ## Demo Pre-requisite
 
-1. For demoes, we will use [langchain ollama integration](https://python.langchain.com/docs/integrations/providers/ollama/)
+1. For demos, we will use [langchain ollama integration](https://python.langchain.com/docs/integrations/providers/ollama/)

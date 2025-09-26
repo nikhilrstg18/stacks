@@ -37,7 +37,7 @@ GANs use two neural networks: a generator and a discriminator. These networks en
 
 This adversarial dynamic forms a zero-sum game, where one network's progress is at the expense of the other.
 
-### Componenets
+### Components
 
 **Generator- G**
 
@@ -62,15 +62,15 @@ Putting it all together, here is what a basic GAN architecture looks like:
 
 - Both networks learn through adversarial training, generator tries to fool the system while discriminator distinguishes real from fake
 
-- Job of discrimitor is to look at both real image sample and fake images created by generator and decide which is which?
+- Job of discriminator is to look at both real image sample and fake images created by generator and decide which is which?
 
-- During training,the generator creates and the discriminator evaluates and both use feedback to improve till the point the generator creates images so convicing that the discriminator evaluates it to be real.
+- During training,the generator creates and the discriminator evaluates and both use feedback to improve till the point the generator creates images so convincing that the discriminator evaluates it to be real.
 
 - As the process iterates, both the generator and discriminator updates their method. Generator betters to create realistic images and discriminator becomes sharper at spotting the fakes.
 
 ### Trainings
 
-![Traning a GANs](../../../../../src/images/11_ai/01_agen_ai/agi-10d.png)
+![training a GANs](../../../../../src/images/11_ai/01_agen_ai/agi-10d.png)
 
 ### Applications
 

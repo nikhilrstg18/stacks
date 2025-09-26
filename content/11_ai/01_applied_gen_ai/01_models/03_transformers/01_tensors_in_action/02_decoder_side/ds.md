@@ -16,7 +16,7 @@ pi { color: pink}
 
 ## Decoder side
 
-> The `encoder` **understands the inpu**t, and the `decoder` **uses that understanding to produce the right output — one word at a time**.
+> The `encoder` **understands the input**, and the `decoder` **uses that understanding to produce the right output — one word at a time**.
 
 ❓ **How Encoder and Decoder Interact**
 

@@ -6,7 +6,7 @@ date: "2025-06-03T07:26:45.889Z"
 draft: false
 ---
 
-![Architecure of LLMs](../../../../../src/images/11_ai/01_agen_ai/agi-19.png)
+![Architecture of LLMs](../../../../../src/images/11_ai/01_agen_ai/agi-19.png)
 
 ## Operations of LLMs
 

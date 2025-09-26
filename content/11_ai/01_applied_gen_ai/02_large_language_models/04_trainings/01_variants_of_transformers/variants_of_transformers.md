@@ -1,5 +1,5 @@
 ---
-title: "Varaints of Transformers"
+title: "Variants of Transformers"
 slug: "11_ai/01_applied_gen_ai/02_large_language_models/04_trainings/01_variants_of_transformers"
 stack: "GenAI"
 date: "2025-06-03T07:26:45.889Z"
@@ -14,19 +14,19 @@ draft: false
 
 1. Sentiment Analysis Transformer
    - require only **Understanding**
-   - Reason: In sentiment analysis, it undertands the text and labels it.
+   - Reason: In sentiment analysis, it understands the text and labels it.
    - Hence, we need a model i.e. good at understanding the input
 2. Translation Transformer
    - require both **Understanding** & **Generate**
-   - Reason: In translation, it undertands the entire text and generate the stream of output tokens in traget language.
+   - Reason: In translation, it understands the entire text and generate the stream of output tokens in target language.
    - Hence, we need a model i.e. good at both understanding as well as generating text
 3. Summarization Analysis Transformer
    - require both **Understanding** & **Generate**
-   - Reason: In summarization, it undertands the entire text and generate the stream of output tokens of summarization.
+   - Reason: In summarization, it understands the entire text and generate the stream of output tokens of summarization.
    - Hence, we need a model i.e. good at both understanding as well as generating text
 4. Semantic Similarity Transformer (pass 2 sentences and generate semantic similarity score)
    - require only **Understanding**
-   - Reason: In sentiment analysis, it undertands the text and labels it.
+   - Reason: In sentiment analysis, it understands the text and labels it.
    - Hence, we need a model i.e. good at understanding the input
 
 This brings up with the questions,
@@ -39,7 +39,7 @@ This brings up with the questions,
 
 ## Encoder-only Models:
 
-1. `BERT` - Bi-directional Encoder Respresentational Transformer
+1. `BERT` - Bi-directional Encoder Representational Transformer
 2. `RoBERTa` - Robustly Optimized BERT, for maximum accuracy
 3. `AlBERT` - (A Lite BERT), lighter BERT, for balancing performance and efficiency.
 4. `DistilBERT` - A compressed version of BERT, fastest and smallest model suitable for deployments with limited resource at slightly decreased performance.
@@ -85,9 +85,9 @@ Sentence : I am excited to learn about generative artificial intelligence
 
 > Labelling or annotating data is difficult, expensive, some times require Human intervention, error-prone, etc
 
-- Endcoder-only trains on `Supervised Learning Algorithm` which is diffcult to scale
+- Encoder-only trains on `Supervised Learning Algorithm` which is difficult to scale
 
-- Docoder-only trains on `Self-Supervised Learning Algorithms` which is much easier to scale
+- Decoder-only trains on `Self-Supervised Learning Algorithms` which is much easier to scale
 
 So in terms of scalability, `Decoder-only` models are the best choice
 
@@ -137,7 +137,7 @@ Donald Trump
 
 </op>
 
-- `Finetuning` is used to further train the data either on a new data type or a new purpose.
+- `Fine-tuning` is used to further train the data either on a new data type or a new purpose.
 - Refer [Exercise-2](#exercise-2) to see for same prompt, How different LLMs respond differently and without focus
 
 ## Exercise-2
@@ -157,13 +157,13 @@ def generate_text(model_name, prompt, max_len=50):
       tokenizer = AutoTokenizer.from_pretrained(model_name)
       model = AutoModelForCausalLM.from_pretrained(model_name)
 
-      # Toknize input text
+      # Tokenize input text
       inputs = tokenizer(prompt, return_tensors="pt")
 
       # generate text
-      output = model.generate(**inputs, max_lenght = max_len, num_return_sequences=1)
+      output = model.generate(**inputs, max_length = max_len, num_return_sequences=1)
 
-      # decode and return genererated text
+      # decode and return generated text
       generated_text = tokenizer.decode(output[0], skip_special_token= True)
       print(f"\nGenerated Text:\n{generated_text}\n")
    except Exception as e:
@@ -238,10 +238,10 @@ Once upon a time, in a land far away from the world, a man was born. He was a ma
 
 ❓ Why some models require gated permissions
 
-- As we have seen, `openai-community/gpt2`, `EleutherAI/gpt-neo-125m`, `facebook/opt-125m`, `bigscience/bloom-560m` were open-source, created to work on prompts of a specific domain and were not giving us relavant response for our given input.
-- Bigger/smarter/reputed models like mistral work across domain to produce relavant responses and also abide by compliances across countries. So Gates Models creates an agreement of usage.
-- Make sure model you are testing can be supported by current collab runtime
-- To check for memory required to run a model in colab, mkae use of [HF Model Memory Calculator](https://huggingface.co/docs/accelerate/en/usage_guides/model_size_estimator)
+- As we have seen, `openai-community/gpt2`, `EleutherAI/gpt-neo-125m`, `facebook/opt-125m`, `bigscience/bloom-560m` were open-source, created to work on prompts of a specific domain and were not giving us relevant response for our given input.
+- Bigger/smarter/reputed models like mistral work across domain to produce relevant responses and also abide by compliances across countries. So Gates Models creates an agreement of usage.
+- Make sure model you are testing can be supported by current colab runtime
+- To check for memory required to run a model in colab, make use of [HF Model Memory Calculator](https://huggingface.co/docs/accelerate/en/usage_guides/model_size_estimator)
 
 ![HF Model Memory Calculator](../../../../../../src/images/11_ai/01_agen_ai/agi-21g.png)
 

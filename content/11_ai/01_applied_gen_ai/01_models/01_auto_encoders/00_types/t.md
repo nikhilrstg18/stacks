@@ -20,13 +20,13 @@ draft: false
 - Utilizes convolutional layers in both the encoder and decoder, making it suitable for handling image data.
 - By exploiting the spatial information in images, CAEs can capture complex patterns and structures more effectively than vanilla autoencoders and accomplish tasks such as image segmentation
 
-## Denoising AutoEncoder `DAE`
+## De-noising AutoEncoder `DAE`
 
-![ A denoising autoencoder processes a noisy image, generating a clean image on the output side](../../../../../../src/images/11_ai/01_agen_ai/agi-9d.png)
+![ A de-noising autoencoder processes a noisy image, generating a clean image on the output side](../../../../../../src/images/11_ai/01_agen_ai/agi-9d.png)
 
 - This autoencoder is designed to remove noise from corrupted input data.
 - During training, the input data is intentionally corrupted by adding noise, while the target remains the original, uncorrupted data.
-- The autoencoder learns to reconstruct the clean data from the noisy input, making it useful for image denoising and data preprocessing tasks.
+- The autoencoder learns to reconstruct the clean data from the noisy input, making it useful for image de-noising and data preprocessing tasks.
 
 ## Sparse AutoEncoder `SAE`
 
@@ -82,7 +82,7 @@ has two components:
 1. **Reconstruction Loss**
 
    - Measures how well the decoder reconstructs the input data
-   - Commonly uses Mean Squared Error (MSE) or crossentropy
+   - Commonly uses Mean Squared Error (MSE) or cross-entropy
      loss
    - Acts as a guiding compass, nudging the `VAE` towards better
      capturing the important features of the input data
@@ -96,11 +96,11 @@ has two components:
 
 read more about [VAE 👆](https://pyimagesearch.com/2023/10/02/a-deep-dive-into-variational-autoencoders-with-pytorch/)
 
-### Tranining
+### Training
 
 Training a Variational Autoencoder (VAE) is a multi-step process that enables it to unlock its powerful generative capabilities.
 
-![Training and Backpropagation](../../../../../../src/images/11_ai/01_agen_ai/agi-9i.png)
+![Training and Back-propagation](../../../../../../src/images/11_ai/01_agen_ai/agi-9i.png)
 
 Here’re the steps for training process of a VAE, which provides valuable insights into how a language model captures and recreates complex data patterns:
 
@@ -139,9 +139,9 @@ Here’re the steps for training process of a VAE, which provides valuable insig
   - Minimizing the reconstruction error between the input and the generated data
   - Minimizing the Kullback-Leibler (KL) divergence between the learned distribution in the latent space and a standard Gaussian distribution
 
-**Traning and Backpropagation**
+**Training and Back-propagation**
 
-- Backpropagation trains the model.
+- Back-propagation trains the model.
 - The process computes gradients in relation to the encoder and decoder parameters.
 - The system updates the parameters to minimize the objective function.
 
@@ -178,11 +178,11 @@ While LLMs like GPT, BERT, and LLaMA 2 use transformers, VAEs can enhance LLMs i
 
 1. **Image Generation**: VAEs excel at creating new and realistic images.
 2. **Text Generation**: VAEs can generate synthetic text with controllable attributes
-3. **Anamaly Detection**: VAEs play a vital role in identifying anomalies or outliers in datasets like assist in spotting unusual financial transactions, improve manufacturing processes by identifying defects, etc
+3. **Anomaly Detection**: VAEs play a vital role in identifying anomalies or outliers in datasets like assist in spotting unusual financial transactions, improve manufacturing processes by identifying defects, etc
 4. **Data Imputation**: VAEs help fill in missing or incomplete data.
    ![Data Imputation](../../../../../../src/images/11_ai/01_agen_ai/agi-9l.png)
 
-### Limitiations
+### limitations
 
 The greatest disadvantage of VAEs is that they tend to produce _blurry_ and _unrealistic_ outputs
 

@@ -65,7 +65,7 @@ The **decoder** has both those layers, but between them is an **attention** laye
 🧠 **Real Use Cases:**
 
 - Machine translation
-- Chatbots
+- chatbot
 - Summarization
 
 <br/>

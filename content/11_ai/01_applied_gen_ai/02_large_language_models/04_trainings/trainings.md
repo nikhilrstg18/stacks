@@ -41,7 +41,7 @@ When you visit above link, you can view related information like:
 
 ## Inference provider on HF
 
-If you want to try out any model and see its performance, you don't have to set it up in collab, instead you can do that from HF inferace provider section on model detail page.
+If you want to try out any model and see its performance, you don't have to set it up in colab, instead you can do that from HF inference provider section on model detail page.
 
 ![HuggingFace - Models- Inference Providers](../../../../../src/images/11_ai/01_agen_ai/agi-21c.png)
 
@@ -77,7 +77,7 @@ Hi there! I'm doing great—thanks for asking. 😊 How about you? What fun thin
 
 📌 Notice the # of input and output token increased. this is because LLMs do not have memory, they are just language model working on principle of generating next best word based in prev input.
 
-Now, let conversate 1 more time
+Now, let converse 1 more time
 
 ```py:title=input_286_output_769
 Explain me Artificial Intelligence
@@ -154,7 +154,7 @@ Hope that makes AI feel a bit like a friendly, learning robot! 🚀 If you have 
 
 </op>
 
-📌 Notice the explaination is not using complex vacabulary, since it explain AI to seven year old kid because it is making use of **history** + **system prompt**
+📌 Notice the explanation is not using complex vocabulary, since it explain AI to seven year old kid because it is making use of **history** + **system prompt**
 
 Below is the curl looks like
 
@@ -212,7 +212,7 @@ query({
 });
 ```
 
-📌 Notice the increase in number of input and output tokens. Every time you conversate on chat, it using memory and to get history+system prompt and passing it to LLMs
+📌 Notice the increase in number of input and output tokens. Every time you converse on chat, it using memory and to get history+system prompt and passing it to LLMs
 
 - Seeing above evidence, you are are going to do the required engineering
   - for chatbot you engineer information retrieval system.
@@ -229,8 +229,8 @@ That's where you need to control the randomness and diversity of LLMs by adjusti
 
 1. Temperature `K`
    - **Higher Values** (0.9) - More creativity / randomness in response
-   - **Lower Values** (0.1) - Less creativity / mmore consistent response
-2. Nucleaus Sampling `topP`
+   - **Lower Values** (0.1) - Less creativity / more consistent response
+2. Nucleus Sampling `topP`
    - **Higher Values** (0.9) - More diverse word choice
    - **Lower Values** (0.1) - Less diverse, more focussed word choice
 3. Word Limit `topK`
@@ -325,7 +325,7 @@ Word filters **block specific words or phrases—either exact matches or via pat
 
 📌: An enterprise knowledge assistant might filter out competitor names or profanity to maintain brand integrity and professionalism.
 
-#### Senitive information filters
+#### Sensitive information filters
 
 These filters **detect and mask or block personally identifiable information (PII) or other sensitive data** using pattern matching or probabilistic detection.
 
@@ -339,7 +339,7 @@ This ensures that model **responses are factually grounded in a trusted source a
 
 ## Accessing LLMs via API
 
-> This eliminates the cosideration of Compute
+> This eliminates the consideration of Compute
 
 Read more @ [text generation using openai](http://platform.openai.com/docs/guides/text)
 

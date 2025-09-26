@@ -1,6 +1,6 @@
 ---
 title: "Multi Turn - Prompting"
-slug: "11_ai/01_applied_gen_ai/06_prompt_engineering/02_techniques/03_multi_turn"
+slug: "11_ai/01_applied_gen_ai/06_prompt_engineering/02_techniques/01_multi_turn"
 stack: "GenAI"
 date: "2025-06-03T07:26:45.889Z"
 draft: false

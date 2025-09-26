@@ -43,7 +43,7 @@ b { color: #62aefa }
 - _Information Bottleneck_ means **struggle with long sequences**
 - Sequential computation means **no parallelism** — slows down training. 🐌
 - As sequences grow, **vanishing gradients** and **memory decay** kick in.🌈
-- No Scalibility means **unable to extend to massive datasets**
+- No scalability means **unable to extend to massive datasets**
 - Workarounds like:
   - Memory cells `LSTM`
   - Gating mechanisms `GRU`
@@ -71,4 +71,3 @@ b { color: #62aefa }
 
 ![Essence](../../../../../src/images/11_ai/01_agen_ai/agi-19a.png)
 ![Essence](../../../../../src/images/11_ai/01_agen_ai/agi-19b.png)
-

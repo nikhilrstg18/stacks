@@ -77,7 +77,7 @@ login(llm_token)
 
    ***
 
-   - If model-[distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) not specified, it will be supplied by defaulted to distilbert on you notebook in collab using pipeline.
+   - If model-[distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english) not specified, it will be supplied by defaulted to distilbert on you notebook in colab using pipeline.
    - Where is model coming from ? it's from `HF` @ [distilbert-base-uncased-finetuned](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)
    - It also outputs the steps authenticate with `HF_TOKEN` and to use any other model from `HF`.
 
@@ -258,7 +258,7 @@ Transformers can be used for machine translations as below
   ```
 
   <op>
-  [{'translation_text': 'Ich hatte Newyork vor ein paar Wochen besucht'}]
+  [{'translation_text': 'Ich hate Newyork vor ein paar Wochen besucht'}]
 
   </op>
 

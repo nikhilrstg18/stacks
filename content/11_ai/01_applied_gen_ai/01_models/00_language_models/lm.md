@@ -8,12 +8,12 @@ draft: false
 
 ## Language Model
 
-A `LM` is model that assings probabilities to a sequence of words to proedict the next best word
+A `LM` is model that assigns probabilities to a sequence of words to predict the next best word
 
 eg. The sun rises in the \_\_\_\_\_\_ (east)
 
-The sun rises in the east -> Highest Probility
-The sun rises in the west -> lowest Probility
+The sun rises in the east -> Highest Probability
+The sun rises in the west -> lowest Probability
 
 The way in which the data is created is using something called as a self supervised learning.
 

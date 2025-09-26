@@ -1,5 +1,5 @@
 ---
-title: "Sequnce 2 Sequence - Language Model"
+title: "Sequence 2 Sequence - Language Model"
 slug: "11_ai/01_applied_gen_ai/01_models/00_language_models/03_sequence_to_sequence"
 stack: "GenAI"
 date: "2025-06-03T07:26:45.889Z"
@@ -14,7 +14,7 @@ A sequence-to-sequence model is a model that takes a sequence of items (words, l
 
 In neural machine translation, a sequence is a series of words, processed one after another. The output is, likewise, a series of words:
 
-![Neural Machine Transaltion Model](../../../../../../src/images/11_ai/01_agen_ai/agi-16a.gif)
+![Neural Machine Translation Model](../../../../../../src/images/11_ai/01_agen_ai/agi-16a.gif)
 
 Under the hood, the model is composed of an `encoder` and a `decoder`.
 
@@ -24,7 +24,7 @@ The `encoder` processes each item in the input sequence, it compiles the informa
 
 The same applies in the case of machine translation.
 
-![Neural Machine Transaltion Model - Components](../../../../../../src/images/11_ai/01_agen_ai/agi-16c.gif)
+![Neural Machine translation Model - Components](../../../../../../src/images/11_ai/01_agen_ai/agi-16c.gif)
 
 The `context` is a vector (an array of numbers, basically) in the case of machine translation. The `encoder` and `decoder` tend to both be recurrent neural networks (Be sure to check out Luis Serrano’s [A friendly introduction to Recurrent Neural Networks](https://www.youtube.com/watch?v=UNmqTiOnRfg) for an intro to RNNs).
 
@@ -50,14 +50,13 @@ In the following visualization, each pulse for the encoder or decoder is that RN
 
 Let’s look at the hidden states for the encoder. Notice how the last hidden state is actually the context we pass along to the decoder.
 
-![Neural Machine Transaltion Model - TimeStamps](../../../../../../src/images/11_ai/01_agen_ai/agi-16g.gif)
+![Neural Machine translation Model - TimeStamps](../../../../../../src/images/11_ai/01_agen_ai/agi-16g.gif)
 
 The decoder also maintains a hidden state that it passes from one time step to the next. We just didn’t visualize it in this graphic because we’re concerned with the major parts of the model for now.
 
 Let’s now look at another way to visualize a sequence-to-sequence model. This animation will make it easier to understand the static graphics that describe these models. This is called an “unrolled” view where instead of showing the one decoder, we show a copy of it for each time step. This way we can look at the inputs and outputs of each time step.
 
-![Neural Machine Transaltion Model - Unrolled](../../../../../../src/images/11_ai/01_agen_ai/agi-16h.gif)
-
+![Neural Machine translation Model - Unrolled](../../../../../../src/images/11_ai/01_agen_ai/agi-16h.gif)
 
 ### Let’s Pay **Attention** Now
 
@@ -87,8 +86,8 @@ Let us now bring the whole thing together in the following visualization and loo
 2. The RNN processes its inputs, producing an output and a new hidden state vector `h4`. The output is discarded.
 3. Attention Step: We use the `encoder` hidden states and the `h4` vector to calculate a context vector `C4` for this time step.
 4. We concatenate `h4` and `C4` into one vector.
-5. We pass this vector through a **feedforward neural network** (one trained jointly with the model).
-6. The output of the **feedforward neural network**s indicates the output word of this time step.
+5. We pass this vector through a **feed-forward neural network** (one trained jointly with the model).
+6. The output of the **feed-forward neural network**s indicates the output word of this time step.
 7. Repeat for the next time steps
 
 ![Seq2Seq Model with Attention](../../../../../../src/images/11_ai/01_agen_ai/agi-16l.gif)
@@ -101,11 +100,11 @@ This is another way to look at which part of the input sentence we’re paying a
 
 ![Seq2Seq Model with Attention](../../../../../../src/images/11_ai/01_agen_ai/agi-16n.png)
 
-You can see how the model paid attention correctly when outputing "European Economic Area". In French, the order of these words is reversed ("européenne économique zone") as compared to English. Every other word in the sentence is in similar order.
+You can see how the model paid attention correctly when outputting "European Economic Area". In French, the order of these words is reversed ("européenne économique zone") as compared to English. Every other word in the sentence is in similar order.
 
 ### Purpose
 
-![Neural Machine Transaltion Model - Simplified](../../../../../../src/images/11_ai/01_agen_ai/agi-15.png)
+![Neural Machine translation Model - Simplified](../../../../../../src/images/11_ai/01_agen_ai/agi-15.png)
 
 - On Left, we see the RRN unrolled at different timestamps having i/p words i.e. x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub> and x<sub>4</sub>
 - the o/p of this is sent to another RRN unrolled at different timestamps to produce o/p i.e. y<sub>1</sub>, y<sub>2</sub>, y<sub>3</sub>, y<sub>4</sub> and **y**<sub>**5**</sub>
@@ -128,11 +127,11 @@ You prefer not to translate while the i/p is being spoken because you want to wa
 
 Reason2:
 
-Variable length of both i/p and outpot. Its not necessary that if my i/p has 4 words, the translated o/p will also have 4 words, it may have 5,it may have 3
+Variable length of both i/p and output. Its not necessary that if my i/p has 4 words, the translated o/p will also have 4 words, it may have 5,it may have 3
 
 ![Encoder-Decoder Architecture](../../../../../../src/images/11_ai/01_agen_ai/agi-15b.png)
 
-- on left, **N**atural **L**anguage **U**nderstanding `NLU` kicks-in i.e. this part of architecture is performing understanding, because its understanding the information aka `Encoder`
+- on left, **N**atural **L**language **U**nderstanding `NLU` kicks-in i.e. this part of architecture is performing understanding, because its understanding the information aka `Encoder`
 - on right, this part of architecture is performing generation of translation aka `Decoder`
 
 ### Limitations

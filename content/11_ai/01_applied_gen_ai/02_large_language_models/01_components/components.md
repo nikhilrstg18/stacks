@@ -20,7 +20,7 @@ draft: false
 
 ## `PreTraining`
 
-- This involves pretraining LLMs on extensive text data to understand the underlying patterns and structures of human language.
+- This involves pre-training LLMs on extensive text data to understand the underlying patterns and structures of human language.
 
 ## `Transfer learning`
 

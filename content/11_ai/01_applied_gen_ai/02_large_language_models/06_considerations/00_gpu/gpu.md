@@ -34,8 +34,8 @@ draft: false
 
 ## GPUs in LLM Inference
 
-- `Training` requires backpropagation, but inference only needs forward propagation.
-- `Inference` must be fast and efficient for real-time applications (e.g., chatbots).
+- `Training` requires back-propagation, but inference only needs forward propagation.
+- `Inference` must be fast and efficient for real-time applications (e.g., chatbot).
 
 **Optimizations for Faster Inference**:
 

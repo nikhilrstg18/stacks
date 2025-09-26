@@ -202,7 +202,7 @@ Newton's First Law of Motion says that objects tend to keep their state - either
 # import
 from langchain_core.prompts.prompt import PromptTemplate
 
-# intiate PromptTemplate
+# initiate PromptTemplate
 explanation_template = PromptTemplate(
     input_variables=["topic"],
     template="Explain '{topic}' in simple words",

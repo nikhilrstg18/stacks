@@ -27,14 +27,14 @@ draft: false
 
 ### Future Implications of `LLM`s
 
-Large Language Models `LLM`s like GPT-4, LLaMA 2, Mistral, and future multimodal AI systems will have both positive and negative implications
+Large Language Models `LLM`s like GPT-4, LLaMA 2, Mistral, and future multi-modal AI systems will have both positive and negative implications
 
 **Positive Implications**
 
 - Advancements in Productivity & Automation
 - Enhancements in Healthcare & Drug Discovery
 - Education & Personalized Learning
-- Multimodal AI & Human-AI Collaboration
+- Multi-modal AI & Human-AI Collaboration
 
 **Negative Implications**
 

@@ -84,7 +84,7 @@ They’re smaller than the original 512 just to make things **efficient**, espec
 - <o>**Key K**</o>: What the person offers (e.g., “I bring logic”).
 - <bl>**Value V**</bl>: What the person actually says when they contribute.
 
-### Step 2 : **Caclulate Score**
+### Step 2 : **Calculate Score**
 
 - For each word, you compare its <v>Query</v> with every other word’s <o>Key</o> — like asking `Do you have what I’m looking for?`
 - This comparison is done using a `dot product to get a score` — higher score means more relevance.

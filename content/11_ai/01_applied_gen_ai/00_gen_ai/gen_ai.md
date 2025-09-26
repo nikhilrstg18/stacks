@@ -27,7 +27,7 @@ empowering creativity, innovation, and personalization.
 | Art and Design       | creates unique digital art and designs with model like DALL-E     | Graphic design tools and artists's creativity             |
 | Content Generation   | automates content creation for marketing, writing, and more       | requires human input and manual generation                |
 | Healthcare           | Assists in medical diagnosis, drug discovery and genomics         | traditional medical data analysis and diagnosis by doctor |
-| Finance              | enahnces risk management, fraud detection and algorithmic trading | rule-based systems and manual analysis                    |
+| Finance              | enhances risk management, fraud detection and algorithmic trading | rule-based systems and manual analysis                    |
 
 #### Example: 🍎 & 🍊
 
@@ -53,8 +53,8 @@ or
 ## GenAI Model types
 
 1. AutoEncoders `AE`: Autoencoders, a type of neural network, and decode data for tasks such as image generation.
-2. Recurrent Neural Netowrk `RNN`: RNNs handle sequences and generate text with LSTM networks for context-based tasks.
-3. Variational AutoEncoders `VAE`: Models represent data distribution, enabling sampling. Example: VAEs for diverse images. Real-world eg imagine you have high resolution images and you want to save storage space wihtout loosing too much quality.
+2. Recurrent Neural Network `RNN`: RNNs handle sequences and generate text with LSTM networks for context-based tasks.
+3. Variational AutoEncoders `VAE`: Models represent data distribution, enabling sampling. Example: VAEs for diverse images. Real-world eg imagine you have high resolution images and you want to save storage space without loosing too much quality.
 
 ✏️: In industries like e-commerce, using VAEs for image compression can save server space and improve website loading times without compromising image quality.
 
@@ -64,7 +64,7 @@ or
 
 5. Transformers : Transformers efficiently handle sequences with self-attention, popular in natural language processing.
 
-✏️: Transformer-based models continue to revolutionize NLP and have a wide range of applications, including chatbots, content summarization, and sentiment analysis.
+✏️: Transformer-based models continue to revolutionize NLP and have a wide range of applications, including chatbot, content summarization, and sentiment analysis.
 
 ![Application of GenAI Models Types](../../../../src/images/11_ai/01_agen_ai/agi-12.png)
 
@@ -72,7 +72,7 @@ or
 
 ![Working of GenAI](../../../../src/images/11_ai/01_agen_ai/agi-2.png)
 
-### Traning generative model
+### Training generative model
 
 ![Training Generative Model](../../../../src/images/11_ai/01_agen_ai/agi-3.png)
 

@@ -13,7 +13,7 @@ draft: false
 - `N-gram` is a contiguous sequence of `N` items (words or characters) from text/speech.
 - The items can be letters, words or base pairs according to the application.
 - They are fundamental concept used in various NLP tasks such as language modeling, text classification, machine translation and more.
-- The value of `N` determines the order of the `N-gram`. 
+- The value of `N` determines the order of the `N-gram`.
 
 ### Types
 
@@ -50,7 +50,7 @@ Let's say we have the sentence: **The cat sat on the mat**.
   1. P( The ) \* P ( sun | the ) \* P ( rises | the sun ) \* .... \* P ( east | the sun rises in the)
   2. P( The ) \* P ( sun | the ) \* P ( rises | the sun ) \* .... \* P ( west | the sun rises in the)
 
-  For comparision of **#1** and **#2**, we can take ratio and result will be
+  For comparison of **#1** and **#2**, we can take ratio and result will be
 
   `P( east | the sun rises in the) / P( east | the sun rises in the)`
 

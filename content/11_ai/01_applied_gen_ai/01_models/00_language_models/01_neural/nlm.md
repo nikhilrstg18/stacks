@@ -28,5 +28,5 @@ read more on [word embeddings](https://medium.com/data-science/a-guide-to-word-e
 ### Limitations
 
 1. `Fixed size i/p` (i.e. less or more than 4 i/p is a problem)
-2. `Long range dependency` (i.e. lets say to w<sub>i</sub> has dependency on past 10th word i.e. w<sub>i-10</sub>, that means I have to increase neurons of my NN and reciprocative tradoff between increasing # of neurons and performance of this achitecture)
+2. `Long range dependency` (i.e. lets say to w<sub>i</sub> has dependency on past 10th word i.e. w<sub>i-10</sub>, that means I have to increase neurons of my NN and reciprocative trad-off between increasing # of neurons and performance of this architecture)
 3. `No sequence memory` i.e. "I am Happy" or "Am I Happy" is same for this architecture, it won't make differentiation while predict punctuation mark `.` or `?` for given sequence.
