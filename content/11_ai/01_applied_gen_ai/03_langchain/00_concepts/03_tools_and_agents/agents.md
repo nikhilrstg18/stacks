@@ -1,6 +1,6 @@
 ---
 title: "Agents"
-slug: "11_ai/01_applied_gen_ai/03_langchain/00_concepts/03_agents"
+slug: "11_ai/01_applied_gen_ai/03_langchain/00_concepts/03_tools_and_agents"
 stack: "GenAI"
 date: "2025-06-03T07:26:45.889Z"
 draft: false
@@ -18,7 +18,7 @@ You’re building a smart assistant for a local bookstore that:
 - Tracks inventory
 - Automates staff tasks using tool
 
-```py
+```py:title=Bookstore_Assistant
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain_ollama.chat_models import ChatOllama
@@ -140,9 +140,9 @@ Agent With Tools
 
 &gt;Thought: To check if a book is in stock, I need to use the InventoryChecker tool.
 
-Action: InventoryChecker
+**Action**: InventoryChecker
 
-Action Input: 'The Alchemist'
+**Action Input**: 'The Alchemist'
 
 Checking Inventory...
 
@@ -154,8 +154,8 @@ Question: What does it mean for a book to be "out of stock"?
 
 Thought: To determine if a book is indeed "out of stock", I need more information about the inventory status. However, since we are just checking availability, let's assume that "out of stock" means the book is not available.
 
-Action: InventoryChecker
-Action Input: 'The Alchemist'
+**Action**: InventoryChecker
+**Action Input**: 'The Alchemist'
 Checking Inventory...
 
 Observation: 'The Alchemist' is out of stock.
@@ -168,8 +168,8 @@ Agent With Tools and Memory
 
 &gt; Entering new AgentExecutor chain...
 &gt; Thought: Do I need to use a tool? Yes
-Action: InventoryChecker
-Action Input: The Alchemist
+**Action**: InventoryChecker
+**Action Input**: The Alchemist
 
 Checking Inventory...
 
@@ -193,9 +193,9 @@ Thought:Thought: Do I need to use a tool? No
 
 &gt;Thought: Do I need to use a tool? Yes
 
-Action: InventoryChecker
+**Action**: InventoryChecker
 
-Action Input: "The Name of the Wind" by Patrick Rothfuss
+**Action Input**: "The Name of the Wind" by Patrick Rothfuss
 
 Checking Inventory...
 
@@ -211,18 +211,18 @@ Thought: `Thought: Do I need to use a tool? No
 
 Thought: Do I need to use a tool? Yes
 
-Action: InventoryChecker
+**Action**: InventoryChecker
 
-Action Input: The Alchemist
+**Action Input**: The Alchemist
 
 Checking Inventory...
 
 Observation: The Alchemist is available.
 Thought:Thought: Now that "The Alchemist" is in stock, I should provide more information about it. Let me check some reviews and ratings.
 
-Action: simple_calculator
+**Action**: simple_calculator
 
-Action Input: 5 \* 2 + 10 - 3
+**Action Input**: 5 \* 2 + 10 - 3
 
 Observation:
 
@@ -307,3 +307,236 @@ This is cleaner and more concise, especially when:
 - Use `Tool.from_function` when you need **explicit control** over tool registration.
 - Use `@tool` when you want **clean, declarative syntax** and are writing tools inline.
 - Both approaches are valid in agentic frameworks like LangChain — just depends on your architecture and preference.
+
+## Exercise
+
+🧩 Feature: Customer Support Agent
+As a customer interacting with our system,
+I want to receive accurate and timely responses to common queries,
+So that I can resolve my concerns efficiently without human intervention.
+
+**Scenario 1**: Retrieve FAQ Information
+
+- Given a user asks about return policies, shipping timelines, or support turnaround times
+- And a structured JSON dataset is available as the source of truth
+- When the FAQ tool is invoked
+- Then the system should return the relevant information from the JSON database
+- And fallback to hardcoded responses if the data is missing or incomplete
+
+**Scenario 2**: Check Order Status
+
+- Given a user provides an order identifier
+- When the order status tool is triggered
+- Then the system should return the current status of the order
+- And use simulated or hardcoded data if real-time tracking is unavailable
+
+**Scenario 3**: Agent Orchestration
+
+- Given a user submits a query
+- When the agent interprets the intent
+- Then it should route the request to the appropriate tool (FAQ or Order Status)
+- And respond with a clear, context-aware answer
+- And gracefully handle edge cases using predefined fallback logi
+
+```py:title=Customer_Support_Agent
+from langchain_ollama.chat_models import ChatOllama
+from langchain.tools import Tool
+from langchain.agents import initialize_agent, AgentType
+from langchain.memory import ConversationBufferMemory
+
+
+# Step 1: Connect to LLM
+llm = ChatOllama(
+    model="llama3.2",
+    temperature=0.3,
+    top_p=0.9,
+    max_tokens=100
+)
+
+# Step 2: create tool instance using Tool
+faq_database = {
+        "return policy": "You can return any item within 30 days of purchase with a receipt.",
+        "shipping time": "Standard shipping takes 5-7 business days. Expedited shipping takes 2-3 business days.",
+        "customer support hours": "Our customer support is available from 9 AM to 6 PM, Monday to Friday."
+    }
+
+def get_faq_answer(question: str) -> str:
+    """Looks up answers to common customer support questions."""
+    for key in faq_database:
+        if key in question.lower():
+            return faq_database[key]
+    return "I'm sorry, I couldn't find an answer to that question."
+
+faq_tool = Tool(
+    name="FAQ Lookup",
+    func=get_faq_answer,
+    description="Fetches predefined answers for common customer support questions."
+)
+
+# Step 3: check_order_status Tool
+import random
+def check_order_status(order_id: str) -> str:
+    """Simulates checking order status from a database."""
+    statuses = ["Processing", "Shipped", "Out for Delivery", "Delivered"]
+    return f"Order {order_id} is currently: {random.choice(statuses)}."
+
+order_status_tool = Tool(
+    name="Order Status Checker",
+    func=check_order_status,
+    description="Checks the status of an order given an order ID."
+)
+
+# Step 4: Create Agent with Tools & Memory (Conversation Tracking)
+
+print(f"\nAgent With Tools and Memory")
+
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
+agent_with_memory = initialize_agent(
+    tools=[faq_tool, order_status_tool],
+    llm=llm,
+    agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
+    memory=memory,
+    handle_parsing_errors=True,
+    verbose=True
+)
+agent_with_memory.run("What is your return policy?")
+agent_with_memory.run("What is your usual shipping time?")
+agent_with_memory.run("Can you check my order status for order id 12345?")
+agent_with_memory.run("What was my last order status?")
+agent_with_memory.run("What was my order id?")
+agent_with_memory.run("What was my last order id?")
+
+
+for msg in memory.chat_memory.messages:
+    print(f"{msg.type.upper()}: {msg.content}")
+
+```
+
+<op>
+
+Agent With Tools and Memory
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? Yes
+
+**Action**: FAQ Lookup
+
+**Action Input**: return policy
+
+**Observation**: You can return any item within 30 days of purchase with a receipt.
+
+**Thought**: Do I need to use a tool? No
+
+**AI**: Our store offers a 30-day return window for all purchases. If you have any questions or concerns about returning an item, please don't hesitate to contact our customer support team. They'll be happy to assist you further.
+
+&lt; Finished chain.
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? No
+
+**AI**: Our store offers standard ground shipping with an estimated delivery time of 3-7 business days. However, expedited shipping options are also available for an additional fee. If you have any specific questions about shipping or would like more information on our return policy, feel free to ask!
+
+&lt; Finished chain.
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? Yes
+
+**Action**: Order Status Checker
+
+**Action Input**: 12345
+
+**Observation**: Order 12345 is currently: Delivered.
+
+**Thought**: The order has been delivered, so there's no need for further action.
+
+**AI**: You have successfully checked your order status. Would you like to know anything else about your recent purchase?
+
+&lt; Finished chain.
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? Yes
+
+**Action**: Order Status Checker
+
+**Action Input**: 12345
+
+**Observation**: Order 12345 is currently: Delivered.
+
+**Thought**: Now that the order status has been checked, it seems like there's no further action needed. However, I should provide some additional information to the human about what was found.
+
+**AI**: The order status for order ID 12345 is currently "Delivered". This means that the item(s) you purchased have already arrived at your location. If you have any questions or concerns about the delivery process, feel free to ask!
+
+&lt; Finished chain.
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? Yes
+
+**Action**: Order Status Checker
+
+**Action Input**: 12345
+
+**Observation**: Order 12345 is currently: Out for Delivery.
+
+**Thought**: Now that we have the order status, let's try to find out what happened with it. The fact that it's "Out for Delivery" suggests that there might be an issue with the delivery process.
+
+**Action**: FAQ Lookup
+
+**Action Input**: What happens when an order is marked as "Out for Delivery"
+
+**Observation**:I'm sorry, I couldn't find an answer to that question.
+
+**Thought**: Do I need to use a tool? No
+
+**AI**: It seems like there might be an issue with the delivery process of your order. The fact that it's marked as "Out for Delivery" suggests that something went wrong during shipping. You may want to contact our customer support team to see if they can provide any further information or assistance.
+
+&lt; Finished chain.
+
+&gt; Entering new AgentExecutor chain...
+
+**Thought**: Do I need to use a tool? Yes
+
+**Action**: FAQ Lookup
+
+**Action Input**: "What was my last order id?"
+
+**Observation**: I'm sorry, I couldn't find an answer to that question.
+
+**Thought**: Do I need to use a tool? No
+
+**AI**: I apologize, but I don't have any information about your previous orders. If you're trying to recall your last order ID, I recommend checking your email or the order history section of your account on our website. Alternatively, you can contact our customer support team for assistance with retrieving that information.
+
+&lt; Finished chain.
+
+==Memory==
+
+HUMAN: What is your return policy?
+
+AI: Our store offers a 30-day return window for all purchases. If you have any questions or concerns about returning an item, please don't hesitate to contact our customer support team. They'll be happy to assist you further.
+
+HUMAN: What is your usual shipping time?
+
+AI: Our store offers standard ground shipping with an estimated delivery time of 3-7 business days. However, expedited shipping options are also available for an additional fee. If you have any specific questions about shipping or would like more information on our return policy, feel free to ask!
+
+HUMAN: Can you check my order status for order id 12345?
+
+AI: You have successfully checked your order status. Would you like to know anything else about your recent purchase?
+
+HUMAN: What was my last order status?
+
+AI: The order status for order ID 12345 is currently "Delivered". This means that the item(s) you purchased have already arrived at your location. If you have any questions or concerns about the delivery process, feel free to ask!
+
+HUMAN: What was my order id?
+
+AI: It seems like there might be an issue with the delivery process of your order. The fact that it's marked as "Out for Delivery" suggests that something went wrong during shipping. You may want to contact our customer support team to see if they can provide any further information or assistance.
+
+HUMAN: What was my last order id?
+
+AI: I apologize, but I don't have any information about your previous orders. If you're trying to recall your last order ID, I recommend checking your email or the order history section of your account on our website. Alternatively, you can contact our customer support team for assistance with retrieving that information.
+
+</op>
