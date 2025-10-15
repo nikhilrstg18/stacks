@@ -73,12 +73,8 @@ export default function Book({ data }) {
             )}
           </div> */}
           <footer className={styles.footer}>
-            Written by <em>Nikhil Rustagi</em> on {date.slice(0, 10)} | ©{" "}
-            {new Date(Date.now()).getFullYear()} built with{" "}
-            <img
-              src="https://nikhilrstg18.github.io/notes/gatsby.png"
-              alt="gatsby"
-            />
+            © {new Date(Date.now()).getFullYear()} <em>Nikhil Rustagi</em>.
+            Published on {date.slice(0, 10)}
           </footer>
         </div>
         <div className=".mob">
@@ -109,7 +105,6 @@ export const query = graphql`
       filter: {
         sourceInstanceName: { eq: "content" }
         relativeDirectory: { eq: $slug }
-        
       }
       sort: { name: ASC }
     ) {

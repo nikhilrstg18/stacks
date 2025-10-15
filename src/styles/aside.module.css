@@ -1,8 +1,8 @@
 .section {
   color: var(--secondary);
 }
-.section ul  {
-  padding-left: .5rem;
+.section ul {
+  padding-left: 0.5rem;
 }
 .section ul li {
   text-overflow: ellipsis;
@@ -26,24 +26,22 @@
 }
 .trayBack {
   font-size: 1.5rem;
-  margin: 0rem .5rem;
+  margin: 0rem 0.5rem;
 }
-.traySection{
+.traySection {
   display: flex;
   flex-flow: row nowrap;
   overflow: auto;
 }
 .traySection div a {
-
   padding: 0.5rem 1rem;
   text-decoration: none;
   color: var(--secondary);
-  white-space: nowrap
+  white-space: nowrap;
 }
-.tray>div{
+.tray > div {
   display: flex;
   flex-flow: row nowrap;
-
 }
 @media only screen and (max-width: 576px) {
   .tray {
@@ -52,9 +50,10 @@
     bottom: 0;
     z-index: 1;
     background: var(--bq-bg);
-    box-shadow: rgba(0, 0, 0, 0.05) 0px -4px 6px -2px,rgba(0, 0, 0, 0.1) 0px -10px 15px -3px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px -4px 6px -2px,
+      rgba(0, 0, 0, 0.1) 0px -10px 15px -3px;
     display: block;
-    padding: .75rem;
+    padding: 0.75rem;
   }
 }
 @media only screen and (min-width: 601px) {

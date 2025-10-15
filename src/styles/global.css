@@ -94,13 +94,20 @@ table tbody tr td {
 .notebook-content main {
   padding: 0.5rem;
   background: white;
-  min-width: 100%;
-  max-width: 100%;
-}
-.notebook-content main {
   margin-left: 20%;
   min-width: 80%;
   max-width: 80%;
+}
+
+@media only screen and (max-width: 576px) {
+  .notebook-content Aside {
+    display: none;
+  }
+  .notebook-content main {
+    margin-left: 0%;
+    min-width: 100%;
+    max-width: 100%;
+  }
 }
 .glass {
   position: relative;
@@ -191,15 +198,15 @@ pre[class*="language-"] {
   padding: 0.3rem 0.6rem;
   font-size: var(--global-fs-sm);
   background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px); 
-  border-radius: .5rem;
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
 }
 .gatsby-remark-prismjs-copy-button:hover {
   background: var(--secondary);
 }
 .gatsby-remark-code-title {
   background: var(--secondary);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   color: var(--bg-grey);
   display: inline;
   font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
@@ -208,21 +215,23 @@ pre[class*="language-"] {
   top: 0.5rem;
   margin-left: 1rem;
   font-size: var(--global-fs-sm);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
-op { 
+op {
   background: var(--bg-grey);
-  padding: 1rem .5rem;
-  border-radius: .5rem 0;
-  display:block;
-  font-family:Consolas;
+  padding: 1rem 0.5rem;
+  border-radius: 0.5rem 0;
+  display: block;
+  font-family: Consolas;
   margin-top: 1rem;
 }
 op::before {
   content: "🤖";
-  width:2rem;
-  position:relative;
+  width: 2rem;
+  position: relative;
   top: -1.5rem;
-  left:.5rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  left: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
