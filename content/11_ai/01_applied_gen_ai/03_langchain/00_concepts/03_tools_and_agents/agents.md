@@ -336,7 +336,7 @@ So that I can resolve my concerns efficiently without human intervention.
 - When the agent interprets the intent
 - Then it should route the request to the appropriate tool (FAQ or Order Status)
 - And respond with a clear, context-aware answer
-- And gracefully handle edge cases using predefined fallback logi
+- And gracefully handle edge cases using predefined fallback logic
 
 ```py:title=Customer_Support_Agent
 from langchain_ollama.chat_models import ChatOllama
@@ -407,7 +407,7 @@ agent_with_memory.run("What was my last order status?")
 agent_with_memory.run("What was my order id?")
 agent_with_memory.run("What was my last order id?")
 
-
+print(f"\n==Memory==\n")
 for msg in memory.chat_memory.messages:
     print(f"{msg.type.upper()}: {msg.content}")
 

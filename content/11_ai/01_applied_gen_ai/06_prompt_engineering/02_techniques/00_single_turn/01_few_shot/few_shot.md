@@ -50,3 +50,5 @@ A:
 </op>
 
 🔹 **Use Case**: Classification, reasoning, structured Q&A with examples.
+
+### Example Selectors

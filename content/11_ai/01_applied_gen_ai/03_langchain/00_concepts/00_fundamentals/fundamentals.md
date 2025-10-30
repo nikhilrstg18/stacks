@@ -33,7 +33,7 @@ draft: false
 1. We start be checking if the model to use is available.
 
 ```py:title=Simple_LLM_App
-!ollama list
+!ollama list # highlight-line
 ```
 
 <op>
