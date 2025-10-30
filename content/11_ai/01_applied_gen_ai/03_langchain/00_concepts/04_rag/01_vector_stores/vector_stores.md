@@ -17,7 +17,7 @@ a:has( picture:has(img[alt="Connection between tokenization and embeddings"] { w
 
 > To store vectors 😋
 
-### Types
+## Types
 
 | Name                   |                     Type | Language / Client             |                     Persistence | Best for                                         |
 | ---------------------- | -----------------------: | ----------------------------- | ------------------------------: | ------------------------------------------------ |
@@ -148,7 +148,7 @@ Collecting faiss-cpu
 
 Downloading faiss_cpu-1.12.0-cp310-cp310-win_amd64.whl (18.2 MB)
 
-     ---------------------------------------- 18.2/18.2 MB 3.7 MB/s eta 0:00:00
+---------------------------------------- 18.2/18.2 MB 3.7 MB/s eta 0:00:00
 
 Requirement already satisfied: numpy<3.0,>=1.25.0 in c:\users\nikhil_rustagi1\appdata\roaming\python\python310\site-packages (from faiss-cpu) (2.2.6)
 
@@ -161,10 +161,12 @@ Successfully installed faiss-cpu-1.12.0
 Note: you may need to restart the kernel to use updated packages.
 
 [notice] A new release of pip available: 22.3.1 -> 25.2
+
 [notice] To update, run: python.exe -m pip install --upgrade pip
+
 </op>
 
-## VectorStore from embeddings
+### Create VectorStore from embeddings
 
 **Problem statement**
 Build and evaluate a local semantic search prototype that uses Ollama embeddings and a FAISS vector store to match user queries to short technical support paragraphs.
@@ -266,7 +268,7 @@ Document(id='e4f5dec1-2637-4a6d-afaf-e98bcaf7c7e5', metadata={}, page_content='F
 
 📌: Notice the result of first query is same that we have seen earlier with highest match on top
 
-## VectorStore from documents
+### Create VectorStore from documents
 
 **Problem statement**
 
@@ -278,7 +280,7 @@ Build and evaluate a local semantic search system that indexes technical support
 - Implement query-based retrieval and metadata-filtered search.
 - Validate relevance of returned passages and ensure index/model compatibility across runs.
 
-```py:title=Similarity_search_using_vector_store2
+```py:title=Enhanced_similarity_search_using_vector_store
 import os
 import pandas as pd
 from langchain.docstore.document import Document
@@ -333,6 +335,7 @@ print(ss3)
 ```
 
 <op>
+
 Solution for When to replace cartridges?==========================
 
 [
