@@ -154,6 +154,7 @@ blockquote p {
   color: var(--secondary);
   text-align: center !important;
   font-size: var(--global-fs-md);
+  line-height: 2rem;
 }
 blockquote p:before {
   color: var(--bq-q);

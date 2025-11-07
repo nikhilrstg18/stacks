@@ -91,3 +91,168 @@ Question : Explain machine learning in simple words
 No Answer Found for your Query.
 
 </op>
+
+## RAG using chain
+
+```py:title=Demo_RAG_chain
+import os
+from langchain_ollama import ChatOllama
+from langchain_classic.vectorstores import FAISS
+from langchain_classic.prompts import PromptTemplate
+from langchain_classic.chains import RetrievalQA
+from langchain_ollama import OllamaEmbeddings
+
+embeddings = OllamaEmbeddings(model="mxbai-embed-large")
+
+if os.path.exists("vs2"):
+    vs = FAISS.load_local("vs2", embeddings, allow_dangerous_deserialization=True)
+else:
+    raise Exception("vector store not found")
+
+prompt = PromptTemplate.from_template(
+    template='''You are a helpful assistant.
+    Answer the following question ONLY from the context.
+    If you do not find the answer, simply respond : 'No Answer Found for your Query'
+    Context : {context}
+    Question : {question}
+    '''
+)
+llm = ChatOllama(
+    model="llama3.2",
+    temperature=0.3,
+    top_p=0.9,
+    max_tokens=100
+)
+rag_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vs.as_retriever(filter={"title": 'Document Scanning Guide'}),
+    chain_type_kwargs={"prompt": prompt}
+)
+
+response = rag_chain.invoke({"query": "When should i replace cartridges?"}, chain_type_kwargs={"input_key": "context"})
+print(response)
+
+print("\n==\n")
+response = rag_chain.invoke({"query": "Explain machine learning in simple words"}, chain_type_kwargs={"input_key": "context"})
+print(response)
+
+```
+
+<op>
+
+{
+
+'query': 'When should i replace cartridges?',
+
+'result': 'According to the context, you should replace cartridges if they cause streaks or lines in printed documents.'
+
+}
+
+==
+
+{
+
+'query': 'Explain machine learning in simple words',
+
+'result': 'No Answer Found for your Query'
+
+}
+
+</op>
+
+### Memory & Source Documents
+
+```py:title=RAG_Chain_with_Memory_and_Sources
+import os, time
+from langchain_ollama import ChatOllama
+from langchain_classic.vectorstores import FAISS
+from langchain_classic.prompts import PromptTemplate
+from langchain_classic.chains import RetrievalQA
+from langchain_ollama import OllamaEmbeddings
+from langchain_classic.memory import ConversationBufferMemory
+
+embeddings = OllamaEmbeddings(model="mxbai-embed-large")
+
+if os.path.exists("vs2"):
+    vs = FAISS.load_local("vs2", embeddings, allow_dangerous_deserialization=True)
+else:
+    raise Exception("vector store not found")
+
+prompt = PromptTemplate.from_template(
+    template='''You are a helpful assistant.
+    Answer the following question ONLY from the Context and the Chat History
+    If you do not find the answer, simply respond : 'No Answer Found for your Query'
+    Chat History: {chat_history}
+    Context : {context}
+    Question : {question}
+    '''
+)
+
+memory = ConversationBufferMemory(
+    return_messages=True,
+    memory_key='chat_history',
+    input_key='question')
+
+llm = ChatOllama(
+    model="llama3.2",
+    temperature=0.3,
+    top_p=0.9,
+    max_tokens=100
+)
+rag_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vs.as_retriever(),
+    chain_type_kwargs={"prompt": prompt, "memory":memory},
+    return_source_documents=True
+)
+
+print("\n==Q1\n")
+start_time = time.perf_counter()
+response = rag_chain.invoke({"query": "When should i replace cartridges?"})
+end_time = time.perf_counter()
+elapsed_time = end_time - start_time
+
+print(f"Elapsed time: {elapsed_time:.2f} seconds")
+print(f"{response}")
+
+print("\n==Q2\n")
+start_time = time.perf_counter()
+response = rag_chain.invoke({"query": "Explain machine learning in simple words"})
+end_time = time.perf_counter()
+elapsed_time = end_time - start_time
+
+print(f"Elapsed time: {elapsed_time:.2f} seconds")
+print(f"{response}")
+
+print("\n==Q3\n")
+
+start_time = time.perf_counter()
+response = rag_chain.invoke({"query": "What does it cause?"})
+end_time = time.perf_counter()
+elapsed_time = end_time - start_time
+
+print(f"Elapsed time: {elapsed_time:.2f} seconds")
+print(f"{response}")
+```
+
+<op>
+
+==Q1
+
+Elapsed time: 24.59 seconds
+
+    {'query': 'When should i replace cartridges?', 'result': 'According to the Context, you should replace cartridges when they cause streaks or lines in printed documents.', 'source_documents': [Document(id='e6e4873c-5aac-452b-8e04-e208a217ae17', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 2, 'section': 'Cartridge Issues', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Streaks or lines in printed documents can be caused by damaged or low-ink cartridges. Replace cartridges and align printhead.'), Document(id='66cb5a53-ee07-421d-b821-f528fac78411', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 1, 'section': 'Maintenance', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Faded or patchy prints usually indicate clogged nozzles. Run a printhead cleaning cycle from the printer control panel or HP Utility software.'), Document(id='ba82bb1d-43cc-4858-ba86-b1c00c591883', metadata={'title': 'Document Scanning Guide', 'page_number': 3, 'section': 'Driver Issues', 'device_type': 'HP ENVY 6000'}, page_content='Title : Document Scanning Guide Content : When scanner fails to initiate, check if TWAIN or WIA driver is missing or outdated. Install HP Scan Extended for compatibility.'), Document(id='26ac7d5a-2aa0-47dc-a9a5-447ceeda5a0d', metadata={'title': 'Document Scanning Guide', 'page_number': 4, 'section': 'Image Quality', 'device_type': 'HP ENVY 6000'}, page_content='Title : Document Scanning Guide Content : If scans are cropped or blurry, verify resolution settings and clean the scanner glass thoroughly.')]}
+
+==Q2
+
+Elapsed time: 32.37 seconds
+
+    {'query': 'Explain machine learning in simple words', 'result': 'No Answer Found for your Query', 'source_documents': [Document(id='66cb5a53-ee07-421d-b821-f528fac78411', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 1, 'section': 'Maintenance', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Faded or patchy prints usually indicate clogged nozzles. Run a printhead cleaning cycle from the printer control panel or HP Utility software.'), Document(id='26ac7d5a-2aa0-47dc-a9a5-447ceeda5a0d', metadata={'title': 'Document Scanning Guide', 'page_number': 4, 'section': 'Image Quality', 'device_type': 'HP ENVY 6000'}, page_content='Title : Document Scanning Guide Content : If scans are cropped or blurry, verify resolution settings and clean the scanner glass thoroughly.'), Document(id='e6e4873c-5aac-452b-8e04-e208a217ae17', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 2, 'section': 'Cartridge Issues', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Streaks or lines in printed documents can be caused by damaged or low-ink cartridges. Replace cartridges and align printhead.'), Document(id='ac9e0324-7000-47c2-a311-f334635705bb', metadata={'title': 'Power and Shutdown Problems', 'page_number': 1, 'section': 'Power Management', 'device_type': 'HP Pavilion x360'}, page_content='Title : Power and Shutdown Problems Content : Unexpected shutdowns in laptops are often related to battery degradation. Run a battery diagnostics tool and check cycle count.')]}
+
+==Q3
+
+Elapsed time: 30.48 seconds
+
+    {'query': 'What does it cause?', 'result': 'Streaks or lines in printed documents.', 'source_documents': [Document(id='e6e4873c-5aac-452b-8e04-e208a217ae17', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 2, 'section': 'Cartridge Issues', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Streaks or lines in printed documents can be caused by damaged or low-ink cartridges. Replace cartridges and align printhead.'), Document(id='ac9e0324-7000-47c2-a311-f334635705bb', metadata={'title': 'Power and Shutdown Problems', 'page_number': 1, 'section': 'Power Management', 'device_type': 'HP Pavilion x360'}, page_content='Title : Power and Shutdown Problems Content : Unexpected shutdowns in laptops are often related to battery degradation. Run a battery diagnostics tool and check cycle count.'), Document(id='66cb5a53-ee07-421d-b821-f528fac78411', metadata={'title': 'Troubleshooting Print Quality', 'page_number': 1, 'section': 'Maintenance', 'device_type': 'HP DeskJet 2700'}, page_content='Title : Troubleshooting Print Quality Content : Faded or patchy prints usually indicate clogged nozzles. Run a printhead cleaning cycle from the printer control panel or HP Utility software.'), Document(id='5d7e515e-a0c7-4fed-8410-43da597db580', metadata={'title': 'Power and Shutdown Problems', 'page_number': 2, 'section': 'Firmware Updates', 'device_type': 'HP Pavilion x360'}, page_content='Title : Power and Shutdown Problems Content : BIOS and firmware updates can resolve erratic power behavior. Ensure latest firmware is applied via HP Support Assistant.')]}
+
+</op>
