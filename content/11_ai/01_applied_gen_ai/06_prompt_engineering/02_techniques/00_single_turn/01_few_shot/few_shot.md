@@ -2,7 +2,7 @@
 title: "Few Shot - Prompting"
 slug: "11_ai/01_applied_gen_ai/06_prompt_engineering/02_techniques/00_single_turn/01_few_shot"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 

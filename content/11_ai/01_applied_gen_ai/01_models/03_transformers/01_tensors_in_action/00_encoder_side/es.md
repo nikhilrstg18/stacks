@@ -2,7 +2,7 @@
 title: "Understanding Encoder"
 slug: "11_ai/01_applied_gen_ai/01_models/03_transformers/01_tensors_in_action/00_encoder_side"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 

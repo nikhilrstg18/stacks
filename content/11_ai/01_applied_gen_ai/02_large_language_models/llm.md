@@ -2,7 +2,7 @@
 title: "Large Language Models"
 slug: "11_ai/01_applied_gen_ai/02_large_language_models"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 
@@ -82,5 +82,3 @@ To illustrate, let's calculate the probability of two different sentences:
 > Large Language Models `LLMs` are state-of-the-art AI models designed to comprehend and generate human language.
 
 ![Large Language Model](../../../../src/images/11_ai/01_agen_ai/agi-20b.png)
-
-

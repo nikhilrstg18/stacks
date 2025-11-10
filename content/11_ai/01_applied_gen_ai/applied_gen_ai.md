@@ -2,7 +2,7 @@
 title: "Applied GenAI"
 slug: "11_ai/01_applied_gen_ai"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 
@@ -33,4 +33,3 @@ GenAI is a subset of AI that focuses on creating models capable of generating ne
 
 **Industry Applications**
 ![Industrial significant examples](../../../src/images/11_ai/01_agen_ai/agi-11.png)
-

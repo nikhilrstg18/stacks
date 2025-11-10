@@ -2,7 +2,7 @@
 title: "Memory - Langchain"
 slug: "11_ai/01_applied_gen_ai/03_langchain/00_concepts/02_memory"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 

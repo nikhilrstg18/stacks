@@ -2,7 +2,7 @@
 title: "Prompt - Output Parsers"
 slug: "11_ai/01_applied_gen_ai/06_prompt_engineering/01_output_control/00_output_parsers"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 

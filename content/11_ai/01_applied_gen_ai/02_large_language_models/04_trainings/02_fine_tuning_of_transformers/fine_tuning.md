@@ -2,7 +2,7 @@
 title: "Fine-Tuning a Transformer"
 slug: "11_ai/01_applied_gen_ai/02_large_language_models/04_trainings/02_fine_tuning_of_transformers"
 stack: "GenAI"
-date: "2025-06-03T07:26:45.889Z"
+date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 
