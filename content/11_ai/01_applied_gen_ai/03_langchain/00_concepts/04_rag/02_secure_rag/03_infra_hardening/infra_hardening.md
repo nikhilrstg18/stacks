@@ -16,6 +16,12 @@ pi { color: pink}
 
 > Infrastructure hardening in Secure RAG means isolating pipelines, monitoring activity, and keeping dependencies patched to reduce attack surfaces. Below are explanations with code-style examples.
 
+- **Isolation**: Run RAG pipelines in containers or VMs with restricted networking.
+- **Logging & Monitoring**: Track queries and detect anomalies for security audits.
+- **Patch Management**: Automate dependency updates and vulnerability scans.
+
+Together, these practices harden the infrastructure layer of Secure RAG, reducing risks from external attacks and internal misuse.
+
 ## Isolate RAG Pipelines in Secure Environments
 
 Isolation ensures that your RAG pipeline runs in a controlled environment, separated from external networks or unauthorized processes.  
@@ -113,13 +119,3 @@ jobs:
 ```
 
 📌 This ensures vulnerabilities are caught before deployment.
-
----
-
-## Summary
-
-- **Isolation**: Run RAG pipelines in containers or VMs with restricted networking.
-- **Logging & Monitoring**: Track queries and detect anomalies for security audits.
-- **Patch Management**: Automate dependency updates and vulnerability scans.
-
-Together, these practices harden the infrastructure layer of Secure RAG, reducing risks from external attacks and internal misuse.

@@ -16,27 +16,44 @@ pi { color: pink}
 
 ## Raw Dataset
 
-```py:title=Example_Raw_Dataset_with_Noisy_Fields_And_Sensitive_Data
+```py:title=With_Noisy_Fields_And_Sensitive_Data
 import pandas as pd
+"""Import the Pandas library for data manipulation and analysis."""
 
-# Load raw dataset
 df = pd.read_csv('rag_lesson_dataset.csv')
+"""Read the CSV file 'rag_lesson_dataset.csv' into a Pandas DataFrame.
+   Each row represents one document entry with fields like title, content, etc."""
 
-# Add sensitive_data
 sensitive_data = {
     "title": "Internal Service Manual",
-    "content": "The administrator password for the HP Embedded Web Server is 'admin1234'. Do not share externally.",
-    "page_number": 99,
-    "section": "Admin Secrets",
-    "device_type": "HP Internal Systems",
-    "author_email": "admin@hp.com",
-    "last_modified": "10/11/2025"
-}
+    """Title field: identifies the document name."""
 
-# Add to the existing DataFrame
+    "content": "The administrator password for the HP Embedded Web Server is 'admin1234'. Do not share externally.",
+    """Content field: contains the actual text of the document (here it includes sensitive information)."""
+
+    "page_number": 99,
+    """Page number: indicates where in the manual this content is located."""
+
+    "section": "Admin Secrets",
+    """Section field: categorizes the document into a specific area (here, admin-only)."""
+
+    "device_type": "HP Internal Systems",
+    """Device type: metadata describing which system or product this document relates to."""
+
+    "author_email": "admin@hp.com",
+    """Author email: metadata about who authored or owns the document."""
+
+    "last_modified": "10/11/2025"
+    """Last modified: timestamp showing when the document was last updated."""
+}
+"""Dictionary representing one sensitive document entry with text and metadata."""
+
 df = pd.concat([df, pd.DataFrame([sensitive_data])], ignore_index=True)
+"""Concatenate the existing DataFrame with a new DataFrame created from sensitive_data.
+   ignore_index=True ensures the index is reset and continuous after adding the new row."""
 
 df
+"""Outputs the DataFrame so you can verify that the sensitive_data row has been added."""
 ```
 
 <op>
@@ -173,7 +190,7 @@ df
       <tr>
       <th><v>10</v></th>
       <td><v>Internal Service Manual</v></td>
-      <td><v>The administrator password for the HP Embedded...</v></td>
+      <td><v>The administrator password for the HP Embedded Web Server is 'admin1234'. Do not share externally.</v></td>
       <td><v>99</v></td>
       <td><v>Admin Secrets</v></td>
       <td><v>HP Internal Systems</v></td>
@@ -255,20 +272,38 @@ Please contact me at [REDACTED] or [REDACTED] for assistance. Another email is [
 
 </op>
 
-```py:title=Redact_sensitive_content
+```py:title=Redact_Sensitive_Content_In_Dataset
 
-# Replaces text containing “password” with safe placeholder “[REDACTED CONTENT]”.
 def redact_sensitive_content(text):
+    """
+    Check if the input text contains the word 'password' (case-insensitive).
+    If found, replace the entire text with the placeholder '[REDACTED CONTENT]'.
+    Otherwise, return the original text unchanged.
+    """
     if "password" in text.lower():
         return "[REDACTED CONTENT]"
     else:
         return text
-# Redact sensitive content like (passwords, PII, credentials)
-df['content_redacted'] = df['content'].apply(lambda x : redact_sensitive_content(x))
+
+
+df['content_redacted'] = df['content'].apply(lambda x: redact_sensitive_content(x))
+"""
+Apply the redact_sensitive_content function to every row in the 'content' column.
+Store the sanitized results in a new column called 'content_redacted'.
+This ensures sensitive information is hidden before downstream use (e.g., embeddings).
+"""
 
 df
+"""
+Outputs the DataFrame with the new 'content_redacted' column included,
+so you can verify that sensitive content has been replaced with '[REDACTED CONTENT]'.
+"""
 
 ```
+
+📌 The function acts as a guardrail to prevent sensitive terms like **“password”** from leaking into your RAG pipeline.
+
+📌 The new column **content_redacted** keeps the sanitized version alongside the original for auditing.
 
 <op>
 
@@ -415,7 +450,7 @@ df
     <tr>
       <th>10</th>
       <td><v>Internal Service Manual</v></td>
-      <td><g>The administrator password for the HP Embedded...</g></td>
+      <td><v>The administrator password for the HP Embedded Web Server is 'admin1234'. Do not share externally.</v></td>
       <td><v>99</v></td>
       <td><v>Admin Secrets</v></td>
       <td><v>HP Internal Systems</v></td>
@@ -449,9 +484,18 @@ df
 
 ```py:title=Removing_irrelevant_fields.
 
-df = df.drop(columns=["author_email","last_modified"])
+df = df.drop(columns=["author_email", "last_modified"])
+"""
+Removes the 'author_email' and 'last_modified' columns from the DataFrame.
+This is useful for sanitizing sensitive metadata before downstream use
+(e.g., embeddings, retrieval, or sharing).
+"""
 
 df
+"""
+Outputs the DataFrame after dropping the specified columns,
+so you can verify that sensitive fields are no longer present.
+"""
 
 ```
 
@@ -617,18 +661,29 @@ Examples:
 
 ```py:title=Metadata_Tagging
 from langchain_classic.docstore.document import Document
+"""Import the Document class, which wraps text content together with metadata
+   for use in LangChain pipelines (e.g., retrieval, embedding)."""
 
-# DataFrame -> Documents with redacted content before persisting in vector store
-docs = [Document(page_content = row['content_redacted'],
-         metadata = {
-             "title" : row['title'],
-             "page_number" : row['page_number'],
-             "section" : row['section'],
-             "device_type" : row['device_type']
-         }) for _, row in df.iterrows()]
+docs = [
+    Document(
+        page_content=row['content_redacted'],   # Use sanitized text (no sensitive info)
+        metadata={                              # Attach structured metadata for retrieval
+            "title": row['title'],              # Document title
+            "page_number": row['page_number'],  # Page number in source
+            "section": row['section'],          # Section/category label
+            "device_type": row['device_type']   # Device type (e.g., printer, laptop)
+        }
+    )
+    for _, row in df.iterrows()                 # Iterate through each row in the DataFrame
+]
+"""Convert each DataFrame row into a Document object with redacted content and metadata.
+   This ensures sensitive information is hidden before embedding or retrieval."""
 
 for doc in docs:
-  print(doc)
+    print(doc)
+"""Loop through the list of Document objects and print them.
+   Each printout shows the page_content (redacted text) and metadata fields,
+   allowing you to verify that redaction and metadata tagging worked correctly."""
 
 ```
 
@@ -665,26 +720,48 @@ page_content=<g>'[REDACTED CONTENT]'</g> metadata={'title': 'Internal Service Ma
 - In a real-world system, you’d want to filter or block such queries to prevent misuse
 
 ```py:title=Secure_RAG_With_Redacted_Content_Before_Persisting_In_VectorStore_or_Passing_to_LLM
+# --- Standard Library Imports ---
 import os
-import pandas as pd
-from langchain_classic.docstore.document import Document
-from langchain_classic.vectorstores import FAISS
-from langchain_ollama import ChatOllama
-from langchain_classic.prompts import PromptTemplate
-from langchain_classic.chains import RetrievalQA
-from langchain_ollama import OllamaEmbeddings
+"""Provides functions to interact with the operating system (e.g., check if a file exists)."""
 
-# function to redact sensitive content
+# --- Third-Party Imports ---
+import pandas as pd
+"""Pandas library for data manipulation and analysis (used to handle CSVs and DataFrames)."""
+
+# --- LangChain Classic Imports ---
+from langchain_classic.docstore.document import Document
+"""Document class: wraps text content together with metadata for retrieval pipelines."""
+
+from langchain_classic.vectorstores import FAISS
+"""FAISS vector store: enables efficient similarity search over embeddings."""
+
+from langchain_classic.prompts import PromptTemplate
+"""PromptTemplate: defines structured prompts for the LLM."""
+
+from langchain_classic.chains import RetrievalQA
+"""RetrievalQA chain: combines retriever + LLM to answer questions using context."""
+
+# --- LangChain Ollama Integrations ---
+from langchain_ollama import ChatOllama
+"""ChatOllama: LLM interface for reasoning and response generation."""
+
+from langchain_ollama import OllamaEmbeddings
+"""OllamaEmbeddings: converts text into semantic vectors for similarity search."""
+
 def redact_sensitive_content(text):
+    """
+    Detects if the input text contains the word 'password' (case-insensitive).
+    If found, replaces the entire text with '[REDACTED CONTENT]'.
+    Otherwise, returns the original text unchanged.
+    """
     if "password" in text.lower():
         return "[REDACTED CONTENT]"
     else:
         return text
 
-# Read CSV dataset into a DataFrame
 df = pd.read_csv('rag_lesson_dataset.csv')
+"""Loads the raw dataset from 'rag_lesson_dataset.csv' into a Pandas DataFrame."""
 
-# Add sensitive data to the existing DataFrame
 sensitive_data = {
     "title": "Internal Service Manual",
     "content": "The administrator password for the HP Embedded Web Server is 'admin1234'. Do not share externally.",
@@ -692,54 +769,78 @@ sensitive_data = {
     "section": "Admin Secrets",
     "device_type": "HP Internal Systems"
 }
+"""Dictionary representing one sensitive document entry with text + metadata."""
+
 df = pd.concat([df, pd.DataFrame([sensitive_data])], ignore_index=True)
+"""Concatenate the sensitive_data row into the existing DataFrame and reset index."""
 
-# Apply redact_sensitive_content to DataFrame
-df['content_redacted'] = df['content'].apply(lambda x : redact_sensitive_content(x))
 
-# DataFrame -> Documents with redacted content before persisting in vector store
-docs = [Document(page_content = row['content_redacted'],
-         metadata = {
-             "title" : row['title'],
-             "page_number" : row['page_number'],
-             "section" : row['section'],
-             "device_type" : row['device_type']
-         }) for _, row in df.iterrows()]
+df['content_redacted'] = df['content'].apply(lambda x: redact_sensitive_content(x))
+"""Create a new column 'content_redacted' with sanitized text, ensuring sensitive info is hidden."""
+
+docs = [
+    Document(
+        page_content=row['content_redacted'],   # Use sanitized text
+        metadata={                              # Attach structured metadata
+            "title": row['title'],
+            "page_number": row['page_number'],
+            "section": row['section'],
+            "device_type": row['device_type']
+        }
+    )
+    for _, row in df.iterrows()
+]
+"""Convert each DataFrame row into a Document object with redacted content + metadata."""
 
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
+"""Embeddings model: converts text into semantic vectors for similarity search."""
 
 if os.path.exists("vs3"):
     vs = FAISS.load_local("vs3", embeddings, allow_dangerous_deserialization=True)
+    """Load pre-saved FAISS index if it exists locally."""
 else:
     vs = FAISS.from_documents(docs, embeddings)
+    """Create FAISS index from redacted documents and embeddings."""
     vs.save_local("vs3")
+    """Persist FAISS index locally for reuse."""
 
 prompt = PromptTemplate.from_template(
-    template='''You are a helpful assistant.
+    template='''
+    You are a helpful assistant.
     Answer the following question ONLY from the context.
     If you do not find the answer, simply respond : 'No Answer Found for your Query'
     Context : {context}
     Question : {question}
     '''
 )
-llm = ChatOllama(
-    model = "llama3.2",
-    temperature = 0.3,
-    top_p = 0.9,
-    max_tokens = 100
-)
-secure_rag_chain = RetrievalQA.from_chain_type(
-    llm = llm,
-    retriever = vs.as_retriever(search_kwargs={"k": 3}),
-    chain_type_kwargs = {"prompt": prompt},
-    return_source_documents = True
-)
+"""Prompt instructs the LLM to only answer using retrieved context, or return 'No Answer Found'."""
 
-# simulate a risky query
+llm = ChatOllama(
+    model="llama3.2",
+    temperature=0.3,
+    top_p=0.9,
+    max_tokens=100
+)
+"""ChatOllama LLM: generates responses with controlled creativity and length."""
+
+secure_rag_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vs.as_retriever(search_kwargs={"k": 3}),
+    chain_type_kwargs={"prompt": prompt},
+    return_source_documents=True
+)
+"""RetrievalQA pipeline: retrieves top-3 docs, injects into prompt, uses LLM to answer.
+   Returns both the answer and source documents for transparency."""
+
 risky_query = "What is the administrator password for HP systems?"
+"""This query contains sensitive terms and should be blocked or sanitized."""
 
 response = secure_rag_chain.invoke({"query": risky_query}, chain_type_kwargs={"input_key": "context"})
+"""Invoke the RetrievalQA chain with the risky query.
+   Guardrails in prompt ensure sensitive answers are blocked or replaced."""
+
 print(response)
+"""Print the final response (answer + source docs)."""
 ```
 
 <op>
@@ -767,3 +868,60 @@ Document(id='661a2942-ef61-48e4-8a90-b40fcb6c1eb6', metadata={'title': 'Printer 
 read more by trying below prompt
 
 > Provide an overview of Secure Retrieval-Augmented Generation (RAG), outlining its importance, practical use cases, and the different approaches to securing it. Additionally, present a roadmap that highlights the key stages and best practices for implementing Secure RAG in enterprise environments.
+
+### Extending with Guardrail
+
+You can further add a guardrail layer so risky queries (like those containing “password,” “secret,” or “admin”) are blocked before they ever reach the retriever or LLM.
+
+❓ **Why it matters**
+
+- Blocks unsafe queries before they hit `FAISS` or the `LLM`.
+- Returns a clear message instead of exposing sensitive data.
+- Keeps your pipeline compliant and auditable.
+
+```py:title=Guardrail_plus_AuditTrail
+import pandas as pd
+from datetime import datetime
+
+# --- Guardrail: Query Sanitization with Audit Logging ---
+def sanitize_and_log_query(query: str, audit_log: str = "blocked_queries.csv") -> str:
+    """
+    Check the query for risky terms (e.g., 'password', 'secret', 'admin').
+    If found, block the query and log it into an audit trail (CSV).
+    Otherwise, return the original query unchanged.
+    """
+    risky_terms = ["password", "secret", "admin"]
+    if any(term in query.lower() for term in risky_terms):
+        # Build log entry
+        log_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "query": query,
+            "status": "BLOCKED"
+        }
+        # Append to CSV audit log
+        try:
+            df_log = pd.read_csv(audit_log)
+            df_log = pd.concat([df_log, pd.DataFrame([log_entry])], ignore_index=True)
+        except FileNotFoundError:
+            df_log = pd.DataFrame([log_entry])
+        df_log.to_csv(audit_log, index=False)
+        return "[BLOCKED QUERY]"
+    return query
+
+# --- Example Usage ---
+risky_query = "What is the administrator password for HP systems?"
+
+safe_query = sanitize_and_log_query(risky_query)
+
+if safe_query == "[BLOCKED QUERY]":
+    print("⚠️ Query blocked by guardrails. Logged to audit trail.")
+else:
+    response = secure_rag_chain.invoke({"query": safe_query}, chain_type_kwargs={"input_key": "context"})
+    print(response)
+```
+
+📌 Sanitization: Blocks unsafe queries before retrieval.
+
+📌 Audit Trail: Logs blocked queries with timestamp + original text.
+
+📌 Compliance: CSV file (blocked_queries.csv) serves as evidence for review
