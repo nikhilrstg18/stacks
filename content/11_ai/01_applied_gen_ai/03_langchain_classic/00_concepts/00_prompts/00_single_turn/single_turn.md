@@ -6,47 +6,44 @@ date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 
-### Comparison
+## Prompting Techniques Cheat Sheet
 
-| Technique            | Description                                                          | Examples Provided | Context Retention | LangChain Support                                        |
-| -------------------- | -------------------------------------------------------------------- | ----------------- | ----------------- | -------------------------------------------------------- |
-| **Single-turn**      | One isolated prompt with no memory or history                        | Optional          | ❌ No             | ✅ `PromptTemplate`, `LLMChain`                          |
-| **Zero-shot**        | Model performs task without any examples—relies on instructions only | ❌ None           | ❌ No             | ✅ `PromptTemplate`, `LLMChain`                          |
-| **Few-shot**         | Multiple examples are provided to guide model behavior               | ✅ Few            | ❌ No             | ✅ `FewShotPromptTemplate`, `LLMChain`                   |
-| **Chain Of Thought** | Boosts performance & model is encouraged to think aloud.             | Optional          | ❌ No             | ✅ `PromptTemplate`, `FewShotPromptTemplate`, `LLMChain` |
+### Core Techniques
 
-📌 You can implement **One-Shot** using `FewShotPromptTemplate` with 1 example
-
-### Application
-
-| Technique       | Real-Time Use Case   | Example Scenario                                             |
-| --------------- | -------------------- | ------------------------------------------------------------ |
-| **Single-turn** | DevOps assistant     | "Generate a bash script to restart Kafka safely"             |
-| **Zero-shot**   | Customer support bot | "Classify this complaint as billing, technical, or general"  |
-| **One-shot**    | Resume parser        | "Extract name and email from this resume" (with one example) |
-| **Few-shot**    | Educational tutor    | "Answer math questions using step-by-step reasoning"         |
-| **Few-shot**    | Sentiment classifier | "Classify reviews as positive, neutral, or negative"         |
-| **Zero-shot**   | Tool-calling agent   | "Book a meeting for tomorrow at 3 PM"                        |
-| **Single-turn** | Content generator    | "Write a 3-line summary of LangChain"                        |
+| Technique            | Key Trait                           | LangChain Abstraction                                 |
+| -------------------- | ----------------------------------- | ----------------------------------------------------- |
+| **Single-turn**      | One input → one output, no memory   | `PromptTemplate`, `LLMChain`                          |
+| **Zero-shot**        | No examples, relies on instructions | `PromptTemplate`, `LLMChain`                          |
+| **One-shot**         | One guiding example                 | `FewShotPromptTemplate` (with 1 example)              |
+| **Few-shot**         | Multiple examples guide behavior    | `FewShotPromptTemplate`, `LLMChain`                   |
+| **Chain-of-Thought** | Encourages reasoning aloud          | `PromptTemplate`, `FewShotPromptTemplate`, `LLMChain` |
+| **Multi-turn**       | Maintains dialogue context          | `ChatPromptTemplate`, `MessagesPlaceholder`           |
 
 ### How to Choose
 
-| Goal                        | Best Technique       |
-| --------------------------- | -------------------- |
-| Fast prototyping            | Zero-shot            |
-| High accuracy with examples | Few-shot             |
-| Lightweight task execution  | Single-turn          |
-| Structured extraction       | One-shot or few-shot |
+- **Fast prototyping** → Zero-shot
+- **High accuracy with examples** → Few-shot
+- **Lightweight task execution** → Single-turn
+- **Structured extraction** → One-shot or Few-shot
+- **Conversational agents** → Multi-turn with memory
 
-### 🎯 Real-Time Applications
+### Real-Time Applications
 
-| Application          | Prompt Technique Used                      |
+| Application          | Technique(s) Used                          |
 | -------------------- | ------------------------------------------ |
 | Educational Tutor    | ChatPrompt + Memory + FewShot              |
 | Customer Support Bot | ChatPrompt + EntityMemory                  |
 | DevOps Assistant     | PromptTemplate + Tool Calling              |
 | LangGraph Workflows  | ChatPrompt + MessagesPlaceholder           |
 | Multi-Agent Systems  | Role-based SystemMessage + Dynamic Routing |
+
+> Single for scripts, Zero for speed, One for structure, Few for accuracy, Chain for reasoning, Chat for memory.
+
+---
+
+This way you can **map technique → trait → LangChain abstraction → real-world use case** in seconds.
+
+I can also scaffold a **visual decision tree** (text diagram) that shows _which technique to pick based on your goal_ — would you like me to lay that out?
 
 ❓ **Why use `ChatPromptTemplate` over `PromptTemplate`?**
 

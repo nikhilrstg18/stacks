@@ -8,49 +8,181 @@ draft: false
 
 > Best learning is by doing
 
-- Since invoking LLMs comes with cost to run, for demo we will use local setup
+**You can demo LangChain locally by running Ollama models on your machine, avoiding cloud LLM costs.** The setup involves installing Ollama, pulling a model (like `llama3.2`), listing available models, and running them directly from the command line or inside a Python notebook.
 
-1. [ollama](https://ollama.com/) allows you to `Chat & build with open models` on you local machine.
-   - [Integration Details](https://python.langchain.com/docs/integrations/chat/ollama/#integration-details)
-   - [Model Features](https://python.langchain.com/docs/integrations/chat/ollama/#model-features)
-2. [Model Library](https://github.com/ollama/ollama?tab=readme-ov-file#model-library)], can help you decide which models to use based on your machine and memory.
+---
 
-## Environment Setup
+## Local Environment Setup with Ollama
 
-1. Set up and run a local Ollama instance: [Instructions](https://github.com/ollama/ollama?tab=readme-ov-file#ollama)
-   - Download and install
-   - Once installed, verify by executing `> ollama` in cmd
-2. Pull a model you your choice: [Instructions](https://github.com/ollama/ollama?tab=readme-ov-file#pull-a-model)
-   - cmd `> ollama pull llama3.2`
-3. List models on you computer: [Instructions](https://github.com/ollama/ollama?tab=readme-ov-file#list-models-on-your-computer)
-   - cmd `> ollama list`
-4. Run a model : [Instructions](https://github.com/ollama/ollama?tab=readme-ov-file#pass-the-prompt-as-an-argument)
-   - cmd `> ollama run llama3.2`
-5. Setup you computer to run notebook with python and ipykernel installed
+### 1. Install Ollama
+
+- Download Ollama for **macOS, Windows, or Linux** from [ollama.com](https://ollama.com).
+- After installation, verify by running:
+  ```bash
+  ollama
+  ```
+
+### 2. Pull a Model
+
+- Choose a model from the [Ollama model library](https://github.com/ollama/ollama?tab=readme-ov-file#model-library).
+- Example:
+  ```bash
+  ollama pull llama3.2
+  ```
+
+### 3. List Installed Models
+
+- Check which models are available locally:
+
+  ```bash
+  ollama list
+  ```
+
+  <pre>
+  
+   NAME                        ID              SIZE      MODIFIED     
+   qwen2.5:0.5b                a8b0c5157701    397 MB    18 hours ago    
+   mxbai-embed-large:latest    468836162de7    669 MB    2 months ago    
+   llama3.2:latest             a80c4f17acd5    2.0 GB    2 months ago
+  
+   </pre>
+
+### 4. Run a Model
+
+- Pass a prompt directly to the model:
+  ```bash
+  ollama run llama3.2
+  ```
+
+### 5. Python Notebook Setup
+
+- Install Python + Jupyter Notebook with `ipykernel`:
+  ```bash
+  pip install notebook ipykernel
+  ```
+- You can then integrate Ollama with LangChain using the [integration guide](https://python.langchain.com/docs/integrations/chat/ollama/#integration-details).
+- Example snippet:
+
+  ```py
+  from langchain.chat_models import ChatOllama
+
+  llm = ChatOllama(model="llama3.2")
+  response = llm.invoke("Hello, Ollama!")
+  print(response)
+  ```
+
+  <op>
+
+  content="_virtual bow_ It's nice to meet you! I'm here to help answer any questions or chat about topics that interest you. What's on your mind today?" additional_kwargs={} response_metadata={'model': 'llama3.2', 'created_at': '2025-11-13T06:53:10.5952017Z', 'done': True, 'done_reason': 'stop', 'total_duration': 14505158200, 'load_duration': 5881643900, 'prompt_eval_count': 31, 'prompt_eval_duration': 3458484100, 'eval_count': 35, 'eval_duration': 5061153600, 'model_name': 'llama3.2'} id='lc_run--edd09050-dfe8-405d-8ad3-8f8ab256f155-0' usage_metadata={'input_tokens': 31, 'output_tokens': 35, 'total_tokens': 66}
+
+  </op>
+
+**❓ Why This Matters**
+
+- **Cost-efficient**: No API usage fees.
+- **Private & Secure**: Runs entirely on your machine.
+- **Flexible**: Choose models suited to your hardware.
+- **LangChain-ready**: Works seamlessly with chains, agents, and RAG pipelines.
 
 ## Notebook
 
-1. We start be checking if the model to use is available.
+1. Installing langchain partner package(s)
 
-```py:title=Simple_LLM_App
-!ollama list # highlight-line
-```
+   ```py:title=package_installations
+   %pip install langchain, langchain-ollama
+   ```
 
-<op>
+2. **Instantiate chatmodel** and specify INIT KEY: completion params
 
-NAME ID SIZE MODIFIED  
-mxbai-embed-large:latest 468836162de7 669 MB 12 days ago  
-llama3.2:latest a80c4f17acd5 2.0 GB 12 days ago
+   ```py:title=Simple_LLM_App
+   from langchain_ollama.chat_models import ChatOllama
+   from langchain_classic.schema.messages import AIMessage
 
-</op>
+   # instantiate chat model
+   llm = ChatOllama(
+      model="llama3.2",
+      temperature=0.3,
+      top_p=0.9,
+      max_tokens=100
+   )
 
-2. Installing langchain partner package(s)
+   # input to llm
+   input_to_llm:str = "Explain auto regressive language model in simple words"
 
-```py:title=Simple_LLM_App
-%pip install langchain, langchain-ollama
-```
+   # invoke llm
+   response:AIMessage = llm.invoke(input_to_llm)
 
-3. **Instantiate chatmodel** and specify INIT KEY: completion params
+   # view response
+   response
+
+   ## Tip: check type of any variable like below
+   ## print(type(response))  # <class 'langchain_classic.schema.messages.AIMessage'>
+
+   ```
+
+   <op>
+
+   AIMessage(
+   content='An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here\'s how it works:\n\n**How it works:**\n\n1. The AI model is trained on a massive dataset of text, such as books or articles.\n2. When you give the AI a prompt or input, like "Write a story about a cat."\n3. The AI starts generating text based on what it learned from its training data.\n4. For each word in the generated text, the AI asks itself: "What word comes next to make sense?"\n5. Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.\n6. The AI keeps generating words until it reaches the end of the desired length or until it stops.\n\n**Example:**\n\nLet\'s say you give an ARLM the prompt "Write a story about a cat." Here\'s how it might generate text:\n\n1. Word 1: "The"\n2. Word 2: "cat" (because cats are the main subject)\n3. Word 3: "was" (because we need a verb to describe what the cat is doing)\n4. Word 4: "sleeping" (because cats sleep a lot)\n\nAnd so on.\n\n**Key benefits:**\n\n* ARLMs can generate coherent and contextually relevant text.\n* They can be used for tasks like writing articles, chatbot, or even entire books.\n* They\'re particularly useful when you need to generate text quickly, like in chatbot or customer service systems.\n\nHowever, keep in mind that ARLMs have limitations. For example:\n\n* They may not always understand the nuances of language or context.\n\* They can be biased towards the training data they were trained on.\n\nI hope this explanation helped!',
+   additional_kwargs={},
+   response_metadata={'model': 'llama3.2', 'created_at': '2025-09-22T08:54:14.3042242Z', 'done': True, 'done_reason': 'stop', 'total_duration': 13637129800, 'load_duration': 181024400, 'prompt_eval_count': 35, 'prompt_eval_duration': 308904000, 'eval_count': 384, 'eval_duration': 13145725500, 'model_name': 'llama3.2'},
+   id='run--e808153e-4c6e-4332-bf45-a48e4d7ab607-0',
+   usage_metadata={'input_tokens': 35, 'output_tokens': 384, 'total_tokens': 419}
+   )
+
+   </op>
+
+- To see the generated content without schema
+
+  ```py:title=Simple_LLM_App
+  # view string formatted content
+  print(f"\nresponse.content:\n{response.content}")
+  ```
+
+   <op>
+
+  response.content:
+
+  An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here's how it works:
+
+  **How it works:**
+
+  1.  The AI model is trained on a massive dataset of text, such as books or articles.
+  2.  When you give the AI a prompt or input, like "Write a story about a cat."
+  3.  The AI starts generating text based on what it learned from its training data.
+  4.  For each word in the generated text, the AI asks itself: "What word comes next to make sense?"
+  5.  Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.
+  6.  The AI keeps generating words until it reaches the end of the desired length or until it stops.
+
+  **Example:**
+
+  Let's say you give an ARLM the prompt "Write a story about a cat." Here's how it might generate text:
+
+  1.  Word 1: "The"
+  2.  Word 2: "cat" (because cats are the main subject)
+  3.  Word 3: "was" (because we need a verb to describe what the cat is doing)
+  4.  Word 4: "sleeping" (because cats sleep a lot)
+
+  And so on.
+
+  **Key benefits:**
+
+  - ARLMs can generate coherent and contextually relevant text.
+  - They can be used for tasks like writing articles, chatbot, or even entire books.
+  - They're particularly useful when you need to generate text quickly, like in chatbot or customer service systems.
+
+  However, keep in mind that ARLMs have limitations. For example:
+
+  - They may not always understand the nuances of language or context.
+  - They can be biased towards the training data they were trained on.
+
+  I hope this explanation helped!
+
+   </op>
+
+## Example: Simple LLM app
+
+> I am creating an application for younger sibling who can learn about any topic using llm
 
 ```py:title=Simple_LLM_App
 from langchain_ollama.chat_models import ChatOllama
@@ -58,91 +190,12 @@ from langchain_classic.schema.messages import AIMessage
 
 # instantiate chat model
 llm = ChatOllama(
-    model="llama3.2",
-    temperature=0.3,
-    top_p=0.9,
-    max_tokens=100
+   model="llama3.2",
+   temperature=0.3,
+   top_p=0.9,
+   max_tokens=100
 )
 
-# input to llm
-input_to_llm:str = "Explain auto regressive language model in simple words"
-
-# invoke llm
-response:AIMessage = llm.invoke(input_to_llm)
-
-# view response
-response
-
-## Tip: check type of any variable like below
-## print(type(response))  # <class 'langchain_classic.schema.messages.AIMessage'>
-
-```
-
-<op>
-
-AIMessage(
-content='An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here\'s how it works:\n\n**How it works:**\n\n1. The AI model is trained on a massive dataset of text, such as books or articles.\n2. When you give the AI a prompt or input, like "Write a story about a cat."\n3. The AI starts generating text based on what it learned from its training data.\n4. For each word in the generated text, the AI asks itself: "What word comes next to make sense?"\n5. Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.\n6. The AI keeps generating words until it reaches the end of the desired length or until it stops.\n\n**Example:**\n\nLet\'s say you give an ARLM the prompt "Write a story about a cat." Here\'s how it might generate text:\n\n1. Word 1: "The"\n2. Word 2: "cat" (because cats are the main subject)\n3. Word 3: "was" (because we need a verb to describe what the cat is doing)\n4. Word 4: "sleeping" (because cats sleep a lot)\n\nAnd so on.\n\n**Key benefits:**\n\n* ARLMs can generate coherent and contextually relevant text.\n* They can be used for tasks like writing articles, chatbot, or even entire books.\n* They\'re particularly useful when you need to generate text quickly, like in chatbot or customer service systems.\n\nHowever, keep in mind that ARLMs have limitations. For example:\n\n* They may not always understand the nuances of language or context.\n\* They can be biased towards the training data they were trained on.\n\nI hope this explanation helped!',
-additional_kwargs={},
-response_metadata={'model': 'llama3.2', 'created_at': '2025-09-22T08:54:14.3042242Z', 'done': True, 'done_reason': 'stop', 'total_duration': 13637129800, 'load_duration': 181024400, 'prompt_eval_count': 35, 'prompt_eval_duration': 308904000, 'eval_count': 384, 'eval_duration': 13145725500, 'model_name': 'llama3.2'},
-id='run--e808153e-4c6e-4332-bf45-a48e4d7ab607-0',
-usage_metadata={'input_tokens': 35, 'output_tokens': 384, 'total_tokens': 419}
-)
-
-</op>
-
-📌: for better understanding of params in AiMessage, read more @ [AIMessage](https://python.langchain.com/api_reference/core/messages/langchain_classic.schema.AIMessage.html)
-
-```py:title=Simple_LLM_App
-# view string formatted content
-print(f"\nresponse.content:\n{response.content}")
-```
-
-<op>
-
-response.content:
-
-An Auto Regressive Language Model (ARLM) is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives. Here's how it works:
-
-**How it works:**
-
-1. The AI model is trained on a massive dataset of text, such as books or articles.
-2. When you give the AI a prompt or input, like "Write a story about a cat."
-3. The AI starts generating text based on what it learned from its training data.
-4. For each word in the generated text, the AI asks itself: "What word comes next to make sense?"
-5. Based on this question, the AI chooses a word that is likely to come next, and generates another word, and so on.
-6. The AI keeps generating words until it reaches the end of the desired length or until it stops.
-
-**Example:**
-
-Let's say you give an ARLM the prompt "Write a story about a cat." Here's how it might generate text:
-
-1. Word 1: "The"
-2. Word 2: "cat" (because cats are the main subject)
-3. Word 3: "was" (because we need a verb to describe what the cat is doing)
-4. Word 4: "sleeping" (because cats sleep a lot)
-
-And so on.
-
-**Key benefits:**
-
-- ARLMs can generate coherent and contextually relevant text.
-- They can be used for tasks like writing articles, chatbot, or even entire books.
-- They're particularly useful when you need to generate text quickly, like in chatbot or customer service systems.
-
-However, keep in mind that ARLMs have limitations. For example:
-
-- They may not always understand the nuances of language or context.
-- They can be biased towards the training data they were trained on.
-
-I hope this explanation helped!
-
-</op>
-
-## Example: Simple LLM app
-
-> I am creating an application for younger sibling who can learn about any topic using llm
-
-```py:title=Simple_LLM_App
 # user input
 topic = input("Enter the topic:")
 print(f"\ntopic:\n{topic}")
@@ -198,74 +251,74 @@ Newton's First Law of Motion says that objects tend to keep their state - either
 
 1. Creating a template
 
-```py:title=Simple_LLM_App
-# import
-from langchain_classic.prompts import PromptTemplate
+   ```py:title=Simple_LLM_App
+   # import
+   from langchain_classic.prompts import PromptTemplate
 
-# initiate PromptTemplate
-explanation_template = PromptTemplate(
-    input_variables=["topic"],
-    template="Explain '{topic}' in simple words",
-)
-explanation_template
+   # initiate PromptTemplate
+   explanation_template = PromptTemplate(
+      input_variables=["topic"],
+      template="Explain '{topic}' in simple words",
+   )
+   explanation_template
 
-```
+   ```
 
-<op>
+   <op>
 
-PromptTemplate(input_variables=['topic'], input_types={}, partial_variables={}, template="Explain '{topic}' in simple words")
+   PromptTemplate(input_variables=['topic'], input_types={}, partial_variables={}, template="Explain '{topic}' in simple words")
 
-</op>
+   </op>
 
 2. How generating input to llm using template
 
-```py:title=Simple_LLM_App
-input_to_llm:str = explanation_template.format(topic="solar system")
-print(f"\ninput_to_llm:\n{input_to_llm}")
+   ```py:title=Simple_LLM_App
+   input_to_llm:str = explanation_template.format(topic="solar system")
+   print(f"\ninput_to_llm:\n{input_to_llm}")
 
-```
+   ```
 
-<op>
+   <op>
 
-input_to_llm:
+   input_to_llm:
 
-Explain 'solar system' in simple words
+   Explain 'solar system' in simple words
 
-</op>
+   </op>
 
 3. Recalling the input of prev example and invoking llm
 
-```py:title=Simple_LLM_App
-input_to_llm:str = explanation_template.format(topic="newton's first law of motion")
-print(f"\ninput_to_llm:\n{input_to_llm}")
-response:AIMessage = llm.invoke(input_to_llm)
-print(f"\nresponse.content:\n{response.content}")
+   ```py:title=Simple_LLM_App
+   input_to_llm:str = explanation_template.format(topic="newton's first law of motion")
+   print(f"\ninput_to_llm:\n{input_to_llm}")
+   response:AIMessage = llm.invoke(input_to_llm)
+   print(f"\nresponse.content:\n{response.content}")
 
-```
+   ```
 
-<op>
+   <op>
 
-input_to_llm:
+   input_to_llm:
 
-Explain 'newton's first law of motion' in simple words
+   Explain 'newton's first law of motion' in simple words
 
-response.content:
+   response.content:
 
-Newton's First Law of Motion is also known as the "Law of Inertia". Here's a simple explanation:
+   Newton's First Law of Motion is also known as the "Law of Inertia". Here's a simple explanation:
 
-**Inertia**: An object at rest will stay at rest, and an object in motion will keep moving, unless something else stops it or changes its direction.
+   **Inertia**: An object at rest will stay at rest, and an object in motion will keep moving, unless something else stops it or changes its direction.
 
-Think of it like this: Imagine you're sitting on a couch. If nobody pushes or pulls you, you'll just stay there, right? That's because your body wants to maintain its state of being still (inertia).
+   Think of it like this: Imagine you're sitting on a couch. If nobody pushes or pulls you, you'll just stay there, right? That's because your body wants to maintain its state of being still (inertia).
 
-Now, imagine you're riding a bike. You'll keep moving forward unless someone stops you or you turn the handlebars to change direction.
+   Now, imagine you're riding a bike. You'll keep moving forward unless someone stops you or you turn the handlebars to change direction.
 
-So, in short, objects tend to keep doing what they're already doing, and only change their behavior when an external force is applied to them.
+   So, in short, objects tend to keep doing what they're already doing, and only change their behavior when an external force is applied to them.
 
-That's Newton's First Law of Motion!
+   That's Newton's First Law of Motion!
 
-</op>
+   </op>
 
-So, we have created our first simple prompt template, which take in user input and rephrase it as input_to_llm as per the template. Similarly we can create template for repeated tasks
+   So, we have created our first simple prompt template, which take in user input and rephrase it as input_to_llm as per the template. Similarly we can create template for repeated tasks
 
 ## Exercise
 
@@ -401,3 +454,12 @@ Both translations convey the same meaning as the original sentence.
 📌 Observe we are writing two lines of code, one to populate the template and other to call the model with formatted template.
 
 ❓ How can we optimize it, using [chains](../01_chains)
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+---
+
+- [AIMessage](https://reference.langchain.com/python/langchain/messages)

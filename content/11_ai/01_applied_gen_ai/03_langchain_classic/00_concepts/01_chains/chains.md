@@ -90,8 +90,6 @@ It’s a flexible way to define multi-turn conversations using system, human, an
 | Tool                | format prompts for tool-aware agents                          |
 | LangGraph workflows | Use placeholders like Message PlaceHolder for dynamic routing |
 
-read more @ [ChatPromptTemplate](https://python.langchain.com/api_reference/core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html)
-
 ## App: Simple Chat
 
 ```py:title=Simple_Chat_App
@@ -403,10 +401,6 @@ Think of it as a **workflow engine** for chaining LLM-powered tasks.
 | Multi-agent Systems   | Chain reasoning agents with specialized roles (e.g., planner → executor)     |
 | LangGraph Workflows   | Use as linear nodes in LangGraph for deterministic routing and state passing |
 
----
-
-🔗 Read more @ [SequentialChain](https://api.python.langchain.com/en/latest/langchain/chains/langchain_classic.chains.sequential.SequentialChain.html)
-
 ## App: Content Generator
 
 - Generate a random **topic** related to `domain`
@@ -568,3 +562,13 @@ D) To ignore data quality issues
 **Correct answer:** C) To integrate with clinical guidelines and involve clinicians and patients in design (Developing XAI methods that align with clinical guidelines and standards, and involving clinicians and patients in the design process.)
 
 </op>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+---
+
+- [SequentialChain](https://api.python.langchain.com/en/latest/langchain/chains/langchain_classic.chains.sequential.SequentialChain.html)
+- [ChatPromptTemplate](https://python.langchain.com/api_reference/core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html)

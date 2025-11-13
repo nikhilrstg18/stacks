@@ -74,7 +74,7 @@ Returns:
 
 VectorStore: VectorStore initialized from documents and embeddings.
 
-<o>File:</o> c:\users\nikhil_rustagi1\appdata\roaming\python\python310\site-packages\langchain_core\vectorstores\base.py
+<o>File:</o> c:\users\lucifer\appdata\roaming\python\python310\site-packages\langchain_core\vectorstores\base.py
 
 <o>Type:</o> method
 
@@ -127,7 +127,7 @@ Example:
         text_embedding_pairs = zip(texts, text_embeddings)
         faiss = FAISS.from_embeddings(text_embedding_pairs, embeddings)
 
-<o>File:</o> c:\users\nikhil_rustagi1\appdata\roaming\python\python310\site-packages\langchain_core\vectorstores\base.py
+<o>File:</o> c:\users\lucifer\appdata\roaming\python\python310\site-packages\langchain_core\vectorstores\base.py
 
 <o>Type:</o> method
 
@@ -150,9 +150,9 @@ Downloading faiss_cpu-1.12.0-cp310-cp310-win_amd64.whl (18.2 MB)
 
 ---------------------------------------- 18.2/18.2 MB 3.7 MB/s eta 0:00:00
 
-Requirement already satisfied: numpy<3.0,>=1.25.0 in c:\users\nikhil_rustagi1\appdata\roaming\python\python310\site-packages (from faiss-cpu) (2.2.6)
+Requirement already satisfied: numpy<3.0,>=1.25.0 in c:\users\lucifer\appdata\roaming\python\python310\site-packages (from faiss-cpu) (2.2.6)
 
-Requirement already satisfied: packaging in c:\users\nikhil_rustagi1\appdata\roaming\python\python310\site-packages (from faiss-cpu) (25.0)
+Requirement already satisfied: packaging in c:\users\lucifer\appdata\roaming\python\python310\site-packages (from faiss-cpu) (25.0)
 
 Installing collected packages: faiss-cpu
 

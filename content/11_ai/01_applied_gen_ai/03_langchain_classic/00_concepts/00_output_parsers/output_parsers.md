@@ -154,8 +154,6 @@ match issue_type:
 | Datetime        |                    | ✅                      |           | `str` &#124; `Message` | datetime.datetime  | Parses response into a datetime string.                                                                                                                                                                                                                  |
 | Structured      |                    | ✅                      |           | `str` &#124; `Message` | Dict[str, str]     | An output parser that returns structured information. It is less powerful than other output parsers since it only allows for fields to be strings. This can be useful when you are working with smaller LLMs.                                            |
 
-read more about langchain's different [output parsers](https://python.langchain.com/docs/concepts/output_parsers/)
-
 ```py:title=Industry_Example_using_Pydantic
 from pydantic import BaseModel, Field
 from langchain_classic.output_parsers import PydanticOutputParser
@@ -244,3 +242,12 @@ Parsed SupportTicket object:
 product='Dell XPS laptop' category='hardware issue' action=['Install software update'] priority='high' under_warranty=True
 
 </op>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+---
+
+- [output parsers](https://python.langchain.com/docs/concepts/output_parsers/)

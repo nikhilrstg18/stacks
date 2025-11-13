@@ -6,51 +6,87 @@ date: "2025-10-18T07:26:45.889Z"
 draft: false
 ---
 
-## What?
+## Prompt Techniques
 
-Prompt techniques are strategies used to guide language models toward desired outputs. They help you:
+**Definition:**
 
-- Control tone, style, and behavior
-- Inject dynamic variables (e.g., user input, memory)
-- Maintain multi-turn context
-- Reuse prompt logic across chains, agents, or LangGraph nodes
+Prompt techniques are strategies that shape how LLMs produce outputs. They let you:
 
-LangChain makes this powerful through abstractions like `PromptTemplate`, `ChatPromptTemplate`, `FewShotPromptTemplate`, and `MessagesPlaceholder`.
+- Control **tone, style, behavior**
+- Inject **dynamic variables** (user input, memory, metadata)
+- Maintain **multi-turn context**
+- Reuse **prompt logic** across chains, agents, or LangGraph nodes
+
+LangChain provides abstractions like:
+
+- `PromptTemplate` → single-turn prompts
+- `ChatPromptTemplate` → multi-turn conversations
+- `FewShotPromptTemplate` → example-driven prompting
+- `MessagesPlaceholder` → memory injection
 
 ## Single-Turn Prompting with `PromptTemplate`
 
-Provides no examples. The model generates a response purely based on its pre-trained knowledge.
-
 ```python
-from langchain_classic.prompts import PromptTemplate
+from langchain.prompts import PromptTemplate
 
 prompt = PromptTemplate.from_template("Explain {concept} in simple terms.")
 formatted = prompt.format(concept="quantum computing")
 print(formatted)
 ```
 
-🔹 **Use Case**: One-shot tasks like translation, summaries, completions.
-
-**Key Traits:**
+🔹 **Use Case:** One-shot tasks → translation, summaries, completions.  
+🔹 **Traits:**
 
 - One input → one output
-- Can be zero-shot, one-shot, or few-shot
 - No memory or multi-turn context
+- Can be **zero-shot**, **one-shot**, or **few-shot**
 
 ### Types
 
-1. Zero Shot
-2. Few Shot
-3. Chain of Thought
+1. **Zero-Shot Prompting** → Model answers with no examples.  
+   _E.g._ “Translate this sentence into French.”
+2. **Few-Shot Prompting** → Provide examples to guide style/format.  
+   _E.g._ Show 2 Q&A pairs before asking a new question.
+3. **Chain-of-Thought Prompting** → Encourage step-by-step reasoning.  
+   _E.g._ “Explain your reasoning before giving the final answer.”
 
-## Multi-turn Prompting with `ChatPromptTemplate`
+---
 
-Multi-turn chat prompting enables LLMs to maintain context across multiple user inputs and model responses.
-It’s the foundation for assistants, agents, and chatbot that feel coherent and responsive over time.
+## Multi-Turn Prompting with `ChatPromptTemplate`
+
+Multi-turn prompting allows the LLM to **remember context** across exchanges.  
+It’s the backbone of assistants, agents, and chatbots.
+
+```py
+from langchain.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant."),
+    ("human", "What is {topic}?")
+])
+
+messages = prompt.format_messages(topic="LangChain")
+```
+
+🔹 **Use Case:** Conversational agents, tutoring systems, customer support.  
+🔹 **Traits:**
+
+- Maintains dialogue history
+- Supports role-based messages (system, human, AI)
+- Can inject memory with `MessagesPlaceholder`
 
 ### Types
 
-1. Chat Prompting
-2. Memory-aware Chat Prompting
+1. **Chat Prompting** → Multi-turn dialogue with role-based formatting.
+2. **Memory-Aware Chat Prompting** → Uses memory (e.g., `ConversationBufferMemory`) to recall past interactions.
 
-Learn More @ [LangChain Prompt](https://python.langchain.com/docs/modules/model_io/prompts/)
+> Templates for one-shots, ChatPrompts for conversations, FewShots for examples, Placeholders for memory.
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+---
+
+- [LangChain Prompt](https://python.langchain.com/docs/modules/model_io/prompts/)
