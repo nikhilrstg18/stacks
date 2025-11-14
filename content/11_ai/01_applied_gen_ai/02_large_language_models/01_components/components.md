@@ -291,11 +291,127 @@ Sample values: [-0.012549687, 0.005115742, -0.032611296, 0.001609288, -0.0515615
 
 ## `Attention`
 
-- This attention mechanism lets the model concentrate on specific parts of the input text when generating output.
+- Imagine reading a sentence: _“The cat sat on the mat because it was tired.”_
+- To understand “it,” you need to pay attention to “cat,” not “mat.”
+- Attention assigns **weights** to different words so the model can focus on the most relevant context.
+
+### Simple Code Demo (PyTorch)
+
+```python
+import torch
+import torch.nn.functional as F
+
+# Example: 3 words, embedding size = 4
+Q = torch.randn(3, 4)  # queries
+K = torch.randn(3, 4)  # keys
+V = torch.randn(3, 4)  # values
+
+# Step 1: Compute similarity (dot product)
+scores = torch.matmul(Q, K.T) / torch.sqrt(torch.tensor(4.0))
+
+# Step 2: Softmax to get attention weights
+weights = F.softmax(scores, dim=-1)
+
+# Step 3: Weighted sum of values
+output = torch.matmul(weights, V)
+
+print("Attention weights:\n", weights)
+print("Output:\n", output)
+```
+
+<op>
+
+Attention weights:
+
+tensor([[0.1778, 0.4281, 0.3941],
+
+        [0.6376, 0.3471, 0.0153],
+
+        [0.4257, 0.3605, 0.2138]])
+
+Output:
+
+tensor([[ 0.9533, 0.6124, -1.3647, -0.6491],
+
+        [ 0.3355, -0.0540, -0.6574, -0.4832],
+
+        [ 0.6279,  0.2472, -0.9167, -0.5691]])
+
+</op>
+
+### Key Takeaway
+
+- **Attention = weighted focus.**
+- Instead of treating all words equally, the model learns which words matter most for each prediction.
+- This mechanism scales up to **multi-head attention** in transformers, enabling models like GPT to capture complex relationships.
 
 ## `PreTraining`
 
-- This involves pre-training LLMs on extensive text data to understand the underlying patterns and structures of human language.
+Pretraining is the foundational phase where a language model learns to predict text by analyzing billions of tokens from diverse sources like books, websites, and code. The goal is to build a general-purpose model that understands syntax, semantics, and context.
+
+### Core Pretraining Task: Language Modeling
+
+Most LLMs use **causal language modeling** (predicting the next word) or **masked language modeling** (predicting missing words). Examples:
+
+- **Causal (GPT-style):**  
+  Input: `"The cat sat on the"`  
+  Target: `"mat"`
+
+- **Masked (BERT-style):**  
+  Input: `"The cat sat on the [MASK]."`  
+  Target: `"mat"`
+
+### Sample Pretraining Data and Tasks
+
+**1. **General Text Corpus\*\*
+
+- Wikipedia, Common Crawl, BooksCorpus, GitHub code
+- Example:
+
+  Input: `"Isaac Newton was born in"`
+
+  Model learns to predict: `"1643"`
+
+**2. **Specialized Data\*\*
+
+- Biomedical papers, legal documents, financial reports
+- Example (biomedical):
+
+  Input: `"The BRCA1 gene is associated with [MASK] cancer"`
+
+  Target: `"breast"`
+
+**3. **Mixture-of-Denoisers (T5-style)\*\*
+
+- Combines multiple corruption strategies like span masking
+- Example:
+
+  Input: `"The [MASK] sat on the [MASK]"`
+
+  Target: `"cat", "mat"`
+
+### Architectural Variants for Pretraining
+
+| Architecture    | Description                     | Example Models |
+| --------------- | ------------------------------- | -------------- |
+| Encoder-only    | Bidirectional context (BERT)    | BERT, RoBERTa  |
+| Decoder-only    | Left-to-right generation (GPT)  | GPT-3, LLaMA   |
+| Encoder-Decoder | Input-output mapping (T5)       | T5, FLAN-T5    |
+| Prefix Decoder  | Hybrid with prefix conditioning | PaLM, Gemini   |
+
+### Why Pretraining Works
+
+- **Predicting the next word** forces the model to learn grammar, facts, reasoning, and even coding patterns.
+- **Massive scale** (hundreds of billions of tokens) enables emergent capabilities like translation, summarization, and reasoning.
+
+### Real-World Examples of Pretrained Models
+
+| Model | Pretraining Objective       | Corpus Size        | Use Case                   |
+| ----- | --------------------------- | ------------------ | -------------------------- |
+| BERT  | Masked LM                   | 3.3B tokens        | Classification, QA         |
+| GPT-3 | Causal LM                   | 300B tokens        | Generation, Chatbots       |
+| T5    | Text-to-text (span masking) | 750GB cleaned text | Translation, Summarization |
+| LLaMA | Causal LM                   | 1T tokens          | Open-source LLM foundation |
 
 ## `Transfer learning`
 

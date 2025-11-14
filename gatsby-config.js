@@ -66,7 +66,8 @@ module.exports = {
             options: {
               className: "gatsby-remark-code-title",
             },
-          },`gatsby-remark-prismjs-copy-button`,
+          },
+          `gatsby-remark-prismjs-copy-button`,
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
