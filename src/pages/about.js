@@ -82,31 +82,31 @@ const AboutPage = () => {
       </section> */}
       <div className={styles.slide}>
         <div className={styles.section}>
-          <h3>About</h3>
+          <h4>ABOUT</h4>
         </div>
         <p>Scroll Down for next slide</p>
       </div>
       <div className={[styles.slide, styles.slideOpp, styles.sliden].join(" ")}>
         <div className={styles.section}>
-          <h3>Skills</h3>
+          <h4>SKILLS</h4>
         </div>
         <p>Scroll Down for next slide</p>
       </div>
       <div className={[styles.slide, styles.sliden].join(" ")}>
         <div className={styles.section}>
-          <h3>Work</h3>
+          <h4>WORK</h4>
         </div>
         <p>Scroll Down for next slide</p>
       </div>
       <div className={[styles.slide, styles.slideOpp, styles.sliden].join(" ")}>
         <div className={styles.section}>
-          <h3>Resume</h3>
+          <h4>RESUME</h4>
         </div>
         <p>Scroll Down for next slide</p>
       </div>
       <div className={[styles.slide, styles.sliden].join(" ")}>
         <div className={styles.section}>
-          <h3>Contact</h3>
+          <h4>CONNECT</h4>
         </div>
         <p>Thank you</p>
       </div>
