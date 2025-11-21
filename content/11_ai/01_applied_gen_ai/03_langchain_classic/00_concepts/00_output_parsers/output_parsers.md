@@ -137,7 +137,7 @@ match issue_type:
 
 ```
 
-> In the industry, you can you a lot of different output parsers like
+> In the industry, you can use a lot of different output parsers like
 
 | Name            | Supports Streaming | Has Format Instructions | Calls LLM | Input Type             | Output Type        | Description                                                                                                                                                                                                                                              |
 | --------------- | ------------------ | ----------------------- | --------- | ---------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

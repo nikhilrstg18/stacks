@@ -120,7 +120,7 @@ for token in tokens:
 
 - This embedding component maps tokens to a high-dimensional vector space, representing each token with a unique vector.
 
-![Connection between tokenization and embeddings](../../../../../../../src/images/11_ai/01_agen_ai/agi-22.png)
+![Connection between tokenization and embeddings](../../../../../src/images/11_ai/01_agen_ai/agi-22.png)
 
 ### Example
 
@@ -323,19 +323,27 @@ print("Output:\n", output)
 
 Attention weights:
 
-tensor([[0.1778, 0.4281, 0.3941],
+tensor (
 
-        [0.6376, 0.3471, 0.0153],
+[[0.1778, 0.4281, 0.3941],
 
-        [0.4257, 0.3605, 0.2138]])
+[0.6376, 0.3471, 0.0153],
+
+[0.4257, 0.3605, 0.2138]]
+
+)
 
 Output:
 
-tensor([[ 0.9533, 0.6124, -1.3647, -0.6491],
+tensor(
 
-        [ 0.3355, -0.0540, -0.6574, -0.4832],
+[[ 0.9533, 0.6124, -1.3647, -0.6491],
 
-        [ 0.6279,  0.2472, -0.9167, -0.5691]])
+[ 0.3355, -0.0540, -0.6574, -0.4832],
+
+[ 0.6279, 0.2472, -0.9167, -0.5691]]
+
+)
 
 </op>
 
@@ -363,7 +371,7 @@ Most LLMs use **causal language modeling** (predicting the next word) or **maske
 
 ### Sample Pretraining Data and Tasks
 
-**1. **General Text Corpus\*\*
+**1. General Text Corpus**
 
 - Wikipedia, Common Crawl, BooksCorpus, GitHub code
 - Example:
@@ -372,7 +380,7 @@ Most LLMs use **causal language modeling** (predicting the next word) or **maske
 
   Model learns to predict: `"1643"`
 
-**2. **Specialized Data\*\*
+**2. Specialized Data**
 
 - Biomedical papers, legal documents, financial reports
 - Example (biomedical):
@@ -381,7 +389,7 @@ Most LLMs use **causal language modeling** (predicting the next word) or **maske
 
   Target: `"breast"`
 
-**3. **Mixture-of-Denoisers (T5-style)\*\*
+**3. Mixture-of-Denoisers (T5-style)**
 
 - Combines multiple corruption strategies like span masking
 - Example:

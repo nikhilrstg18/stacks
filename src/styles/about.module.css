@@ -90,14 +90,15 @@
 }
 
 .slide .section h4 {
-  font-size: 8vw;
+  font-size: 5vw;
   font-weight: bold;
   margin: 0;
   background: linear-gradient(to bottom, #fafafa 60%, transparent);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  animation: ease-in-out 0s;
+  animation: 3s infinite alternate floating;
+  margin: 0.5rem auto 0px;
 }
 .slide .section h4::after,
 .slide .section h4::before {
@@ -122,6 +123,8 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
+  margin: 0.5rem auto 0px;
+  animation: 3s infinite alternate floating;
 }
 
 .slide p {
@@ -137,6 +140,39 @@
   border-radius: 4rem 4rem 0 0;
 }
 
+.shadow {
+  /* height: 2px;
+  display: block;
+  margin: 0.5rem auto;
+  animation: 3s infinite alternate shadow; */
+}
+
+@keyframes floating {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-10px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+@keyframes shadow {
+  0% {
+    width: 25rem;
+    box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.8);
+  }
+  50% {
+    width: 22rem;
+    box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    width: 25rem;
+    box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.8);
+  }
+}
+
 .resume {
   height: 94vh;
   background: #f5f5f5;
@@ -144,6 +180,55 @@
 .contact {
   height: 94vh;
   background: #f5f5f5;
+}
+
+.scrolldowns {
+  position: absolute;
+  right: 0;
+  bottom: 2rem;
+  left: 0;
+  margin: auto;
+  width: 34px;
+  height: 55px;
+  margin-top: 1rem;
+}
+.mousey {
+  width: 3px;
+  padding: 0px 8px;
+  height: 29px;
+  border: 2px solid #fff;
+  border-radius: 25px;
+  opacity: 0.75;
+  box-sizing: content-box;
+}
+.scroller {
+  width: 3px;
+  height: 5px;
+  border-radius: 25%;
+  background-color: #fff;
+  animation-name: scroll;
+  animation-duration: 2.2s;
+  animation-timing-function: cubic-bezier(0.15, 0.41, 0.69, 0.94);
+  animation-iteration-count: infinite;
+}
+.dark {
+  border: 2px solid #333;
+}
+.sdark {
+  background-color: #333;
+}
+@keyframes scroll {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(15px);
+    opacity: 0;
+  }
 }
 
 @media only screen and (max-width: 576px) {

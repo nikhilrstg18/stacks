@@ -8,7 +8,7 @@ draft: false
 
 ## RAG
 
-`RAG` **R**etrieval-**A**ugmented **G**eneration is a hybrid approach that combines a retrieval step with a generative model.
+> `RAG` **R**etrieval-**A**ugmented **G**eneration is a hybrid approach that combines a retrieval step with a generative model.
 
 First, a retriever finds relevant documents from a knowledge base using semantic search.
 

@@ -1,2 +1,2 @@
 // require("prismjs/themes/prism.min.css");
-require("./src/styles/prism-dracula.css");
+import "./src/styles/prism-dracula.css";

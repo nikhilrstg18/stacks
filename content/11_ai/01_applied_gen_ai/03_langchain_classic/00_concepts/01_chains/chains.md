@@ -127,9 +127,6 @@ print(f"\nresponse.content:\n\n{response.content}")
 
 ```
 
-<op>
-</op>
-
 Let's add the current output as `AiMessage` and create another question in next turn
 
 ```py:title=Simple_Chat_App

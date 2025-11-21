@@ -324,7 +324,7 @@ The length of the `ConversationEntityMemory` is not fixed; instead, it depends o
 - Length is **not fixed** — it grows/shrinks depending on what’s needed for coherent answers.
 - Focus is on **contextual relevance**, not raw history.
 
-### 🔹 Key Aspects of Memory Length
+### Key Aspects of Memory Length
 
 - **Contextual Relevance** → keep enough info to answer naturally.
 - **Memory Type Matters** → Buffer = full history, Summary = compressed, Entity = facts.

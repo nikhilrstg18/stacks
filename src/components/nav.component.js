@@ -32,8 +32,12 @@ const NavBar = ({ section }) => {
       <h1 className={[styles.section, styles.fontxxl].join(" ")}>{section}</h1>
       <span className={styles.filler}></span>
       <ul className={styles.section}>
-        <Link to="/books">Books</Link>
-        <Link to="/about">About</Link>
+        <Link to="/books" title="Books">
+          📚
+        </Link>
+        <Link to="/about" title="About">
+          🧑‍💻
+        </Link>
       </ul>
     </nav>
   );
