@@ -36,7 +36,7 @@ draft: false
 
 **Concept:** Connect chatbot to external documents.
 
-👉 [RAG to respond with context aware](../00_concepts/05_retrieval_augmented_generation/#rag-using-chain)
+👉 [RAG to respond with context aware](../00_concepts/08_retrieval_augmented_generation/#rag-using-chain)
 
 - **Analogy:** Consulting a library when you don’t know the answer.
 
@@ -52,7 +52,7 @@ draft: false
 
 **Concept:** Block unsafe queries.
 
-👉 [Block unsafe Queries](../00_concepts/05_retrieval_augmented_generation/02_secure_rag/01_secure_storage_and_retrieval/#query-filteringsanitizing)
+👉 [Block unsafe Queries](../00_concepts/08_retrieval_augmented_generation/02_secure_rag/01_secure_storage_and_retrieval/#query-filteringsanitizing)
 
 - **Analogy:** A compliance officer ensuring rules are followed.
 
