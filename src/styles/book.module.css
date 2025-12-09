@@ -214,3 +214,42 @@ p img {
     display: none;
   }
 }
+details {
+  border: 1px solid var(--secondary);
+  border-radius: 1rem 0 1rem;
+  margin: 1rem 0;
+}
+details div {
+  padding: 0.8rem;
+  margin: 0;
+  border-radius: 0 0 1rem;
+}
+
+details summary {
+  padding: 0.8rem;
+  background: #f5f2f0;
+  border-radius: 1rem 0 1rem;
+  font-style: italic;
+  font-family: cursive;
+  list-style: none;
+}
+details[open] summary {
+  border-radius: 1rem 0 0rem;
+}
+details summary::webkit-details-marker {
+  display: none;
+}
+
+details summary ::details-content {
+  transition: height 0.5s ease, content-visibility 0.5s ease allow-discrete;
+  height: 0;
+  overflow: clip;
+}
+[open]::details-content {
+  height: auto;
+  transition: 400ms ease-out;
+}
+
+details summary::after {
+  content: "❓";
+}

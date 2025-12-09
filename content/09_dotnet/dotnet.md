@@ -3,7 +3,7 @@ title: "Intro to .Net"
 slug: "09_dotnet"
 stack: ".Net"
 date: "2025-06-04T07:26:45.889Z"
-draft: true
+draft: false
 ---
 
 ## .Net Framework Vs .Net Standard Vs .Net
@@ -186,6 +186,7 @@ namespace Org.Team.Project
     }
 }
 ```
+
 ```csharp:title=OrderCodeLite.cs
 namespace Org.Team.Project
 {
@@ -339,4 +340,3 @@ class Program
     }
 }
 ```
-

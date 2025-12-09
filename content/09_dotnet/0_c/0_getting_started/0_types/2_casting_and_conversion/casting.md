@@ -5,7 +5,7 @@ stack: "C#.NET"
 ---
 
 - Because C# is statically-typed at compile time, after a variable is declared, it can't be declared again or assigned a value of another type unless that type is implicitly convertible to the variable's type. For example, the string can't be implicitly converted to int.
-Therefore, after you declare i as an int, you can't assign the string "Hello" to it, as the following code shows:
+  Therefore, after you declare i as an int, you can't assign the string "Hello" to it, as the following code shows:
 
 ```csharp
 int i;
@@ -14,7 +14,7 @@ int i;
 i = "Hello";
 ```
 
-However, you might sometimes need to copy a value into a variable or method parameter of another type. For example, you might have an integer variable that you need to pass to a method whose parameter is typed as double. Or you might need to assign a class variable to a variable of an interface type. These kinds of operations are called type conversions. 
+However, you might sometimes need to copy a value into a variable or method parameter of another type. For example, you might have an integer variable that you need to pass to a method whose parameter is typed as double. Or you might need to assign a class variable to a variable of an interface type. These kinds of operations are called type conversions.
 
 In C#, you can perform the following kinds of conversions:
 
@@ -27,7 +27,8 @@ In C#, you can perform the following kinds of conversions:
 - `Conversions with helper classes`: To convert between non-compatible types, such as integers and System.DateTime objects, or hexadecimal strings and byte arrays, you can use the `System.BitConverter` class, the `System.Convert` class, and the `Parse` methods of the built-in numeric types, such as `Int32.Parse`. For more information, see How to convert a byte array to an int, How to convert a string to a number, and How to convert between hexadecimal strings and numeric types.
 
 ### Implicit conversions
-For built-in numeric types, an implicit conversion can be made when the value to be stored can fit into the variable without being truncated or rounded off. 
+
+For built-in numeric types, an implicit conversion can be made when the value to be stored can fit into the variable without being truncated or rounded off.
 For integral types, this means the range of the source type is a proper subset of the range for the target type. For example, a variable of type long (64-bit integer) can store any value that an int (32-bit integer) can store. In the following example, the compiler implicitly converts the value of num on the right to a type long before assigning it to bigNum.
 
 ```csharp
@@ -67,7 +68,7 @@ class Test
 // Output: 1234
 ```
 
-For a complete list of supported explicit numeric conversions, see the [Explicit numeric conversions](https://learn.microsoft.com/en-us/09_dotnet/csharp/language-reference/builtin-types/numeric-conversions#explicit-numeric-conversions) 
+For a complete list of supported explicit numeric conversions, see the [Explicit numeric conversions](https://learn.microsoft.com/en-us/09_dotnet/csharp/language-reference/builtin-types/numeric-conversions#explicit-numeric-conversions)
 
 For reference types, an explicit cast is required if you need to convert from a base type to a derived type
 
