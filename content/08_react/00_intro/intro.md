@@ -15,19 +15,12 @@ It powers major apps like **Facebook**, **Netflix**, **Walmart**, **Airbnb**, an
 
 At the core of React is its **component model**.
 
+![React Component Model - Instantly updates the browser on data changes](../../../src/images/08_react/r-1.png)
+
 - A React app is structured as a **tree of components**, starting from a single root component.
 - Each component can have zero or more children, making the UI modular and easy to manage.
 
-```text:title=A_simple_component_tree
-App
- ├── AddForm
- │     ├── TextInput
- │     └── AddButton
- └── ToDoItems
-        ├── Item
-        ├── Item
-        └── Item
-```
+![Component Tree and UI Interactions](../../../src/images/08_react/r-1a.gif)
 
 In the To‑Do List example, the root **App** component has two children:
 
@@ -83,6 +76,7 @@ function Item({ value, onRemove }) {
 ```
 
 React achieves high performance because UI updates happen faster than a single browser frame (30–60 FPS).
+
 The component tree updates in `JavaScript`, and `React` efficiently updates only the necessary parts of the browser `DOM`, making React apps smooth and responsive.
 
   </div>
@@ -92,8 +86,8 @@ The component tree updates in `JavaScript`, and `React` efficiently updates only
   <summary>What does a React component look like</summary>
   <div>
 
-A React app is built as a tree of components, each represented in JavaScript as either a **function** or a **class**.
-Since React 16.8 (the `Hooks` release), function components are recommended because they are simpler, more powerful, and better optimized.
+- A React app is built as a tree of components, each represented in JavaScript as either a **function** or a **class**.
+- Since React 16.8 (the `Hooks` release), **function components** are recommended because they are **simpler**, more **powerful**, and **better optimized**.
 
 ```js:title=Example_of_a_function_component
 function App() {
@@ -104,8 +98,8 @@ export default App;
 
 ```js:title=Example_of_a_class_component_old
 class App extends React.Component {
-    render() {
-        return <h1>Hello React!</h>;
+  render() {
+    return <h1>Hello React!</h>;
     }
 }
 
@@ -118,16 +112,7 @@ In the To‑Do app example, the component tree includes five components:
 - its children **AddForm** and **ToDoItems**,
 - their nested components like **TextInput**, **AddButton**, and repeated **Item** components.
 
-```text:title=Visual_representation_of_the_component_tree
-App
-├── AddForm
-│ ├── TextInput
-│ └── AddButton
-└── ToDoItems
-├── Item
-├── Item
-└── Item
-```
+![Todo App - Component Tree](../../../src/images/08_react/r-1b.png)
 
 The entry point `/app/page.js` is a simple JavaScript function that returns the `<App />` component. This function is exported using the ECMAScript module system so it can be used throughout the project.
 
@@ -147,7 +132,7 @@ React components return `JSX`, a special syntax that looks like `HTML` but is no
 
 ```js:title=JSX_example
 function Greeting() {
-return <div className="message">Welcome!</div>;
+  return <div className="message">Welcome!</div>;
 }
 
 ```
@@ -164,58 +149,189 @@ The key takeaway is that `JSX` is a developer-friendly abstraction: it isn’t r
 </details>
 
 <details>
+  <summary>How React Components Link to Each Other</summary>
+  <div>
+
+React apps are built as **component trees**, where each component is just a JavaScript function that returns JSX.
+
+Components link to each other through **composition** — one component renders another as its child.
+
+This is the foundation of how React structures UI.
+
+![Todo App - Next.js](../../../src/images/08_react/r-1c.png)
+
+### The root component launches the app
+
+In a Next.js app, the root is usually `page.js`. It receives no props and simply renders the top-level component of your UI:
+
+```js:title=app/page.js
+import App from "../source/App/App";
+
+export default function Home() {
+  return <App />;
+}
+```
+
+📌 **Key idea:** `page.js` is just a launcher. The real component tree begins at `<App />`.
+
+### App.js composes child components
+
+`App.js` is the top of your actual UI tree. It renders two child components:
+
+```js:title=src/App.js
+import React, {useState} from "React";
+import TodoItems from "./TodoItems";
+import AddForm from "./AddForm";
+
+export default function App() {
+  const [toDoList, setToDoList] = useState([
+    { text: "Buy Sugar",id:113142134},
+    { text: "Eat Carrots",id:113153434}
+  ]);
+
+  function deleteTask(id){
+    setToDoList((toDoList)=> toDoList.filter(rec => id !== rec.id));
+  }
+  const addTask = (userInput) =>{
+    const newTask = {text:userInput, id: Date.now()};
+    setToDoList((todoList)=>[newTask, ...toDoList]);
+  }
+
+  return (
+    <div className="container">
+        <AddForm addTask={addTask}/>
+        <ToDoItems entries={toDoList} deleteItem={deleteTask}/>
+    </div>
+  );
+}
+```
+
+📌 This is how React components “link” — one returns JSX that includes other components.
+
+### JSX looks like HTML but is 100% JavaScript
+
+`JSX` is not `HTML`. It is a JavaScript syntax extension that compiles to `React.createElement()` calls.
+
+```js:title=JSX
+<AddForm />
+
+// Compiled JS
+React.createElement(AddForm, null);
+```
+
+📌 This is why React components can return what looks like HTML — but it’s actually JavaScript describing UI.
+
+### Component logic vs rendering logic
+
+React lets you choose how to organize your code:
+
+- Some developers keep logic and `JSX` together in one function
+- Others extract logic into helper functions for clarity
+
+📌 Both styles are valid. React does not enforce a specific pattern.
+
+### Visualizing the component tree
+
+```text
+Home (page.js)
+ └── App
+      ├── AddForm
+      └── ToDoItems
+```
+
+📌 Each component is just a function returning `JSX`, and each `JSX` element can contain other components — that’s how the tree grows.
+
+### Key takeaways
+
+- React components are plain JavaScript functions.
+- Components link together through composition — one renders another.
+- `page.js` is just a launcher; `App` is the real root of the UI tree.
+- JSX looks like HTML but compiles to JavaScript.
+- You can separate logic and rendering or keep them together — React is flexible.
+
+  </div>
+</details>
+
+<details>
   <summary>How React components pass data to their children</summary>
   <div>
 
 React passes data from parent components to child components using `props`.
 In `JSX`, `props` look like HTML attributes, but they are actually JavaScript values being passed down the component tree.
 
-```js:title=Passing_props_from_parent_to_child
+```javascript{1}:title=Passing_props_from_parent_to_child
 // Parent component
-function App() {
-  const [toDoList, setToDoList] = useState(["Buy Sugar", "Eat Carrots"]);
-  return <ToDoItems entries={toDoList} />;
-}
-```
+import React, {useState} from "React";
+import TodoItems from "./TodoItems";
+import AddForm from "./AddForm";
 
-In the To‑Do app example, the `App` component stores its list of items using the `useState` hook, which initializes and tracks state over the component’s lifetime.
+export default function App() {
+  const [toDoList, setToDoList] = useState([
+    { text: "Buy Sugar",id:113142134},
+    { text: "Eat Carrots",id:113153434}
+  ]);
 
-```js:title=useState_holding_the_list
-const [toDoList, setToDoList] = useState([
-  "Buy Sugar",
-  "Eat Carrots"
-]);
-```
+  function deleteTask(id){
+    setToDoList((toDoList)=> toDoList.filter(rec => id !== rec.id));
+  }
+  const addTask = (userInput) =>{
+    const newTask = {text:userInput, id: Date.now()};
+    setToDoList((todoList)=>[newTask, ...toDoList]);
+  }
 
-The `App` component then passes this list to its child component `ToDoItems` like this:
-
-```js:title=Passing_Data_to_children
-<ToDoItems entries={toDoList} />
-```
-
-Inside `ToDoItems.js`, the component receives the data through its function parameters.
-
-```js:title=Using_destructuring_the_component_can_directly_access_the_entries_prop
-function ToDoItems({ entries }) {
   return (
-
-      {entries.map((item) => (
-        <Item value={item} key={item} />
-      ))}
-
+    <div className="container">
+        <AddForm addTask={addTask}/>
+        <ToDoItems entries={toDoList} deleteItem={deleteTask}/>
+    </div>
   );
 }
 ```
 
+- In the To‑Do app example, the `App` component stores its list of items using the `useState` hook, which initializes and tracks state over the component’s lifetime.
+
+- The `App` component then passes this list to its child component `ToDoItems` like this:
+
+```js:title=src/ToDoItems.js
+import React from "React";
+
+function ToDoItems({ entries, deleteItems }) {
+  return (
+      <ul>
+        <p> Items: </p>
+        {entries.map(({id, text}) => (
+          <li
+            key={id}
+            onClick={()=>{deleteItem(Id)}}>
+            {text}
+          </li>
+        ))}
+      </ul>
+  );
+}
+```
+
+- The component receives the data through its function parameters.
+- Using **destructuring** the component can directly access the entries prop
+
 ```js:title=Same_example_using_props_old_style
+import React from "React";
+
 function ToDoItems(props) {
   const entries = props.entries;
+  const deleteItems = props.deleteItems;
+
   return (
-
-      {entries.map((item) => (
-        <Item value={item} key={item} />
-      ))}
-
+      <ul>
+        <p> Items: </p>
+        {entries.map(({id, text}) => (
+          <li
+            key={id}
+            onClick={()=>{deleteItem(Id)}}>
+            {text}
+          </li>
+        ))}
+      </ul>
   );
 }
 ```
@@ -283,35 +399,37 @@ Although `JSX` may feel confusing at first, it becomes intuitive with practice a
   <summary>Why is one‑way data binding key to React’s scalability</summary>
   <div>
 
-Traditional frameworks using **two‑way data binding** rely on tightly coupled MVC loops where HTML templates and data models must constantly synchronize.
-As apps grow, these repeated model‑view updates slow performance.
+![2-way vs 1-way Data binding](../../../src/images/08_react/r-1d.png)
 
-```js:title=Example_of_two_way_binding_angular_style
-<input [(ngModel)]="username" />
-Hello {{ username }}
-```
+- Traditional frameworks using **two‑way data binding** rely on tightly coupled MVC loops where HTML templates and data models must constantly synchronize.
+  As apps grow, these repeated model‑view updates slow performance.
 
-Here, UI → model and model → UI constantly update each other, creating many sync loops.
+  ```js:title=Example_of_two_way_binding_angular_style
+  <input [(ngModel)]="username" />
+  Hello {{ username }}
+  ```
 
-React avoids this by using **one‑way data binding** and **components** instead of HTML templates.
-Each component contains both its UI and the logic to update it, forming a single **virtual DOM** fully managed in JavaScript.
+- Here, UI → model and model → UI constantly update each other, creating many sync loops.
 
-```js:title=Example_of_one_way_binding_in_React
-function App() {
-  const [name, setName] = useState("");
+- React avoids this by using **one‑way data binding** and **components** instead of HTML templates.
+- Each component contains both its UI and the logic to update it, forming a single **virtual DOM** fully managed in JavaScript.
 
-  return (
-    <div>
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+  ```js:title=Example_of_one_way_binding_in_React
+  function App() {
+    const [name, setName] = useState("");
 
-      Hello {name}
-    </div>
-  );
-}
-```
+    return (
+      <div>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        Hello {name}
+      </div>
+    );
+  }
+  ```
 
 Data flows **one direction**: user event → state → UI.
 
@@ -347,7 +465,19 @@ This approach scales far better because:
 // React updates only that - , not the whole .
 ```
 
-As apps grow and components increase, React’s _one‑way data flow and virtual DOM keep performance fast and predictable_, making it ideal for large‑scale applications.
+![2-way vs 1-way Data binding at Scale](../../../src/images/08_react/r-1e.png)
+
+📌 As apps grow and components increase,
+
+- _Two‑way data-binding_
+  - Many MVC loops must continuously synchronize
+  - Causes performance overhead.
+- React’s \_one‑way data flow
+  - Components updates virtual DOM, which is blazing fast
+  - Single Merge Step
+  - Real DOM is updated in one pass
+
+This keep _React performance fast and predictable_, making it ideal for large‑scale applications.
 
   </div>
 </details>
@@ -356,12 +486,22 @@ As apps grow and components increase, React’s _one‑way data flow and virtual
   <summary>What to expect from this React course</summary>
   <div>
 
-This course aims to give you a solid understanding of what React is and how it helps developers build fast, efficient, and scalable web applications with great UI experiences.
-Whether you're building large enterprise apps like `Netflix` or smaller apps that still require high performance, the course explains the value `React` brings to modern development.
+- This course aims to give you a solid understanding of
 
-As you progress, you'll become comfortable designing component architectures and assembling `functional components`. However, jumping into building apps without understanding how `React` works behind the scenes may lead to unexpected behavior or performance issues.
+  1. **What React is**
+  2. How it **helps developers** build fast, efficient, and scalable web applications with **great UI experiences**.
 
-`React` may initially feel magical—components link together and the UI updates automatically—but this course reveals the mechanisms behind that behavior. By understanding how `React` processes your components, you'll be better equipped to build apps that `React` can optimize effectively, resulting in a smooth and responsive user experience.
+- Whether you're building large enterprise apps like `Netflix` or smaller apps that still require high performance, the course explains the value `React` brings to modern development.
+
+- As you progress, you'll become
+
+  1. **Comfortable designing component architectures**
+  2. **Assembling `functional components`**.
+
+- However, jumping into building apps without understanding how `React` works behind the scenes may lead to unexpected behavior or performance issues.
+
+- `React` may initially feel magical—components link together and the UI updates automatically—but this course reveals the mechanisms behind that behavior.
+- By understanding how `React` processes your components, you'll be better equipped to build apps that `React` can optimize effectively, resulting in a smooth and responsive user experience.
 
   </div>
 </details>

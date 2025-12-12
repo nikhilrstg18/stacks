@@ -107,7 +107,7 @@ h3::after {
   width: 14px;
 }
 p img {
-  max-width: 600px;
+  max-width: 90%;
 }
 
 .tableOfContent {

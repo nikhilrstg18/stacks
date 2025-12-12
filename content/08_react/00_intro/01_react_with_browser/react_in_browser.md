@@ -51,7 +51,7 @@ root.render(<App />);
 export default function App() {
   return (
     <div>
-      <b>Hello from Pluralsight</b>
+      <b>Hello from React App</b>
     </div>
   );
 }
@@ -65,7 +65,7 @@ export default function App() {
   return (
   <View>
     <Text style={{ fontWeight: "bold" }}>
-      Hello from Pluralsight
+      Hello from React App
     </Text>
   </View>
   );

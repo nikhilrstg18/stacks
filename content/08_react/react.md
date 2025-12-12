@@ -6,6 +6,8 @@ date: "2025-06-04T07:26:45.889Z"
 draft: false
 ---
 
+> React16.8 -> React 19
+
 ```markdown markmap
 - React
   - Introduction
