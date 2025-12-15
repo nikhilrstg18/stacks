@@ -1,5 +1,5 @@
 const path = require("path");
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 
 exports.createPages = async ({ graphql, actions }) => {
   dotenv.config();
