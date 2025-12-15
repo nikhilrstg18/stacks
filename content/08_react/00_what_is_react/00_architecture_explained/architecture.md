@@ -1,15 +1,17 @@
 ---
 title: "Architecture Explained"
-slug: "08_react/00_intro/00_architecture_explained"
+slug: "08_react/00_what_is_react/00_architecture_explained"
 stack: "React"
 date: "2025-06-04T07:26:45.889Z"
 draft: false
 ---
 
 <details>
-  <summary>What is really happening inside a React app?</summary>
+  <summary>What is really happening inside a React app</summary>
   <div>
-  
+
+## Inside React app
+
 > `React` architected to build high‑performance browser UIs
 
 - `React` is **100% component‑based model**.
@@ -68,6 +70,8 @@ Understanding the internals makes you a stronger React engineer.
 <details>
   <summary>Why React is a library and not a framework</summary>
   <div>
+
+## React is a library
 
 - A **library** is defined as a group of related functions or classes that perform unique operations.
 
@@ -214,6 +218,8 @@ Using React alone means manually handling:
   <summary>What it means that React is a Single‑Page App `SPA`</summary>
   <div>
 
+## React is a SPA
+
 > A `SPA` is a **web app** that **loads a single minimal HTML page once**, then **updates the UI dynamically using JavaScript** without **performing full page reloads**.
 
 `Gmail`, `Yahoo Mail`, and `Hotmail` have been `SPA`s for years — long before the term became popular.
@@ -337,6 +343,8 @@ async function loadData() {
   <summary>Understanding React without a build chain or `JSX` syntax</summary>
   <div>
 
+## React without build chain or JSX
+
 - `React` does not require `JSX` or a build chain to work.
 - At its core, `React` is just a `JavaScript` library that exposes functions like `React.createElement` and `ReactDOMClient.createRoot`.
 - Understanding `React` without `JSX` helps you see how React truly works under the hood.
@@ -445,7 +453,7 @@ root.render(React.createElement("li", { key: 0 }, newValue));
   <summary>Creating a React app with the `Next.js` toolchain/framework</summary>
   <div>
 
-## Toolchain
+## React with toolchain
 
 > React's Mission: "Build a JS Library that helps to build high performance web site efficiently"
 
@@ -479,7 +487,7 @@ React.createElement("h1", null, "Hello React");
 
 `CRA` is no longer recommended in the official React docs. `Next.js` is now the preferred choice.
 
-## Creating a new `Next.js` app
+## React app with toolchain `Next.js`
 
 > The plan now is to buildthe identical appwe already built with just React API, but instead with `Toolchain` and `JSX`
 
@@ -596,6 +604,8 @@ export default function Home() {
   <summary>Converting React library calls to `JSX` syntax</summary>
   <div>
 
+## React library with `JSX`
+
 Once a React app is scaffolded using a toolchain like `Next.js`, you no longer need to manually create a virtual DOM or call `React.createElement`. The toolchain handles all of that behind the scenes, allowing you to write clean `JSX` instead of low-level React API calls.
 
 ### Launching the `Next.js` development server
@@ -697,6 +707,8 @@ Both produce the same UI — `JSX` is simply a cleaner, more expressive syntax.
 <details>
   <summary>Expanding `JSX` syntax to handle lists and child components</summary>
   <div>
+
+## Dive into `JSX` syntax
 
 - `JSX` is one of `React`’s most powerful features because it allows developers to mix `JavaScript` expressions with `HTML`‑like syntax.
 - To understand `JSX` deeply, it helps to expand beyond simple text rendering and build lists, reusable components, and nested component trees.
@@ -813,6 +825,8 @@ export default function Page() {
   <summary>What F(G(X)) means when rendering React component trees</summary>
   <div>
 
+## What is F(G(X))
+
 > functional programming is language of **F(G(X))**
 
 In functional programming, **F(G(X))** represents **function composition** — one function returns another function, which returns another, and so on.
@@ -889,6 +903,8 @@ export default function F() {
 <details>
   <summary>What makes React apps reactive</summary>
   <div>
+
+## React apps are reactive
 
 - `React` apps are **reactive** because `React` maintains **component state** — special data that, when updated, automatically triggers a re‑render of the component tree.
 - Unlike normal `JavaScript` variables, `React` state persists across renders and notifies the `React` engine to update the UI.
@@ -1029,4 +1045,49 @@ Keys help React track which items changed between renders.
   </div>
 </details>
 
-![Key Takeaway](../../../../src/images/08_react/r-1y.png)
+## Key takeaway
+
+1. **🔑 Core**
+
+- **Library, not framework** → UI only
+- **Root component** → expands into tree
+- **UI = functions F(G(X)) → component tree**
+- **JSX → `React.createElement` → JS objects**
+
+2. **⚙️ Rendering Model**
+
+- Toolchain bootstraps root → builds tree
+- **Virtual DOM** → diff → real DOM updates
+- Optimized for **updates**, not initial load
+- `react-dom/client` → efficient rendering
+
+3. **📝 JSX Essentials**
+
+- Syntax sugar, **not HTML**
+- Compiles to `createElement()`
+- Dynamic UI via JS expressions
+- **Fragments** `<></>` avoid extra nodes
+- Small components = clean JSX
+
+4. **📚 React vs Frameworks**
+
+- React provides: components, hooks, VDOM, rendering
+- Missing: routing, data fetching, bundling, deployment
+- Frameworks (Next.js): routing, SSR, bundling, API routes, server components
+- File‑based routing = simple navigation
+- Next.js = recommended production toolchain
+
+5. **🌐 SPA Model**
+
+- SPA = load once → update UI via JS
+- No reloads; server returns **data only**
+- React boosts SPAs: state, components, VDOM diffing
+- Feels fast → only small UI parts update
+
+6. **🔄 Data Flow**
+
+- **Props** → pass data down
+- **Events/functions** → send data up
+- **State** → triggers re‑renders
+- **Keys** → stable list rendering
+- Reactivity = state change → diff → UI update

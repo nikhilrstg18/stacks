@@ -1,6 +1,6 @@
 ---
-title: "Introduction to React"
-slug: "08_react/00_intro"
+title: "What is React"
+slug: "08_react/00_what_is_react"
 stack: "React"
 date: "2025-06-04T07:26:45.889Z"
 draft: false

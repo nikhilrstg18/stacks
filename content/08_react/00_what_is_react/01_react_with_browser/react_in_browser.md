@@ -1,31 +1,47 @@
 ---
 title: "How React works with the Browser"
-slug: "08_react/00_intro/01_react_with_browser"
+slug: "08_react/00_what_is_react/01_react_with_browser"
 stack: "React"
 date: "2025-06-04T07:26:45.889Z"
 draft: false
 ---
 
 <details>
-  <summary>How React and ReactDOM work together to update a web browser</summary>
+  <summary>How <strong>React</strong> and <strong>ReactDOM</strong> work together to update a web browser</summary>
   <div>
 
+## Building Apps for React and ReactNative
+
+> React separates the building and managing of components from their rendering to a device
+
 - `React` is a **UI library** that manages component **logic**, **state**, and the **virtual DOM**, intentionally designed to be independent of any specific rendering environment.
-- `ReactDOM` is the **browser-specific renderer** that takes `React` elements and mounts them into the physical DOM.
-- Together, they separate **what to render `React`** from **where to render it `ReactDOM`**.
+- `ReactDOM` is the **Browser-specific renderer** that takes `React` elements and mounts them into the physical DOM.
+- `ReactNative` is the **Mobile-specific renderer** that takes `React` elements and mounts them into the physical DOM (both iOS and Android).
+- Together, they separate **what to render `React`** from **where to render it `ReactDOM` for browsers or `ReactNative` for mobile**.
 
-### `React` manages components — not the browser
+> Skills you develop for building React apps can be leveraged in React Native apps
 
-`React` builds and manages a **component tree** using JavaScript. It knows:
+📌 There is no **Write once, run everywhere** for `React` and `ReactNative`
+📌 **Separate components required** for UIs in `React` and `ReactNative`
+📌 You can build **shared components** between `React` and `ReactNative`
+
+### `React` manages components **— not the browser**
+
+`React` builds and manages a **component tree** using `JavaScript`. It knows:
 
 - Which **component**s exist
 - How they relate to each other
 - What **state** and **props** they hold
 - How to generate a virtual DOM representation
 
-📌 `React` does **not** know how to draw UI on a screen. That job belongs to a renderer like `ReactDOM` or `React Native`.
+📌 `React` is responsible for:
 
-### `ReactDOM` renders React components into the browser
+- Creating React Element
+- Creating UIs
+- Linking Components together
+- `React` does **not** know how to draw UI on a screen. That job belongs to a renderer like `ReactDOM` or `React Native`.
+
+### `ReactDOM` renders React components **into the browser**
 
 ```js:title=ReactDOM_takes_the_virtual_DOM_created_by_React_and_updates_the_real_browser_DOM
 import React from "react";
@@ -37,17 +53,20 @@ root.render(<App />);
 
 ```
 
-`ReactDOM` handles:
+📌 `ReactDOM` is responsible for:
 
+- Building initial DOM tree
 - Mounting the **root** component
-- Diffing the **virtual DOM**
-- **Updating** only the **changed DOM** nodes
+- Listening for state/prop changes **Diffing** the **virtual DOM**
+- Performing minimal DOM updates by **Updating** only the **changed DOM** nodes
 
 ### `React Native` uses the same React library — but a different renderer
 
-`React Native` uses `React` for component logic, but renders using native **mobile UI** elements instead of HTML.
+`React Native` uses `React` for component logic, but renders using native **mobile UI** elements instead of `HTML`.
 
-```js:title=Web_version_React_ReactDOM
+```js:title=React_for_Web
+import React from "React";
+
 export default function App() {
   return (
     <div>
@@ -58,14 +77,14 @@ export default function App() {
 
 ```
 
-```js:title=Mobile_version_React_Native
+```js:title=ReactNative_for_Mobile
 import { View, Text } from "react-native";
 
 export default function App() {
   return (
   <View>
     <Text style={{ fontWeight: "bold" }}>
-      Hello from React App
+      Hello from React Native App
     </Text>
   </View>
   );
@@ -88,14 +107,6 @@ This separation allows React to support multiple platforms:
 
 ### What ReactDOM actually does
 
-`ReactDOM` is responsible for:
-
-- Taking the **root** React element
-- Building the initial DOM tree
-- Listening for state/prop changes
-- **Diffing** the virtual DOM
-- Performing minimal DOM updates
-
 ```js:title=React_updates_only_what_changed
 function Counter() {
   const [count, setCount] = useState(0);
@@ -111,20 +122,14 @@ function Counter() {
 
 📌 ReactDOM updates only the text node containing `{count}`, not the entire button.
 
-### Key takeaways
-
-- React builds the virtual DOM and manages component logic.
-- ReactDOM renders React elements into the browser DOM.
-- React Native uses the same React library but a different renderer.
-- JSX works the same across ReactDOM and React Native — only the elements differ.
-- ReactDOM is responsible for efficient DOM updates using diffing and reconciliation.
-- React = “what to render”, ReactDOM = “where and how to render it”.
   </div>
 </details>
 
 <details>
-  <summary>Understanding React Reconciliation</summary>
+  <summary>Understanding React <strong>Reconciliation</strong></summary>
   <div>
+
+## Reconciliation
 
 - `React reconciliation` is the process `React` uses to determine **what changed** in the UI when component state updates.
 - Instead of re-rendering the entire DOM, React compares the **old virtual DOM** with the **new virtual DOM** and updates only what is necessary.
@@ -132,13 +137,17 @@ function Counter() {
 
 ### How rendering works in every React app
 
+- At the start of React app (using Fx or not) there is call to `ReactDOM.createRoot()` that returns an object i.e. root of your app
+- After that when you call `root.render()`, the React app renders to the browser
+
 ```js:title=Every_React_app_begins_with
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(<App />);
 
 ```
 
-Whenever state changes inside any component, React:
+Assuming the root of your app is rendered, Whenever state changes inside any component, React:
 
 - **Rebuilds** the virtual DOM for the updated component tree
 - **Compares** it with the previous virtual DOM
@@ -237,27 +246,21 @@ setItems([...items, "New Task"]);
 
 📌 Everything else stays untouched.
 
-### Key takeaways
-
-- **Reconciliation** is React’s process of comparing old and new virtual DOMs.
-- Only changed nodes are updated in the real DOM.
-- Keys help React match list items efficiently.
-- React avoids O(n³) diffing using smart heuristics.
-- **Reconciliation** runs on every state update.
-- This is what makes React apps fast and reactive.
   </div>
 </details>
 
 <details>
-  <summary>Distributed React Components (Server‑side + Client‑side Execution)</summary>
+  <summary><strong>Distributed React Components</strong> (Server‑side + Client‑side Execution)</summary>
   <div>
 
 Modern React apps can run components in two different environments:
 
-- some components execute on a **Node.js server**
-- while others execute in the **browser**.
+- Some components execute on a **Node.js server**
+- While others execute in the **browser**.
 
-Together, these form a distributed React architecture where different parts of the UI are computed in different places but still behave like a single unified React app.
+![Distributed React Apps](../../../../src/images/08_react/r-1v.png)
+
+Together, these form a **distributed React architecture** where different parts of the UI are computed in different places but still behave like a single unified React app.
 
 ### What “distributed components” means in React
 
@@ -301,7 +304,7 @@ export function ProductList({ items }) {
   const [selected, setSelected] = useState(null);
 
   return (
-  <ul>
+    <ul>
   {items.map(p => (
     <li key={p.id} onClick={() => setSelected(p)}>
     {p.name}
@@ -330,7 +333,11 @@ This architecture allows:
 
 Today, distributed React means **server** + **browser** execution.
 
+![Distributed React Apps](../../../../src/images/08_react/r-1v.png)
+
 In the future, components may run in:
+
+![Distributed React Apps in Future](../../../../src/images/08_react/r-1w.png)
 
 - **Web Workers** (background threads)
 - **Service Workers** (offline logic)
@@ -339,14 +346,6 @@ In the future, components may run in:
 
 📌 This will allow `React` to distribute work even more efficiently across multiple execution environments.
 
-### Key takeaways
-
-- React can run components in multiple environments (server + browser).
-- Server‑executed components handle data fetching and heavy computation.
-- Browser‑executed components handle interactivity and state updates.
-- Data flows from server components to client components via props.
-- This distributed model improves performance and reduces client-side JavaScript.
-- Future React may run components in workers, WASM, or new browser processes.
   </div>
 </details>
 
@@ -354,9 +353,11 @@ In the future, components may run in:
   <summary>What’s behind server component technology</summary>
   <div>
 
+## Server Component technology
+
 - To understand server component technology, it helps to start with the simplest possible example:
-- A pure JavaScript SPA that renders HTML in the browser and updates the DOM when the user interacts with it.
-- From there, we can evolve the idea into how `React` server-rendered pages work before switching into SPA mode.
+- A `pure JavaScript SPA` that renders `HTML` in the browser and updates the DOM when the user interacts with it.
+- From there, we can evolve the idea into how `React` server-rendered pages work before switching into `SPA` mode.
 
 ### Pure JavaScript SPA: Everything happens in the browser
 
@@ -454,16 +455,16 @@ document.getElementById("root").innerHTML = `
 
 This is the exact pattern React server components follow:
 
-- Server renders HTML
+- Server renders `HTML`
 - Browser loads it
-- Browser JavaScript takes over and runs as a SPA
+- Browser JavaScript takes over and runs as a `SPA`
 
 ### How this maps to React server components
 
 React server components:
 
-- Run on the Node.js server
-- Produce HTML (or serialized component payloads)
+- Run on the `Node.js` server
+- Produce `HTML` (or serialized component payloads)
 - Send that HTML to the browser
 - Browser hydrates the UI and becomes interactive
 
@@ -514,19 +515,14 @@ Server components allow React to:
 - Offload heavy computation to Node.js
 - Still behave like a SPA after hydration
 
-### Key takeaways
-
-- Server components render HTML on the server before the browser loads anything.
-- After hydration, the browser behaves like a normal SPA.
-- Server components can run heavy logic (DB queries, API calls) without shipping JS to the client.
-- Client components handle interactivity (clicks, state updates).
-- This architecture evolved from the same principles shown in the pure JavaScript SPA example.
   </div>
 </details>
 
 <details>
   <summary>Converting a JavaScript SPA to a Node server‑based app</summary>
   <div>
+
+## JS SPA to a Node server app
 
 - To understand how **React server components** work, it helps to first convert a simple **JavaScript SPA** into a **Node‑rendered app**.
 - This demonstrates how HTML can be rendered on the server first, then enhanced with browser JavaScript — the same pattern React uses for server‑side rendering and server components.
@@ -672,14 +668,6 @@ This hybrid model shows the foundation of React server components:
 
 📌 This is exactly how React server components + client components work together.
 
-### Key takeaways
-
-- A JavaScript SPA can be converted to a Node‑rendered app by moving initial rendering logic to the server.
-- The server sends fully rendered HTML → faster initial load.
-- The browser still handles interactivity after load.
-- This mirrors how React server components render HTML on the server before hydration.
-- Server‑rendered HTML appears in “View Source,” but dynamic updates appear only in the live DOM.
-
   </div>
 </details>
 
@@ -774,13 +762,13 @@ export default function NumbersList({ numbers }) {
 import { useSharedData } from "./SharedDataProvider";
 
 export default function AddItemButton() {
-const { numbers, setNumbers } = useSharedData();
+  const { numbers, setNumbers } = useSharedData();
 
-return (
-  <button onClick={() => setNumbers([...numbers, numbers.length + 1])}>
-    Add Item
-  </button>
-);
+  return (
+    <button onClick={() => setNumbers([...numbers, numbers.length + 1])}>
+      Add Item
+    </button>
+  );
 }
 
 ```
@@ -819,34 +807,17 @@ This allows:
 - **AddItemButton** to update the list in the browser
 - **NewNumbers** (another client component) to show new items
 
-### Component diagram
-
-```text
-Page (Server)
-└── SharedDataProvider (Client)
-    ├── NumbersList (Server)
-    ├── AddItemButton (Client)
-    └── NewNumbers (Client)
-
-```
+![Component Tree diagram](../../../../src/images/08_react/r-1x.png)
 
 📌 This architecture mirrors your earlier Node + browser example, but React handles all the complexity for you.
 
 ### Why this scales better than pure JavaScript
 
-- Server Components fetch data without shipping JS to the browser
-- Client Components handle interactivity cleanly
-- State is shared through React context instead of global variables
-- Rendering is declarative, not manual DOM manipulation
-- Large apps stay maintainable and predictable
-
-### Key takeaways
-
-- React Server Components render HTML on the server before hydration.
-- Client Components run in the browser and handle events/state.
-- Next.js determines where components run based on `"use client"`.
-- This architecture mirrors the earlier Node + browser example but is far more scalable.
-- Server Components reduce JavaScript bundle size and improve performance.
+- Server Components fetch data **without shipping JS** to the browser
+- Client Components handle **interactivity cleanly**
+- **State is shared** through **React context** instead of global variables
+- **Rendering is declarative**, not manual DOM manipulation
+- Large apps stay **maintainable** and **predictable**
 
   </div>
 </details>
@@ -855,7 +826,8 @@ Page (Server)
   <summary>How React renders external data from sources like databases</summary>
   <div>
 
-- React’s reactivity is not limited to local browser events like button clicks. React can also update the UI when **external asynchronous data** arrives — such as results from a database query, REST API call, or any remote data source.
+-` React`’s reactivity is not limited to local browser events like button clicks. -` React` can also update the UI when **external asynchronous data** arrives — such as results from a database query, REST API call, or any remote data source.
+
 - The key idea is that **React re-renders whenever state changes**, regardless of where the new data comes from.
 
 ### Local events vs external data
@@ -871,10 +843,10 @@ So far, examples focused on:
 
 ### Why browsers cannot talk directly to databases
 
-Browsers cannot connect to databases like SQLite, MySQL, or PostgreSQL because:
+Browsers cannot connect to databases like `SQLite`, `MySQL`, or `PostgreSQL` because:
 
-- There is no browser protocol for database connections
-- It would be a massive security risk
+- There is **no browser protocol** for database connections
+- It would be a **massive security risk**
 
 Therefore, we need a **server layer** to fetch data.
 
@@ -892,9 +864,9 @@ app.get("/products", async (req, res) => {
 
 This endpoint:
 
-- Connects to SQLite
-- Runs the SQL query
-- Returns JSON to the browser
+- Connects to `SQLite`
+- Runs the `SQL` query
+- Returns `JSON` to the browser
 
 You can test it directly in the browser:`http://localhost:3000/products`
 
@@ -958,14 +930,6 @@ Browser (React) <--- JSON Response --- Node Server
 Browser (React) updates state ---> React re-renders UI
 
 ```
-
-### Key takeaways
-
-- React cannot talk directly to databases — it must call a server endpoint.
-- REST APIs (or GraphQL) are the standard way to fetch external data.
-- React re-renders whenever state changes, regardless of the data source.
-- Async data flows: database → server → REST endpoint → React → state → UI.
-- Loading states and error handling are essential for good UX.
 
   </div>
 </details>
@@ -1031,27 +995,19 @@ This example uses only two pieces of state:
 
 ### Why this pattern is so common
 
-- Simple: only two states (`loading` and `data`)
-- Universal: works with any REST API or GraphQL endpoint
-- Scalable: can be extended to multiple components and tables
-- Declarative: React handles DOM updates automatically
-
-### Key takeaways
-
-- React re-renders whenever state changes — regardless of whether the trigger is local or external.
-- Fetching data from a database requires a server endpoint (REST or GraphQL).
-- Loading states improve UX by showing progress while async calls complete.
-- This pattern (loading + data state) is used in ~99% of React apps fetching external data.
-- More complex apps add error handling, caching, and multiple components — but the core idea remains the same.
+- **Simple**: only two states (`loading` and `data`)
+- **Universal**: works with any REST API or GraphQL endpoint
+- **Scalable**: can be extended to multiple components and tables
+- **Declarative**: React handles DOM updates automatically
 
   </div>
 </details>
 
 <details>
-  <summary>Replacing Component State with Suspense and Promises</summary>
+  <summary>Replacing Component State with <strong>Suspense</strong> and <strong>Promises</strong></summary>
   <div>
 
-- Before React 18, developers used component state (`loading`, `data`) to manage async operations like fetching data.
+- Before React 18, developers **used component state** (`loading`, `data`) to manage async operations like fetching data.
 - With React 18’s concurrent rendering, **Suspense + Promises** can replace much of this state management, simplifying async UI flows and avoiding race conditions.
 
 ### The old pattern: state-driven async rendering
@@ -1072,11 +1028,11 @@ React 18 introduces a cleaner alternative.
 
 ### The new pattern: Suspense + Promises
 
-React Suspense lets you declaratively say:
+React `Suspense` lets you declaratively say:
 
 > Render this fallback UI until the promise resolves.
 
-Suspense works by:
+`Suspense` works by:
 
 - Wrapping a component in `<Suspense fallback="Loading...">`
 - Inside the child component, calling `use(promise)`
@@ -1085,9 +1041,23 @@ Suspense works by:
 
 ### Updated parent component using Suspense
 
-```js
+```js:title=app/products/page.js
+import Products from "./products";
+
+export default function ProductPage(){
+  return (
+    <div>
+      <h1>Products</h1>
+      <Products />
+    </div>
+  )
+}
+```
+
+```js:title=app/products/products.js
+"use client"
 import { Suspense, useState, useEffect } from "react";
-import ProductsDisplay from "./ProductsDisplay";
+import ProductsDisplay from "./products-display";
 
 export default function Products() {
   const [show, setShow] = useState(false);
@@ -1096,14 +1066,15 @@ export default function Products() {
     setShow(true); // auto-load on mount
   }, []);
 
-  if (!show)
-    return <button onClick={() => setShow(true)}>Retrieve Data</button>;
-
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <ProductsDisplay />
-    </Suspense>
-  );
+  return !show
+    ? (null)
+    :(
+      <>
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductsDisplay />
+        </Suspense>
+      </>
+    );
 }
 ```
 
@@ -1117,29 +1088,58 @@ Suspense handles all async rendering automatically.
 
 ### The child component uses `use()` with a promise
 
-```js:title=
+```js:title=products-display.js
 import { use } from "react";
 import { fetchDataPromise } from "./fetch-data-promise";
 
 export default function ProductsDisplay() {
-  const products = use(fetchDataPromise("/api/products"));
+  const products = use(fetchDataPromise("https://fakestoreapi.com/products"));
 
+  const cellStyle = { borderBottom: "1px solid #ddd", padding: ".5rem" };
+  const nameStyle = {
+    maxWidth: "15rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    ...cellStyle,
+  };
   return (
-    <ul>
-      {products.map(p => (
-        <li key={p.id}>{p.name}</li>
-      ))}
-    </ul>
+    <table
+      style={{
+        borderCollapse: "collapse",
+        borderSpacing: ".5rem",
+      }}
+    >
+      <thead>
+        <tr>
+          <th style={cellStyle}>Id</th>
+          <th style={nameStyle}>Name</th>
+          <th style={cellStyle}>Price</th>
+          <th style={cellStyle}>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.map((p) => (
+          <tr key={p.id}>
+            <td style={cellStyle}>{p.id}</td>
+            <td style={nameStyle}>{p.title}</td>
+            <td style={cellStyle}>{p.price}</td>
+            <td style={cellStyle}>{p.category}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
-
 ```
+
+![React Async Data Simplified](../../../../src/images/08_react/r-1z.gif)
 
 When `use()` receives a pending promise:
 
-- React suspends rendering
-- Suspense shows the fallback UI
-- When the promise resolves, React re-renders with the data
+- React **suspends rendering**
+- Suspense **shows the fallback UI**
+- When the **promise resolves**, React **re-renders** with the data
 
 ### The promise function with caching
 
@@ -1158,13 +1158,12 @@ async function getData(url) {
   return res.json();
 }
 
+// Why caching?
+
+// - React may re-render components multiple times
+// - Without caching, the fetch would run repeatedly
+// - Suspense expects stable promises
 ```
-
-Why caching?
-
-- React may re-render components multiple times
-- Without caching, the fetch would run repeatedly
-- Suspense expects stable promises
 
 ### What Suspense gives you
 
@@ -1177,31 +1176,24 @@ Why caching?
 ### Visual flow
 
 ```text
+
 User loads page
-↓
+  ↓
 Suspense renders fallback ("Loading...")
-↓
+  ↓
 ProductsDisplay calls use(fetchPromise)
-↓
+  ↓
 React waits for promise to resolve
-↓
+  ↓
 Promise resolves → Suspense renders real UI
 
 ```
-
-### Key takeaways
-
-- React 18 introduced concurrent rendering and Suspense for data fetching.
-- Suspense replaces manual `loading` and `data` state for async UI.
-- `use(promise)` is the mechanism that triggers Suspense boundaries.
-- Caching is required to avoid repeated fetches during re-renders.
-- This pattern dramatically simplifies async UI logic in large apps.
 
   </div>
 </details>
 
 <details>
-  <summary>Introducing React Server Components with Async Data</summary>
+  <summary>Introducing <strong>React Server Components</strong> with <strong>Async Data</strong></summary>
   <div>
 
 - React Server Components `RSC`s allow `React` apps to run components directly on the `Node.js` server, not just in the browser. - This unlocks powerful capabilities: **server‑side** data fetching, direct database access, and reduced **client‑side** JavaScript — all while still supporting interactive client components.
@@ -1377,14 +1369,70 @@ Browser:
 
 📌 However, this only works if your production environment runs Node.js.
 
-### Key takeaways
-
-- React Server Components run in Node.js and can fetch data directly.
-- Client Components handle interactivity and use `use()` to resolve promises.
-- Suspense shows fallback UI while promises resolve.
-- Server → client data must be serializable.
-- RSCs reduce the need for REST APIs and simplify async logic.
-- This architecture is only possible when React runs on a Node server.
-
   </div>
 </details>
+
+## Key Takeaway
+
+1. ✅ **1. React vs ReactDOM vs React Native**
+
+- React builds the **virtual DOM** + manages **component logic**
+- ReactDOM handles **browser DOM rendering**
+- React Native uses **React** but with a **native renderer**
+- JSX works the same everywhere — only **elements differ**
+- React = **what to render**, ReactDOM = **where/how to render**
+
+2. ⚡ **2. Rendering & Reconciliation**
+
+- ReactDOM performs **efficient DOM updates** via diffing
+- Reconciliation compares **old vs new virtual DOM**
+- Only **changed nodes** update in the real DOM
+- Keys help React **match list items** efficiently
+- React avoids **O(n³)** diffing using heuristics
+- Reconciliation runs on **every state update**
+- This is why React apps feel **fast & reactive**
+
+3. 🌍 **3. Multi‑Environment Execution (Server + Browser)**
+
+- React can run components in **multiple environments**
+- Server components: **data fetching + heavy computation**
+- Client components: **interactivity + state updates**
+- Data flows **server → client** via props
+- Reduces **client‑side JS** and improves performance
+- Future React may run in **workers, WASM, new browser processes**
+
+4. 🖥️ **4. Server Components & Hydration**
+
+- Server components render **HTML on the server**
+- Browser hydrates → becomes a **normal SPA**
+- Server components run **DB queries/API calls** without shipping JS
+- Client components handle **events + state**
+- Mirrors the classic **Node‑rendered SPA** pattern
+- Server‑rendered HTML appears in **View Source**
+- Dynamic updates appear only in the **live DOM**
+- Next.js decides execution using **"use client"**
+- Server Components reduce **bundle size** + boost performance
+
+5. 🔌 **5. Data Fetching & Async Flow**
+
+- React cannot talk to DBs directly → needs **server endpoints**
+- REST/GraphQL are standard for external data
+- React re-renders on **any state change**
+- Async flow: **DB → server → REST → React → state → UI**
+- Loading states improve UX during async calls
+- Pattern used in **~99%** of real apps
+- Complex apps add **errors, caching, multi-component flows**
+
+6. 🌀 **6. React 18: Concurrent Rendering & Suspense**
+
+- React 18 introduced **concurrent rendering**
+- Suspense replaces manual **loading/data state**
+- `use(promise)` triggers Suspense boundaries
+- Caching prevents **repeat fetches** during re-renders
+- Greatly simplifies async UI in large apps
+- RSCs fetch data **directly in Node.js**
+- Client components use `use()` to resolve promises
+- Suspense shows **fallback UI** while waiting
+- Server → client data must be **serializable**
+- RSCs reduce need for REST APIs
+- Works only when React runs on a **Node server**
