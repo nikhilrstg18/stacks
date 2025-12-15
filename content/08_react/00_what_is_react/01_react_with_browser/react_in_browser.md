@@ -1264,8 +1264,8 @@ Instead of awaiting the database call in the server component, we pass the promi
 
 <div class="gatsby-code-title gatsby-remark-code-title">app/page.js (Server Component)</div>
 
-```js:title=
-// app/page.js (Server Component)
+```js:title=app/page.js
+//(Server Component)
 export default function Page() {
   const productsPromise = db.query("SELECT * FROM products");
   return <ProductsDisplay productsPromise={productsPromise} />;
@@ -1281,7 +1281,6 @@ export default function Page() {
 
 ```js
 "use client";
-
 import { use } from "react";
 
 export default function ProductsDisplay({ productsPromise }) {
@@ -1327,7 +1326,6 @@ You **cannot** pass:
 1. **React Server + Client Components**
 
 ```text
-
 Node Server:
 - SQLite
 - React Server Component (fetches data)

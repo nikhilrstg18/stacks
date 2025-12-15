@@ -1,7 +1,9 @@
-import { Link, graphql, useStaticQuery } from "gatsby";
 import * as React from "react";
+import { Link, graphql, useStaticQuery } from "gatsby";
 import * as styles from "../styles/nav.module.css";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import Auth from "./auth.component";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = ({ section }) => {
   const data = useStaticQuery(
@@ -32,12 +34,13 @@ const NavBar = ({ section }) => {
       <h1 className={[styles.section, styles.fontxxl].join(" ")}>{section}</h1>
       <span className={styles.filler}></span>
       <ul className={styles.section}>
-        <Link to="/books" title="Books">
-          📚
-        </Link>
         <Link to="/about" title="About">
           🧑‍💻
         </Link>
+        <Link to="/books" title="Books">
+          📚
+        </Link>
+        <Auth />
       </ul>
     </nav>
   );

@@ -24,18 +24,14 @@
   z-index: -1;
 }
 .navbar ul {
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   align-self: center;
 }
 .navbar ul a {
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.8rem;
   text-decoration: none;
   color: var(--secondary);
-}
-.navbar ul a {
-  padding: 0.25rem 0.5rem;
-  text-decoration: none;
-  color: var(--secondary);
+  font-size: 1.5rem;
 }
 .navbar ul a:hover {
   border-bottom: 2px solid var(--secondary);
@@ -48,8 +44,8 @@
   flex: 1 1 auto;
 }
 .section {
-  margin: 1.25rem 0.5rem 0.5rem 0.5rem;
   align-self: center;
+  margin: 1rem 0 0 0;
 }
 .fontxxl {
   font-size: xx-large;

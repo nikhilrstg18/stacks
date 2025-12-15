@@ -1,9 +1,14 @@
 const path = require("path");
+import dotenv from "dotenv";
 
 exports.createPages = async ({ graphql, actions }) => {
+  dotenv.config();
   const { data } = await graphql(`
     query BookInfo {
-      allMarkdownRemark(filter: {frontmatter:{draft:{eq:false}}}, sort: { frontmatter: { stack: ASC } }) {
+      allMarkdownRemark(
+        filter: { frontmatter: { draft: { eq: false } } }
+        sort: { frontmatter: { stack: ASC } }
+      ) {
         nodes {
           frontmatter {
             slug

@@ -30,10 +30,10 @@
   font-size: var(--global-fs);
 }
 .book h2,
-h3,
-h4,
-h5,
-h6 {
+.book h3,
+.book h4,
+.book h5,
+.book h6 {
   margin: 3rem 0 1.5rem 0;
   background-image: linear-gradient(to left, #001229, #2fd9c9 90%);
   color: transparent;
@@ -43,8 +43,8 @@ h6 {
 .book h2 {
   text-align: center;
 }
-h2::before,
-h2::after {
+.book h2::before,
+.book h2::after {
   display: inline-block;
   content: "";
   border-top: 0.15rem solid #ccc;
@@ -52,7 +52,7 @@ h2::after {
   margin: 0 1rem;
   transform: translateY(-0.5rem);
 }
-h3::after {
+.book h3::after {
   display: inline-block;
   content: "";
   border-top: 2px solid #ccc;
@@ -252,4 +252,8 @@ details summary ::details-content {
 
 details summary::after {
   content: "❓";
+}
+
+.gatsby-highlight pre code span.operator.token {
+  background: transparent;
 }
