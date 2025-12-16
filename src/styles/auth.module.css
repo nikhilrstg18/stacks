@@ -5,7 +5,7 @@
   border-left: 1px solid #333;
   font-size: 1.5rem;
 }
-loader {
+.loader {
   font-size: 50px;
   display: inline-block;
   animation: spin 2s linear infinite;
@@ -19,4 +19,9 @@ loader {
   to {
     transform: rotate(360deg);
   }
+}
+
+.hi {
+  color: var(--secondary);
+  font-stretch: ultra-condensed;
 }

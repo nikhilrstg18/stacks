@@ -3,7 +3,6 @@ import { Link, graphql, useStaticQuery } from "gatsby";
 import * as styles from "../styles/nav.module.css";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import Auth from "./auth.component";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = ({ section }) => {
   const data = useStaticQuery(
@@ -12,7 +11,7 @@ const NavBar = ({ section }) => {
         file(relativePath: { eq: "icon.png" }) {
           id
           childImageSharp {
-            gatsbyImageData(width: 64, aspectRatio: 1)
+            gatsbyImageData(width: 50, aspectRatio: 1)
           }
         }
       }

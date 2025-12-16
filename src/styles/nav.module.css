@@ -9,6 +9,8 @@
   z-index: 1;
   display: flex;
   justify-content: space-around;
+  height: 3.5rem;
+  padding: 0 1rem;
 }
 .navbar:before {
   content: "";
@@ -24,11 +26,11 @@
   z-index: -1;
 }
 .navbar ul {
-  padding: 0 1rem;
+  padding: 0;
   align-self: center;
 }
 .navbar ul a {
-  padding: 0.25rem 0.8rem;
+  padding: 0.25rem 0.5rem;
   text-decoration: none;
   color: var(--secondary);
   font-size: 1.5rem;
@@ -38,14 +40,14 @@
   animation: ease-in 0.5s;
 }
 .navbar .brand {
-  padding: 0.25rem 0.5rem;
+  padding: 4px 0;
 }
 .filler {
   flex: 1 1 auto;
 }
 .section {
   align-self: center;
-  margin: 1rem 0 0 0;
+  padding: 0;
 }
 .fontxxl {
   font-size: xx-large;

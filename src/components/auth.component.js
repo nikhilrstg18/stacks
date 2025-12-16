@@ -15,7 +15,7 @@ function Auth() {
   }, [isLoading, isAuthenticated, user, logout]);
 
   if (isLoading) {
-    return <div className="styles.loader">🌀</div>;
+    return <div className={styles.loader}>🌀</div>;
   }
 
   if (!isAuthenticated) {
@@ -25,7 +25,7 @@ function Auth() {
         title="Log In"
         className={styles.authAction}
       >
-        ➡️
+        🔐
       </button>
     );
   }
@@ -38,7 +38,7 @@ function Auth() {
       title="Logout"
       className={styles.authAction}
     >
-      Hi {user.given_name}
+      <span className={styles.hi}>Hello </span> {user.given_name}
     </button>
   );
 }
