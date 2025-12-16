@@ -8,8 +8,8 @@ export const wrapRootElement = ({ element }) => {
   console.log(process.env);
   return (
     <Auth0Provider
-      domain={process.env.AUTH0_DOMAIN}
-      clientId={process.env.AUTH0_CLIENTID}
+      domain={process.env.GATSBY_AUTH0_DOMAIN}
+      clientId={process.env.GATSBY_AUTH0_CLIENTID}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}
