@@ -11,7 +11,7 @@ export const wrapRootElement = ({ element }) => {
       domain={process.env.GATSBY_AUTH0_DOMAIN}
       clientId={process.env.GATSBY_AUTH0_CLIENTID}
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: window.location.href,
       }}
       useRefreshTokens={true}
       cacheLocation="localstorage"
