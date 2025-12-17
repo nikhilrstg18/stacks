@@ -25,3 +25,9 @@
   color: var(--secondary);
   font-stretch: ultra-condensed;
 }
+
+@media only screen and (max-width: 576px) {
+  .authAction {
+    font-size: unset;
+  }
+}

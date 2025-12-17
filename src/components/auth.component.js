@@ -38,7 +38,7 @@ function Auth() {
       title="Logout"
       className={styles.authAction}
     >
-      <span className={styles.hi}>Hello </span> {user.given_name}
+      <span className={styles.hi}>Hi </span> {user.given_name}
     </button>
   );
 }
