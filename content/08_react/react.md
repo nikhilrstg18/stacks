@@ -11,7 +11,7 @@ draft: false
 ```markdown markmap
 - React
   - Introduction
-    - Big picture
+    - What is React
     - Fundamentals
   - Core
     - Working with Components
