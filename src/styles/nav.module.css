@@ -49,9 +49,13 @@
 .section {
   align-self: center;
   padding: 0;
+  margin: 0.75rem 0 0;
 }
 .fontxxl {
   font-size: xx-large;
+}
+.fontxl {
+  font-size: x-large;
 }
 .cursorbox {
   border-radius: 50%;
@@ -100,9 +104,11 @@
 @media only screen and (max-width: 576px) {
   .navbar {
     padding: 0;
+    border-radius: 0.5rem;
   }
   .navbar ul a {
-    padding: 0.25rem;
+    padding: 0.25rem 0.75rem;
     font-size: unset;
+    margin: 0.75rem 0 0;
   }
 }

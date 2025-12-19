@@ -135,6 +135,9 @@ table tbody tr td {
 .fontxxl {
   font-size: xx-large;
 }
+.fontxl {
+  font-size: x-large;
+}
 
 .gatsby-resp-image-figure .gatsby-resp-image-figcaption {
   text-align: center;

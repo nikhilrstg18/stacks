@@ -102,7 +102,7 @@
 .footer {
   font-size: var(--global-fs-sm);
   text-align: center;
-  margin: 1rem 0;
+  margin: 4rem 0;
 }
 .footer img {
   width: 14px;

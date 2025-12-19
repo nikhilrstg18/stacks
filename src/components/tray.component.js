@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 import * as styles from "../styles/aside.module.css";
 
 export default function Tray({ sideMenu }) {
+  const hasMenu = sideMenu.length > 0;
   function titleCase(str) {
     if (str === "0_c") {
       str = "c#";
@@ -28,22 +29,30 @@ export default function Tray({ sideMenu }) {
     return titleCaseString;
   }
   return (
-    <footer className={[styles.tray, styles.liquidGlass].join(" ")}>
+    <footer
+      className={[
+        styles.tray,
+        styles.liquidGlass,
+        hasMenu ? "" : styles.noMenu,
+      ].join(" ")}
+    >
       <div>
         <div className={styles.trayBack}>
           <Link to="../">👈</Link>
         </div>
-        {sideMenu
-          .sort((a, b) => a?.name - b?.name)
-          ?.map((sm) => (
-            <div className={styles.traySection} key="sm">
-              {sm.menu?.map((m) => (
-                <div key={m?.id}>
-                  <Link to={m?.name}>{titleCase(m?.name)}</Link>
+        {hasMenu
+          ? sideMenu
+              .sort((a, b) => a?.name - b?.name)
+              ?.map((sm) => (
+                <div className={styles.traySection} key="sm">
+                  {sm.menu?.map((m) => (
+                    <div key={m?.id}>
+                      <Link to={m?.name}>{titleCase(m?.name)}</Link>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ))}
+              ))
+          : null}
       </div>
     </footer>
   );
