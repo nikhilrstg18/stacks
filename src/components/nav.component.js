@@ -19,7 +19,7 @@ const NavBar = ({ section }) => {
   );
   const image = getImage(data.file.childImageSharp);
   return (
-    <nav className={styles.navbar}>
+    <nav className={[styles.navbar, styles.liquidGlass].join(" ")}>
       <Link to="/">
         <div className={[styles.cursorbox, styles.pointer].join(" ")}>
           <GatsbyImage

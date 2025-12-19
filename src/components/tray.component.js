@@ -28,7 +28,7 @@ export default function Tray({ sideMenu }) {
     return titleCaseString;
   }
   return (
-    <footer className={styles.tray}>
+    <footer className={[styles.tray, styles.liquidGlass].join(" ")}>
       <div>
         <div className={styles.trayBack}>
           <Link to="../">👈</Link>

@@ -68,6 +68,7 @@
   color: #333;
   text-align: center;
   display: block;
+  word-break: break-all;
 }
 .book cite {
   color: var(--secondary);
@@ -101,7 +102,7 @@
 .footer {
   font-size: var(--global-fs-sm);
   text-align: center;
-  margin: 3rem 0 3rem 0;
+  margin: 1rem 0;
 }
 .footer img {
   width: 14px;
@@ -167,6 +168,7 @@ p img {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   }
+
   .tableOfContentMobile {
     position: relative;
   }
@@ -196,7 +198,7 @@ p img {
     background: #fff;
     height: 100%;
     overflow: auto;
-    padding: 0.75rem;
+    padding: 0.25rem;
     min-width: 100%;
   }
   .tableOfContent {
@@ -204,6 +206,14 @@ p img {
   }
   p img {
     max-width: 100%;
+  }
+
+  .book h2::before,
+  .book h2::after {
+    width: 1rem;
+  }
+  .book h3::after {
+    width: 1rem;
   }
 }
 @media only screen and (min-width: 601px) {
