@@ -158,6 +158,50 @@ p img {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+details {
+  border: 1px solid var(--secondary);
+  border-radius: 1rem 0 1rem;
+  margin: 1rem 0;
+}
+details > div {
+  padding: 0.8rem;
+  margin: 0;
+  border-radius: 0 0 1rem;
+}
+
+details summary {
+  padding: 0.8rem;
+  background: #f5f2f0;
+  border-radius: 1rem 0 1rem;
+  font-style: italic;
+  font-family: cursive;
+  list-style: none;
+}
+details[open] summary {
+  border-radius: 1rem 0 0rem;
+}
+details summary::webkit-details-marker {
+  display: none;
+}
+
+details summary ::details-content {
+  transition: height 0.5s ease, content-visibility 0.5s ease allow-discrete;
+  height: 0;
+  overflow: clip;
+}
+[open]::details-content {
+  height: auto;
+  transition: 400ms ease-out;
+}
+
+details summary::after {
+  content: "❓";
+}
+
+.gatsby-highlight pre code span.operator.token {
+  background: transparent;
+}
+
 @media only screen and (max-width: 576px) {
   .tray {
     position: fixed;
@@ -215,6 +259,15 @@ p img {
   .book h3::after {
     width: 1rem;
   }
+
+  details summary {
+    font-family: unset;
+    font-size: var(--global-fs);
+  }
+
+  details div ul {
+    padding-inline-start: 20px;
+  }
 }
 @media only screen and (min-width: 601px) {
   .tray {
@@ -223,47 +276,4 @@ p img {
   .tableOfContentMobile {
     display: none;
   }
-}
-details {
-  border: 1px solid var(--secondary);
-  border-radius: 1rem 0 1rem;
-  margin: 1rem 0;
-}
-details > div {
-  padding: 0.8rem;
-  margin: 0;
-  border-radius: 0 0 1rem;
-}
-
-details summary {
-  padding: 0.8rem;
-  background: #f5f2f0;
-  border-radius: 1rem 0 1rem;
-  font-style: italic;
-  font-family: cursive;
-  list-style: none;
-}
-details[open] summary {
-  border-radius: 1rem 0 0rem;
-}
-details summary::webkit-details-marker {
-  display: none;
-}
-
-details summary ::details-content {
-  transition: height 0.5s ease, content-visibility 0.5s ease allow-discrete;
-  height: 0;
-  overflow: clip;
-}
-[open]::details-content {
-  height: auto;
-  transition: 400ms ease-out;
-}
-
-details summary::after {
-  content: "❓";
-}
-
-.gatsby-highlight pre code span.operator.token {
-  background: transparent;
 }

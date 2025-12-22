@@ -99,6 +99,9 @@ table tbody tr td {
 }
 
 @media only screen and (max-width: 576px) {
+  :root {
+    --global-fs: 13.5px;
+  }
   .notebook-content Aside {
     display: none;
   }
