@@ -135,7 +135,7 @@ Example:
 
 Continuing the example from prev section by install `faiss-cpu`
 
-```py:title:Pre-Requisite
+```py:title=Pre-Requisite
 
 %pip install faiss-cpu
 

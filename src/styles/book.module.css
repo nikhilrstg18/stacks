@@ -68,7 +68,7 @@
   color: #333;
   text-align: center;
   display: block;
-  word-break: break-all;
+  word-break: break-word;
 }
 .book cite {
   color: var(--secondary);
