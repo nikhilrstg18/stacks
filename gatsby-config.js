@@ -15,7 +15,6 @@ module.exports = {
     copyright: "© 2025",
   },
   plugins: [
-    "gatsby-plugin-fontawesome-css",
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {

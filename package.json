@@ -24,7 +24,6 @@
     "crypto-browserify": "^3.12.1",
     "dotenv": "^17.2.3",
     "gatsby": "^5.14.1",
-    "gatsby-plugin-fontawesome-css": "^1.2.0",
     "gatsby-plugin-image": "^3.14.0",
     "gatsby-plugin-manifest": "^5.14.0",
     "gatsby-plugin-sharp": "^5.14.0",
