@@ -2,47 +2,21 @@ import * as React from "react";
 import * as styles from "../styles/skillorbit.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGit,
-  faCodepen,
-  faHtml5,
-  faCss3Alt,
-  faSquareJs,
-  faMicrosoft,
-  faNodeJs,
-  faPython,
-  faAngular,
-  faReact,
-  faBootstrap,
-  faAtlassian,
-  faAws,
-  faDocker,
-  faEdge,
-  faChrome,
-  faWindows,
-  faFigma,
-  faGitlab,
-  faMarkdown,
-  faOpenai,
-} from "@fortawesome/free-brands-svg-icons";
-
 import NodeIcon from "../images/Node.js.svg";
-import NetCoreIcon from "../images/Net_core.svg";
+import NetCoreIcon from "../images/NetCore.svg";
 import AngularIcon from "../images/Angular.svg";
 import PythonIcon from "../images/Python.svg";
 import FigmaIcon from "../images/Figma.svg";
 import DockerIcon from "../images/Docker.svg";
 import CssIcon from "../images/CSS3.svg";
 import HtmlIcon from "../images/HTML5.svg";
-import AwsIcon from "../images/AWS.svg";
-import ReactIcon from "../images/React.svg";
-import JsIcon from "../images/Javascript.svg";
+import JsIcon from "../images/JavaScript.svg";
 import BootstrapIcon from "../images/Bootstrap.svg";
-import GitlabIcon from "../images/Gitlab.svg";
+import GitlabIcon from "../images/GitLab.svg";
 import GitIcon from "../images/Git.svg";
 import TailwindIcon from "../images/Tailwind.svg";
 import FirebaseIcon from "../images/Firebase.svg";
-import TypescriptIcon from "../images/Typescript.svg";
+import TypescriptIcon from "../images/TypeScript.svg";
 import CsIcon from "../images/C#.svg";
 import MongoDBIcon from "../images/MongoDB.svg";
 import NextjsIcon from "../images/Next.js.svg";
@@ -52,7 +26,14 @@ import KafkaIcon from "../images/Kafka.svg";
 import RabbitMQIcon from "../images/RabbitMQ.svg";
 import VsCodeIcon from "../images/VsCode.svg";
 import GitHubActionsIcon from "../images/GitHubActions.svg";
-
+import AwsIcon from "../images/AWS.svg";
+import CassandraIcon from "../images/Cassandra.svg";
+import BashIcon from "../images/Bash.svg";
+import ConfluenceIcon from "../images/Confluence.svg";
+import GatsbyIcon from "../images/Gatsby.svg";
+import GraphQLIcon from "../images/GraphQL.svg";
+import PlaywriteIcon from "../images/Playwrite.svg";
+import KubernetesIcon from "../images/Kubernetes.svg";
 const SkillOrbit = () => {
   return (
     <div className={styles.orbit}>
@@ -80,6 +61,50 @@ const SkillOrbit = () => {
                 src={GitHubActionsIcon}
                 className={styles.orbitIcon}
                 alt="GitHub Actions"
+              />
+            </li>
+            <li>
+              <img src={AwsIcon} className={styles.orbitIcon} alt="Aws" />
+            </li>
+            <li>
+              <img
+                src={CassandraIcon}
+                className={styles.orbitIcon}
+                alt="Cassandra"
+              />
+            </li>
+            <li>
+              <img src={BashIcon} className={styles.orbitIcon} alt="Bash" />
+            </li>
+            <li>
+              <img
+                src={ConfluenceIcon}
+                className={styles.orbitIcon}
+                alt="Confluence"
+              />
+            </li>
+            <li>
+              <img src={GatsbyIcon} className={styles.orbitIcon} alt="Gatsby" />
+            </li>
+            <li>
+              <img
+                src={GraphQLIcon}
+                className={styles.orbitIcon}
+                alt="GraphQL"
+              />
+            </li>
+            <li>
+              <img
+                src={PlaywriteIcon}
+                className={styles.orbitIcon}
+                alt="Playwrite"
+              />
+            </li>
+            <li>
+              <img
+                src={KubernetesIcon}
+                className={styles.orbitIcon}
+                alt="Kubernetes"
               />
             </li>
           </ul>
