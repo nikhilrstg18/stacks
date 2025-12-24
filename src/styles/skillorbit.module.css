@@ -1,0 +1,391 @@
+.orbit {
+  float: left;
+  width: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.orbitIcon {
+  width: 1.6em;
+  height: 1.6em;
+  line-height: 1.6em;
+  font-size: 1.2em;
+  border-radius: 50%;
+  background: snow;
+  color: #fff;
+  text-align: center;
+  display: block;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px 2px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px 2px;
+  padding: 0.15rem;
+}
+
+.orbitWrap {
+  height: 40em;
+  list-style: none;
+  font-size: 1.3em;
+}
+.orbitWrap > li {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.orbitWrap > li:hover ul {
+  border-width: 2px;
+  border-color: #fff;
+}
+.orbitWrap > li:hover ~ li ul {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+.orbitWrap > li:hover ~ li ul li {
+  opacity: 0.4;
+}
+
+ul[class^="skillorbit-module--ring"] {
+  transition: all 300ms ease-in-out;
+}
+ul[class^="skillorbit-module--ring"] li {
+  transition: all 300ms ease-in-out;
+}
+
+.ring0 {
+  width: 25em;
+  height: 25em;
+  -webkit-animation: clockwiseRotate 35s linear infinite;
+  animation: clockwiseRotate 35s linear infinite;
+}
+.ring0 li::marker {
+  content: none;
+}
+.ring0 svg {
+  -webkit-animation: counterClockwiseRotate 35s linear infinite;
+  animation: counterClockwiseRotate 35s linear infinite;
+}
+.ring0 img {
+  -webkit-animation: counterClockwiseRotate 35s linear infinite;
+  animation: counterClockwiseRotate 35s linear infinite;
+}
+
+.ring0 > *:nth-of-type(1) {
+  transform: rotate(95deg) translate(12.5em) rotate(-95deg);
+}
+
+.ring0 > *:nth-of-type(2) {
+  transform: rotate(190deg) translate(12.5em) rotate(-190deg);
+}
+
+.ring0 > *:nth-of-type(3) {
+  transform: rotate(285deg) translate(12.5em) rotate(-285deg);
+}
+
+.ring0 > *:nth-of-type(4) {
+  transform: rotate(380deg) translate(12.5em) rotate(-380deg);
+}
+
+.ring1 {
+  width: 20em;
+  height: 20em;
+  -webkit-animation: clockwiseRotate 30s linear infinite;
+  animation: clockwiseRotate 30s linear infinite;
+}
+.ring1 li::marker {
+  content: none;
+}
+.ring1 svg {
+  -webkit-animation: counterClockwiseRotate 30s linear infinite;
+  animation: counterClockwiseRotate 30s linear infinite;
+}
+.ring1 img {
+  -webkit-animation: counterClockwiseRotate 30s linear infinite;
+  animation: counterClockwiseRotate 30s linear infinite;
+}
+
+.ring1 > *:nth-of-type(1) {
+  transform: rotate(40deg) translate(10em) rotate(-40deg);
+}
+
+.ring1 > *:nth-of-type(2) {
+  transform: rotate(80deg) translate(10em) rotate(-80deg);
+}
+.ring1 > *:nth-of-type(3) {
+  transform: rotate(120deg) translate(10em) rotate(-120deg);
+}
+.ring1 > *:nth-of-type(4) {
+  transform: rotate(160deg) translate(10em) rotate(-160deg);
+}
+.ring1 > *:nth-of-type(5) {
+  transform: rotate(200deg) translate(10em) rotate(-200deg);
+}
+.ring1 > *:nth-of-type(6) {
+  transform: rotate(240deg) translate(10em) rotate(-240deg);
+}
+.ring1 > *:nth-of-type(7) {
+  transform: rotate(280deg) translate(10em) rotate(-280deg);
+}
+.ring1 > *:nth-of-type(8) {
+  transform: rotate(320deg) translate(10em) rotate(-320deg);
+}
+.ring1 > *:nth-of-type(9) {
+  transform: rotate(360deg) translate(10em) rotate(-360deg);
+}
+
+.ring2 {
+  width: 15em;
+  height: 15em;
+  -webkit-animation: clockwiseRotate 25s linear infinite;
+  animation: clockwiseRotate 25s linear infinite;
+}
+.ring2 li::marker {
+  content: none;
+}
+.ring2 svg {
+  -webkit-animation: counterClockwiseRotate 25s linear infinite;
+  animation: counterClockwiseRotate 25s linear infinite;
+}
+.ring2 img {
+  -webkit-animation: counterClockwiseRotate 25s linear infinite;
+  animation: counterClockwiseRotate 25s linear infinite;
+}
+
+.ring2 > *:nth-of-type(1) {
+  transform: rotate(51.4deg) translate(7.55em) rotate(-51.4deg);
+}
+
+.ring2 > *:nth-of-type(2) {
+  transform: rotate(102.8deg) translate(7.55em) rotate(-102.8deg);
+}
+
+.ring2 > *:nth-of-type(3) {
+  transform: rotate(154.2deg) translate(7.55em) rotate(-154.2deg);
+}
+
+.ring2 > *:nth-of-type(4) {
+  transform: rotate(205.6deg) translate(7.55em) rotate(-205.6deg);
+}
+
+.ring2 > *:nth-of-type(5) {
+  transform: rotate(257deg) translate(7.55em) rotate(-257deg);
+}
+
+.ring2 > *:nth-of-type(6) {
+  transform: rotate(308.4deg) translate(7.55em) rotate(-308.4deg);
+}
+.ring2 > *:nth-of-type(7) {
+  transform: rotate(359.8deg) translate(7.55em) rotate(-359.8deg);
+}
+
+.ring3 {
+  width: 10em;
+  height: 10em;
+  -webkit-animation: clockwiseRotate 20s linear infinite;
+  animation: clockwiseRotate 20s linear infinite;
+}
+.ring3 li::marker {
+  content: none;
+}
+.ring3 svg {
+  -webkit-animation: counterClockwiseRotate 20s linear infinite;
+  animation: counterClockwiseRotate 20s linear infinite;
+}
+.ring3 img {
+  -webkit-animation: counterClockwiseRotate 20s linear infinite;
+  animation: counterClockwiseRotate 20s linear infinite;
+}
+
+.ring3 > *:nth-of-type(1) {
+  transform: rotate(90deg) translate(5em) rotate(-90deg);
+}
+
+.ring3 > *:nth-of-type(2) {
+  transform: rotate(180deg) translate(5em) rotate(-180deg);
+}
+
+.ring3 > *:nth-of-type(3) {
+  transform: rotate(270deg) translate(5em) rotate(-270deg);
+}
+
+.ring3 > *:nth-of-type(4) {
+  transform: rotate(360deg) translate(5em) rotate(-360deg);
+}
+
+ul[class^="skillorbit-module--ring"] {
+  border: solid 1px var(--secondary);
+  position: relative;
+  padding: 0;
+  border-radius: 50%;
+  list-style: none;
+  box-sizing: content-box;
+}
+
+ul[class^="skillorbit-module--ring"] li {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.6em;
+  height: 1.6em;
+  margin: -0.8em;
+}
+
+/*
+  center;
+*/
+.orbitCenter {
+  z-index: 5;
+  font-size: 2em;
+  width: 1.8em;
+  height: 1.8em;
+  line-height: 1.8em;
+  text-align: center;
+  background: var(--secondary);
+  border-radius: 50%;
+}
+.orbitCenter:hover .orbitCenterIcon {
+  transform: rotateZ(0deg);
+}
+
+.orbitCenterIcon {
+  transform: rotateZ(-360deg);
+  transition: all 300ms ease-in-out;
+}
+
+.orbitWrap > li.orbitCenter:hover ~ li > ul {
+  width: 0;
+  height: 0;
+}
+.orbitWrap > li.orbitCenter:hover ~ li > ul * {
+  transform: translate(0, 0);
+}
+
+/* 
+animations 
+*/
+@-webkit-keyframes clockwiseRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes clockwiseRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes counterClockwiseRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes counterClockwiseRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .orbitIcon {
+    font-size: 0.8em;
+    padding: 0.15rem;
+  }
+  .ring0 {
+    width: 16.5em;
+    height: 16.5em;
+  }
+  .ring0 > *:nth-of-type(1) {
+    transform: rotate(95deg) translate(8.25em) rotate(-95deg);
+  }
+
+  .ring0 > *:nth-of-type(2) {
+    transform: rotate(190deg) translate(8.25em) rotate(-190deg);
+  }
+
+  .ring0 > *:nth-of-type(3) {
+    transform: rotate(285deg) translate(8.25em) rotate(-285deg);
+  }
+
+  .ring0 > *:nth-of-type(4) {
+    transform: rotate(380deg) translate(8.25em) rotate(-380deg);
+  }
+  .ring1 {
+    width: 13.5em;
+    height: 13.5em;
+  }
+  .ring1 > *:nth-of-type(1) {
+    transform: rotate(126.6666666667deg) translate(6.85em)
+      rotate(-126.6666666667deg);
+  }
+
+  .ring1 > *:nth-of-type(2) {
+    transform: rotate(253.3333333333deg) translate(6.85em)
+      rotate(-253.3333333333deg);
+  }
+
+  .ring1 > *:nth-of-type(3) {
+    transform: rotate(380deg) translate(6.85em) rotate(-380deg);
+  }
+  .ring2 {
+    width: 10.5em;
+    height: 10.5em;
+  }
+  .ring2 > *:nth-of-type(1) {
+    transform: rotate(47.5deg) translate(5.25em) rotate(-47.5deg);
+  }
+
+  .ring2 > *:nth-of-type(2) {
+    transform: rotate(95deg) translate(5.25em) rotate(-95deg);
+  }
+
+  .ring2 > *:nth-of-type(3) {
+    transform: rotate(142.5deg) translate(5.25em) rotate(-142.5deg);
+  }
+
+  .ring2 > *:nth-of-type(4) {
+    transform: rotate(190deg) translate(5.25em) rotate(-190deg);
+  }
+
+  .ring2 > *:nth-of-type(5) {
+    transform: rotate(237.5deg) translate(5.25em) rotate(-237.5deg);
+  }
+
+  .ring2 > *:nth-of-type(6) {
+    transform: rotate(285deg) translate(5.25em) rotate(-285deg);
+  }
+
+  .ring2 > *:nth-of-type(7) {
+    transform: rotate(332.5deg) translate(5.25em) rotate(-332.5deg);
+  }
+
+  .ring2 > *:nth-of-type(8) {
+    transform: rotate(380deg) translate(5.25em) rotate(-380deg);
+  }
+  .ring3 {
+    width: 7em;
+    height: 7em;
+  }
+
+  .ring3 > *:nth-of-type(1) {
+    transform: rotate(126.6666666667deg) translate(3.5em)
+      rotate(-126.6666666667deg);
+  }
+
+  .ring3 > *:nth-of-type(2) {
+    transform: rotate(253.3333333333deg) translate(3.5em)
+      rotate(-253.3333333333deg);
+  }
+
+  .ring3 > *:nth-of-type(3) {
+    transform: rotate(380deg) translate(3.5em) rotate(-380deg);
+  }
+}

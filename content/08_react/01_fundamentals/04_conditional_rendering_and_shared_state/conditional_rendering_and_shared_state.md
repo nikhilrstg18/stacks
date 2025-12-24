@@ -32,7 +32,7 @@ export default function HouseRow({ house }) {
 
 📌 Uses a `?` **ternary operator** to apply `text-primary` class only if price > 500,000.
 
-### ✅ Conditionally Rendering Elements
+### Conditionally Rendering Elements
 
 <div class="gatsby-code-title gatsby-remark-code-title">Only render <td> if price is truthy</div>
 
@@ -44,7 +44,7 @@ export default function HouseRow({ house }) {
 
 📌 Uses **logical AND** `&&` → `<td>` is rendered only if `house.price` is truthy.
 
-### ✅ Conditionally Rendering Components
+### Conditionally Rendering Components
 
 ```jsx:title=App.jsx
 import { useState } from "react";
@@ -71,7 +71,7 @@ export default function App() {
 - If `selectedHouse` exists → render `<House />`.
 - Else → render `<HouseList />`.
 
-### ✅ Passing Functions as Props
+### Passing Functions as Props
 
 ```jsx:title=src/components/HouseList.jsx
 import HouseRow from "./HouseRow";
@@ -233,22 +233,26 @@ export default function HouseList() {
   </div>
 </details>
 
-````html
 <details>
   <summary>How do you add additional state to a custom hook?</summary>
   <div>
-    ## Adding Additional State to a Custom Hook Custom hooks can manage multiple
-    pieces of state to improve user experience. In this case, we add a
-    `loadingState` to indicate API fetch status. ### ✅ Setup: loadingStatus.js
-    ```js // src/constants/loadingStatus.js export const loadingStatus = {
-    isLoading: "isLoading", loaded: "loaded", hasErrored: "hasErrored" };
-  </div>
-</details>
-````
 
----
+## Adding Additional State to a Custom Hook
 
-### ✅ Custom Hook: useHouses.js
+Custom hooks can manage multiple pieces of state to improve user experience. In this case, we add a
+`loadingState` to indicate API fetch status.
+
+### Setup: loadingStatus.js
+
+```js:title=src/constants/loadingStatus.js
+export const loadingStatus = {
+  isLoading: "isLoading",
+  loaded: "loaded",
+  hasErrored: "hasErrored"
+};
+```
+
+### Custom Hook: useHouses.js
 
 ```js
 import { useState, useEffect } from "react";
@@ -276,9 +280,7 @@ export function useHouses() {
 }
 ```
 
----
-
-### ✅ HouseList Component
+### HouseList Component
 
 ```jsx
 import { useHouses } from "../hooks/useHouses";
@@ -321,7 +323,7 @@ export default function HouseList() {
 
 Error boundaries catch rendering errors and display fallback UI instead of crashing the entire app.
 
-### ✅ ErrorBoundary Component
+### ErrorBoundary Component
 
 ```jsx:title=src/components/ErrorBoundary.jsx
 import React from "react";
@@ -349,7 +351,7 @@ export class ErrorBoundary extends React.Component {
 }
 ```
 
-### ✅ Usage in HouseList
+### Usage in HouseList
 
 ```jsx
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -376,7 +378,7 @@ export default function HouseList({ houses }) {
 }
 ```
 
-### ✅ Usage in App Component
+### Usage in App Component
 
 ```jsx
 <ErrorBoundary fallback={<div>Something went wrong in the app.</div>}>
