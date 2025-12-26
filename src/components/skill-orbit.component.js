@@ -2,6 +2,7 @@ import * as React from "react";
 import * as styles from "../styles/skillorbit.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from "@fortawesome/free-solid-svg-icons";
+import { faOpenai } from "@fortawesome/free-brands-svg-icons";
 import NodeIcon from "../images/Node.js.svg";
 import NetCoreIcon from "../images/NetCore.svg";
 import AngularIcon from "../images/Angular.svg";
@@ -44,53 +45,83 @@ const SkillOrbit = () => {
         <li>
           <ul className={styles.ring0}>
             <li>
-              <img src={GitlabIcon} className={styles.orbitIcon} alt="Gitlab" />
+              <img
+                src={GitlabIcon}
+                className={styles.orbitIcon}
+                alt="Gitlab"
+                title="Gitlab"
+              />
             </li>
             <li>
               <img
                 src={VsCodeIcon}
                 className={styles.orbitIcon}
                 alt="VS Code"
+                title="VS Code"
               />
-            </li>
-            <li>
-              <img src={DockerIcon} className={styles.orbitIcon} alt="Docker" />
             </li>
             <li>
               <img
-                src={GitHubActionsIcon}
+                src={DockerIcon}
                 className={styles.orbitIcon}
-                alt="GitHub Actions"
+                alt="Docker"
+                title="Docker"
               />
             </li>
             <li>
-              <img src={AwsIcon} className={styles.orbitIcon} alt="Aws" />
+              <FontAwesomeIcon
+                icon={faOpenai}
+                className={[styles.orbitCenterIcon, styles.faOpenai].join(" ")}
+                alt="OpenAi"
+                title="OpenAi"
+              />
+            </li>
+            <li>
+              <img
+                src={AwsIcon}
+                className={styles.orbitIcon}
+                alt="Aws"
+                title="Aws"
+              />
             </li>
             <li>
               <img
                 src={CassandraIcon}
                 className={styles.orbitIcon}
                 alt="Cassandra"
+                title="Cassandra"
               />
             </li>
             <li>
-              <img src={BashIcon} className={styles.orbitIcon} alt="Bash" />
+              <img
+                src={BashIcon}
+                className={styles.orbitIcon}
+                alt="Bash"
+                title="Bash"
+              />
             </li>
             <li>
               <img
                 src={ConfluenceIcon}
                 className={styles.orbitIcon}
                 alt="Confluence"
+                title="Confluence"
               />
             </li>
             <li>
-              <img src={GatsbyIcon} className={styles.orbitIcon} alt="Gatsby" />
+              <img
+                src={GatsbyIcon}
+                className={styles.orbitIcon}
+                alt="Gatsby"
+                title="Gatsby"
+              />
             </li>
             <li>
               <img
                 src={GraphQLIcon}
                 className={styles.orbitIcon}
                 alt="GraphQL"
+                title="GraphQL"
               />
             </li>
             <li>
@@ -98,6 +129,7 @@ const SkillOrbit = () => {
                 src={PlaywriteIcon}
                 className={styles.orbitIcon}
                 alt="Playwrite"
+                title="Playwrite"
               />
             </li>
             <li>
@@ -105,6 +137,7 @@ const SkillOrbit = () => {
                 src={KubernetesIcon}
                 className={styles.orbitIcon}
                 alt="Kubernetes"
+                title="Kubernetes"
               />
             </li>
           </ul>
