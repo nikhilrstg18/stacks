@@ -26,7 +26,6 @@ import SqlServerIcon from "../images/SqlServer.svg";
 import KafkaIcon from "../images/Kafka.svg";
 import RabbitMQIcon from "../images/RabbitMQ.svg";
 import VsCodeIcon from "../images/VsCode.svg";
-import GitHubActionsIcon from "../images/GitHubActions.svg";
 import AwsIcon from "../images/AWS.svg";
 import CassandraIcon from "../images/Cassandra.svg";
 import BashIcon from "../images/Bash.svg";
