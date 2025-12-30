@@ -301,4 +301,7 @@ se::before {
     width: 100%;
     padding: 0 0.25rem;
   }
+  .div-flex .div-algo {
+    width: 100%;
+  }
 }
