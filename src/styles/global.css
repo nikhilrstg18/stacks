@@ -98,19 +98,6 @@ table tbody tr td {
   max-width: 80%;
 }
 
-@media only screen and (max-width: 576px) {
-  :root {
-    --global-fs: 13.5px;
-  }
-  .notebook-content Aside {
-    display: none;
-  }
-  .notebook-content main {
-    margin-left: 0%;
-    min-width: 100%;
-    max-width: 100%;
-  }
-}
 .glass {
   position: relative;
   background: inherit;
@@ -224,20 +211,94 @@ pre[class*="language-"] {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
-op {
+/* Shared base styles */
+op,
+se {
   background: var(--bg-grey);
   padding: 1rem 0.5rem;
   border-radius: 0.5rem 0;
   display: block;
-  font-family: Consolas;
+  font-family: Consolas, monospace;
   margin-top: 1rem;
 }
-op::before {
-  content: "🤖";
-  width: 2rem;
+
+op::before,
+se::before {
   position: relative;
   top: -1.5rem;
   left: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+op::before {
+  content: "🤖";
+  width: 2rem;
+}
+
+se::before {
+  content: "🪜 Execution";
+}
+
+.step {
+  border: none;
+  border-top: 1px solid #999;
+  position: relative;
+}
+
+.step::before {
+  content: attr(data-step);
+  position: relative;
+  font-family: Consolas, monospace;
+  font-size: var(--global-fs-sm);
+}
+
+.div-flex {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+}
+.div-flex-column {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+.div-flex .div-item {
+  width: 100%;
+  padding: 0 0.25rem;
+}
+.div-flex .div-item-50 {
+  width: 50%;
+  padding: 0 0.25rem;
+}
+.div-flex .div-algo {
+  width: 25vw;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 576px) {
+  :root {
+    --global-fs: 13.5px;
+  }
+  .notebook-content Aside {
+    display: none;
+  }
+  .notebook-content main {
+    margin-left: 0%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .div-flex {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+  }
+  .div-flex .div-item {
+    width: 100%;
+    padding: 0 0.25rem;
+  }
+  .div-flex .div-item-50 {
+    width: 100%;
+    padding: 0 0.25rem;
+  }
 }

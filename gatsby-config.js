@@ -81,6 +81,13 @@ module.exports = {
           },
           `gatsby-remark-prismjs-copy-button`,
           {
+            resolve: `gatsby-remark-plantuml-lite`,
+            options: {
+              imageType: `svg`,
+              server: `https://www.plantuml.com/plantuml`,
+            },
+          },
+          {
             resolve: `gatsby-remark-prismjs`,
             options: {
               showLineNumbers: true,
