@@ -14,12 +14,10 @@ draft: false
 | **Two Pointer** | O(n log n) due to (sorting) + O(n) due to scanning -> overall O(n log n) | O(1)             | Sort the array, then use two pointers (left/right) to move inward until sum matches target. | Faster than brute force, no extra memory.                  | Sorting changes indices (original positions lost), not suitable if indices must be preserved. |
 | **Hash Map**    | O(n)                                                                     | O(n)             | Store each number’s index in a map; for each element, check if its complement exists.       | Fastest approach, preserves original indices, single pass. | Requires extra memory for the map.                                                            |
 
-<details>
-<summary>Finds the indices of two numbers in a array that sum to a target
+<details name="iq">
+<summary>2Sum: Brute Force
 </summary>
 <div>
-
-## Two Sum: Brute Force
 
 <div class="div-flex" >
   <div class="div-item">
@@ -42,16 +40,26 @@ function twoSumBruteForce(nums, target) {
   // If no solution is found
   return [];
 }
+```
 
-// Test case:
+<div class="div-flex" >
+  <div class="div-item-50">
+  <div class="div-flex-column">
+    <div>
+
+```js:title=Test_Case
 const nums = [1, 3, 4, 6, 8, 10];
 const target = 10;
 console.log(twoSumBruteForce(nums, target)); // Output: [2, 3]
 ```
 
   </div>
-  <div class="div-item">
+  <div class="div-algo">
 
+  </div>
+  </div>
+  </div>
+  <div class="div-item-50">
 <se>
 
 <hr class="step" data-step="Outer loop: i = 0 (nums[0] = 1)"/>
@@ -73,7 +81,7 @@ console.log(twoSumBruteForce(nums, target)); // Output: [2, 3]
   </div>
 </div>
 
-### Complexity Analysis
+## Complexity Analysis:BF
 
 1. **⏰ Time Complexity**
 
@@ -101,12 +109,10 @@ console.log(twoSumBruteForce(nums, target)); // Output: [2, 3]
 </div>
 </details>
 
-<details>
-<summary>Finds the indices of two numbers in a <strong>sorted</strong> array that sum to a target, <strong>original indices are insignificant</strong>
+<details name="iq">
+<summary>2Sum using TwoPointers, given <strong>sorted</strong> array</strong>
 </summary>
 <div>
-
-## Two Sum : TwoPointers
 
 ```js:title=Two_Sum_SORTED_using_TwoPointers
 /**
@@ -129,7 +135,9 @@ function twoSumSorted(nums:number[], target:number):number[] {
 ```
 
 <div class="div-flex" >
-  <div class="div-item">
+  <div class="div-item-50">
+  <div class="div-flex-column">
+    <div>
 
 ```js:title=Test_Case_Match
 nums = [1, 3, 4, 6, 8, 10];
@@ -138,43 +146,80 @@ consol.log(twoSumSorted(nums, target)); // [2,5]
 ```
 
   </div>
-  <div class="div-item">
+  <div class="div-algo">
 
-<se>
-
-<hr class="step" data-step="Step 1: i = 0, j = 5"/>nums[i] + nums[j] = 1 + 10 = 11 <br/>→ too small → i++
-<hr class="step" data-step="Step 2: i = 1, j = 5"/>nums[i] + nums[j] = 3 + 10 = 13 <br/>→ too small  → i++
-<hr class="step" data-step="Step 3: i = 2, j = 5"/>nums[i] + nums[j] = 4 + 10 = 14 <br/>→ match  → return [i,j]
-
-</se>
+  </div>
+  </div>
+  </div>
+  <div class="div-item-50">
+  <se>
+  <hr class="step" data-step="Step 1: i = 0, j = 5"/>nums[i] + nums[j] = 1 + 10 = 11 <br/>→ too small → i++
+  <hr class="step" data-step="Step 2: i = 1, j = 5"/>nums[i] + nums[j] = 3 + 10 = 13 <br/>→ too small  → i++
+  <hr class="step" data-step="Step 3: i = 2, j = 5"/>nums[i] + nums[j] = 4 + 10 = 14 <br/>→ match  → return [i,j]
+  </se>
   </div>
 </div>
 
 <div class="div-flex" >
-  <div class="div-item">
-
+  <div class="div-item-50">
+  <div class="div-flex-column">
+    <div>
+    
 ```js:title=Test_Case_NoMatch
 nums = [1, 3, 4, 6, 8, 10];
 target = 15;
 consol.log(twoSumSorted(nums, target)); // []
 ```
+  </div>
+  <div class="div-algo">
+
+```plantuml
+@startuml
+title twoSumSorted(nums, target)
+
+start
+
+:Initialize i = 0;
+:Initialize j = nums.length - 1;
+
+while (i < j) is (true)
+  :sum = nums[i] + nums[j];
+
+  if (sum == target) then (yes)
+    :Return [i, j];
+    stop
+  else (no)
+    if (sum < target) then (yes)
+      :Increment i (i++);
+    else (no)
+      :Decrement j (j--);
+    endif
+  endif
+
+endwhile (false)
+
+:Return [];
+
+stop
+@enduml
+```
 
   </div>
-  <div class="div-item">
-<se>
-
-<hr class="step" data-step="Step 1: i = 0, j = 5" />nums[i] + nums[j] = 1 + 10 = 11 <br/>→ too small → i++
-<hr class="step" data-step="Step 2: i = 1, j = 5" />nums[i] + nums[j] = 3 + 10 = 13 <br/>→ too small → i++
-<hr class="step" data-step="Step 3: i = 2, j = 5" />nums[i] + nums[j] = 4 + 10 = 14 <br/>→ too small → i++
-<hr class="step" data-step="Step 4: i = 3, j = 5" />nums[i] + nums[j] = 6 + 10 = 16 <br/>→ too big → j--
-<hr class="step" data-step="Step 5: i = 3, j = 4" />nums[i] + nums[j] = 6 + 8 = 14 <br/>→ too small → i++
-<hr class="step" data-step="Step 6: i = 4, j = 4" />pointers meet <br/>→ No match found → return []
-
-</se>
+  </div>
+  </div>
+  <div class="div-item-50">
+  <se>
+  <hr class="step" data-step="Step 1: i = 0, j = 5" />nums[i] + nums[j] = 1 + 10 = 11 <br/>→ too small → i++
+  <hr class="step" data-step="Step 2: i = 1, j = 5" />nums[i] + nums[j] = 3 + 10 = 13 <br/>→ too small → i++
+  <hr class="step" data-step="Step 3: i = 2, j = 5" />nums[i] + nums[j] = 4 + 10 = 14 <br/>→ too small → i++
+  <hr class="step" data-step="Step 4: i = 3, j = 5" />nums[i] + nums[j] = 6 + 10 = 16 <br/>→ too big → j--
+  <hr class="step" data-step="Step 5: i = 3, j = 4" />nums[i] + nums[j] = 6 + 8 = 14 <br/>→ too small → i++
+  <hr class="step" data-step="Step 6: i = 4, j = 4" />pointers meet <br/>→ No match found → return []
+  </se>
   </div>
 </div>
 
-### Complexity Analysis
+## Complexity Analysis:2Pointer
 
 1. **⏰ Time Complexity**
 
@@ -200,12 +245,10 @@ consol.log(twoSumSorted(nums, target)); // []
 </div>
 </details>
 
-<details>
-<summary>Finds the indices of two numbers in a <strong>unordered</strong> array that sum to a target, <strong>preserve original indices</strong>
+<details name="iq">
+<summary>2Sum using Hashmap, given <strong>unordered</strong> array and <strong>preserve</strong> original indices
 </summary>
 <div>
-
-## Two Sum: Hash map
 
 ```js:title=Two_Sum_SORTED_using_Hash_Map
 /**
@@ -248,8 +291,10 @@ console.log(twoSum(nums, target)); // Output: [2, 3]
   </div>
   <div class="div-algo">
 
-```plantuml:title=Algorithm
+```plantuml
 @startuml
+title twoSum(nums, target)
+
 start
 
 :Initialize map = new Map();
@@ -312,7 +357,7 @@ currentNum = nums[3] = 6
   </div>
 </div>
 
-### Complexity Analysis
+## Complexity Analysis:Hashmap
 
 1. **⏰ Time Complexity**
 
@@ -345,7 +390,3 @@ currentNum = nums[3] = 6
 
 - [2Sum on leetcode](https://leetcode.com/problems/two-sum/description/)
 - [2Sum : Sorted on leetcode](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
-
-```
-
-```
