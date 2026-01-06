@@ -6,25 +6,40 @@ date: "2025-05-10T07:26:45.889Z"
 draft: false
 ---
 
-## 3Sum
+## Problem
 
 Given an array of integers, return all triplets `[a, b, c]` such that `a + b + c = 0`. The solution must not contain duplicate triplets (e.g., `[1, 2, 3]` and `[2, 3, 1]` are considered duplicate triplets). If no such triplets are found, return an empty array.
 
 📌 Each triplet can be arranged in any order, and the output can be returned in any order
 
-Example:
+**Example:**
 
-Input: `nums = [0, -1, 2, -3, 1]`
+**Input:** `nums = [0, -1, 2, -3, 1]`
 
-Output: `[[-3, 1, 2], [-1, 0, 1]]`
+**Output:** `[[-3, 1, 2], [-1, 0, 1]]`
 
-Intuition
+### Intuition
 
-A brute-force solution involves checking every possible triplet in the array to see if they sum to zero. This can be done using three nested loops, iterating through each combination of three elements.
-Duplicate triplets can be avoided by sorting each triplet, which ensures identical triplets with different representations (e.g., `[1, 3, 2]` and `[3, 2, 1]`) are ordered consistently (`[1, 2, 3]`). Once sorted, we can add these triplets to a hash set. This way, if the same triplet is encountered again, the hash set will only keep one instance.
+- A brute-force solution involves checking every possible triplet in the array to see if they sum to zero.
+- This can be done using three nested loops, iterating through each combination of three elements.
+- Duplicate triplets can be avoided by sorting each triplet, which ensures identical triplets with different representations (e.g., `[1, 3, 2]` and `[3, 2, 1]`) are ordered consistently (`[1, 2, 3]`).
+- Once sorted, we can add these triplets to a hash set. This way, if the same triplet is encountered again, the hash set will only keep one instance.
 
+### Approaches
+
+| Method      | Time Complexity | Space Complexity | Best Use Case                                                       |
+| ----------- | --------------- | ---------------- | ------------------------------------------------------------------- |
+| Brute Force | O(n³)           | O(n³)            | Very Small array (n < 20)                                           |
+| Two-Pointer | O(n²)           | O(1)             | Sorted arrays (or when sorting is acceptable) and memory is limited |
+| HashMap/Set | O(n²)           | O(n)             | Unsorted arrays and when fast lookup is needed                      |
+
+<div style="display:none;">
+
+## Brute Force
+
+</div>
 <details name="iq">
-<summary>3Sum: Brute Force
+<summary> 3Sum: Brute Force
 </summary>
 <div>
 
@@ -75,107 +90,108 @@ console.log(tripletSumBruteForce(nums));
 ```
 
   </div>
-  <div class="div-algo">
+  <div>
+<se>
 
+```js:title=input
+nums = [0, -1, 2, -3, 1]
+```
+
+<hr class="step" data-step="Step 1: Initialize"/>
+`n = 5`<br/>
+`triplets = new Set()`
+
+<hr class="step" data-step="Step 2: Triple nested loop"/>
+
+<hr class="step" data-step="&nbsp;i = 0 (nums[i] = 0)"/>
+j = 1, k = 2 → `0 + (-1) + 2 = 1` ❌  <br/>
+j = 1, k = 3 → `0 + (-1) + (-3) = -4` ❌  <br/>
+j = 1, k = 4 → `0 + (-1) + 1 = 0` ✅ → push `[-1, 0, 1]`  <br/>
+j = 2, k = 3 → `0 + 2 + (-3) = -1` ❌  <br/>
+j = 2, k = 4 → `0 + 2 + 1 = 3` ❌  <br/>
+j = 3, k = 4 → `0 + (-3) + 1 = -2` ❌
+
+<hr class="step" data-step="&nbsp;i = 1 (nums[i] = -1)"/><br/>
+j = 2, k = 3 → `-1 + 2 + (-3) = -2` ❌  <br/>
+j = 2, k = 4 → `-1 + 2 + 1 = 2` ❌  <br/>
+j = 3, k = 4 → `-1 + (-3) + 1 = -3` ❌
+
+<hr class="step" data-step="&nbsp;i = 2 (nums[i] = 2)"/><br/>
+j = 3, k = 4 → `2 + (-3) + 1 = 0` ✅ → push `[-3, 1, 2]`
+
+</se>
   </div>
   </div>
   </div>
   <div class="div-item-50">
-<se>
 
-<hr class="step" data-step="Step 1: Sort the Array"/>
-nums.sort((a, b) => a - b);
+```plantuml
+@startuml
+title tripletSumBruteForce Execution Flow
 
-<hr class="step" data-step="Step 2: Outer Loop Iteration"/>
+start
 
-We iterate `i` from `0` to `nums.length - 3` (i.e., `0` to `2`).
+:Input nums[];
+:Initialize n = nums.length;
+:Initialize triplets = new Set();
 
-<hr class="step" data-step="&nbsp;1: `i = 0` → `nums[i] = -3`"/>
-- `left = 1` (`nums[left] = -1`)
-<br/>- `right = 4` (`nums[right] = 2`)
+repeat
+:Loop i from 0 to n-1;
+repeat
+:Loop j from i+1 to n-1;
+repeat
+:Loop k from j+1 to n-1;
+if (nums[i] + nums[j] + nums[k] == 0?) then (yes)
+:Create triplet = [nums[i], nums[j], nums[k]];
+:Sort triplet ascending;
+:Add JSON.stringify(triplet) to triplets;
+else (no)
+:Continue;
+endif
+repeat while (k < n)
+repeat while (j < n)
+repeat while (i < n)
 
-<hr class="step" data-step="&nbsp;&nbsp;While loop:"/>
+:Convert triplets to array;
+:Parse each JSON string back to array;
+:Return result array of triplets;
 
-`sum = -3 + (-1) + 2 = -2` → less than 0 → move `left++`
-<br/>`left = 2` (`nums[left] = 0`)
-<br/>
-<br/>`sum = -3 + 0 + 2 = -1` → less than 0 → move `left++`
-<br/>- `left = 3` (`nums[left] = 1`)
-<br/>
-<br/>`sum = -3 + 1 + 2 = 0` ✅ triplet found
-<br/> Push `[-3, 1, 2]` into result.
-<br/> Skip duplicates (none here).
-<br/> Move `left++` → `4`, `right--` → `3` → loop ends.
+stop
+@enduml
 
-<hr class="step" data-step="&nbsp;2: `i = 1` → `nums[i] = -1`"/>
+```
 
-`left = 2` (`nums[left] = 0`)<br/>
-`right = 4` (`nums[right] = 2`)
-
-<hr class="step" data-step="&nbsp;&nbsp;While loop:"/>
-
-`sum = -1 + 0 + 2 = 1` → greater than 0 → move `right--`<br/>
-`right = 3` (`nums[right] = 1`) <br/><br/>
-
-`sum = -1 + 0 + 1 = 0` ✅ triplet found
-<br/> Push `[-1, 0, 1]` into result.
-<br/> Skip duplicates (none here).
-<br/> Move `left++` → `3`, `right--` → `2` → loop ends.
-
-<hr class="step" data-step="&nbsp;3: `i = 2` → `nums[i] = 0`"/>
-
-`left = 3` (`nums[left] = 1`)<br/>
-`right = 4` (`nums[right] = 2`)
-
-<hr class="step" data-step="&nbsp;&nbsp;While loop:"/>
-
-`sum = 0 + 1 + 2 = 3` → greater than 0 → move `right--`<br/>
-
-`right = 3`<br/>
-Now `left = right` → loop ends.
-
-<hr class="step" data-step="Step 3: Return Result"/>
-[[-3, 1, 2], [-1, 0, 1]]
-
-</se>
   </div>
 </div>
 
-## Complexity Analysis:BF
+### Complexity Analysis
 
-1. **⏰ Time Complexity**
+<div class="div-flex">
+<div>
 
-- Triple nested loops (outer, middle, inner)
-  - Together → `O(n³)` combinations checked.
-- Inside the innermost loop
-  - Constant‑time sum check: `nums[i] + nums[j] + nums[k]`.
-  - Sorting a triplet of 3 elements: `O(1)` (since 3 is constant).
-  - JSON.stringify and Set.add: both `O(1)` average.
-  - So inner work is `O(1)`.
-- Final conversion
-  - Array.from(triplets) → O(m), where m = number of unique triplets.
-  - .map(JSON.parse) → O(m).
-  - Worst case m ≤ O(n³), but practically much smaller.
-- Hence T(n) = `O(n³)` + `O(1)`+ `O(m)` ~ **O(n³)**
+**⏰ Time Complexity**
 
-2. **📦 Space Complexity**
+- **Triple nested loops** → `O(n³)`
+- **Innermost work** → constant: sum check, sort(3), stringify, set add → `O(1)`
+- **Final conversion** → `O(m)`, with `m <= O(n³)`
+- Hence **T(n)** → `O(n³)`+ `O(1)` + `O(m)` ~ **`O(n³)`**
 
-- Triplets storage:
+> Three loops, cubic cost
 
-  - In the worst case, all possible triplets could be stored.
-  - Maximum number of triplets is:
+</div>
+<div>
 
-  (n / 3)=(n(n-1)(n-2))/{6} ~ `O(n³)`
+**📦 Space Complexity**
 
-  - Each triplet is an array of 3 numbers → constant space per triplet.
-  - Total storage: **O(n^3)** in the worst case.
+- **Triplets storage** → up to ( n(n-1)(n-2) ) / 6 ~ `O(n³)`
+- **Per triplet** → constant space (3 numbers)
+- **Auxiliary** → temp array + sort overhead → `O(1)`
+- Hence **S(n)** → `O(n³)` + `O(1)` ~ **`O(n³)`**
 
-- Auxiliary space:
+> Triplets pile up cubically.
 
-  - Temporary triplet array of size 3 → O(1).
-  - Sorting overhead → `O(1)`.
-
-- Hence S(n) = `O(n³)` + `O(1)` ~ **O(n³)**
+</div>
+</div>
 
 📌 This brute-force approach is fine for small arrays, but becomes inefficient for large inputs.
 
@@ -187,6 +203,11 @@ Now `left = right` → loop ends.
 </div>
 </details>
 
+<div style="display:none;">
+
+## Two Pointer
+
+</div>
 <details name="iq">
 <summary>3Sum: Two Pointer
 </summary>
@@ -248,8 +269,48 @@ console.log(threeSumTwoPointer(nums));
 ```
 
   </div>
-  <div class="div-algo">
-  
+  <div>
+<se>
+
+```js:title=After_sorting
+[-3, -1, 0, 1, 2]
+```
+
+<hr class="step" data-step="Iteration 1: `i = 0` → `nums[i] = -3`"/>
+
+| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action                                               |
+| ---- | --- | ---- | ----- | -------------------------------- | --- | ---------------------------------------------------- |
+| 1    | 0   | 1    | 4     | -3, -1, 2                        | -2  | sum < 0 → left++                                     |
+| 2    | 0   | 2    | 4     | -3, 0, 2                         | -1  | sum < 0 → left++                                     |
+| 3    | 0   | 3    | 4     | -3, 1, 2                         | 0   | ✅ triplet found → [-3, 1, 2]; then left++ & right-- |
+
+<hr class="step" data-step="Iteration 2: `i = 1` → `nums[i] = -1`"/>
+
+| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action                                               |
+| ---- | --- | ---- | ----- | -------------------------------- | --- | ---------------------------------------------------- |
+| 1    | 1   | 2    | 4     | -1, 0, 2                         | 1   | sum > 0 → right--                                    |
+| 2    | 1   | 2    | 3     | -1, 0, 1                         | 0   | ✅ triplet found → [-1, 0, 1]; then left++ & right-- |
+
+<hr class="step" data-step="Iteration 3: `i = 2` → `nums[i] = 0`"/>
+
+| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action            |
+| ---- | --- | ---- | ----- | -------------------------------- | --- | ----------------- |
+| 1    | 2   | 3    | 4     | 0, 1, 2                          | 3   | sum > 0 → right-- |
+| 2    | 2   | 3    | 3     | —                                | —   | loop ends         |
+
+---
+
+```js:title=Result
+[ [-1, 0, 1], [-3, 1, 2] ]
+```
+
+</se>
+
+  </div>
+  </div>
+  </div>
+  <div class="div-item-50">
+
 ```plantuml
 
 @startuml
@@ -302,76 +363,38 @@ stop
 
 @enduml
 
-````
-
-  </div>
-  </div>
-  </div>
-  <div class="div-item-50">
-<se>
-
-```js:title=After_sorting
-[-3, -1, 0, 1, 2]
-````
-
-<hr class="step" data-step="Iteration 1: `i = 0` → `nums[i] = -3`"/>
-
-| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action                                               |
-| ---- | --- | ---- | ----- | -------------------------------- | --- | ---------------------------------------------------- |
-| 1    | 0   | 1    | 4     | -3, -1, 2                        | -2  | sum < 0 → left++                                     |
-| 2    | 0   | 2    | 4     | -3, 0, 2                         | -1  | sum < 0 → left++                                     |
-| 3    | 0   | 3    | 4     | -3, 1, 2                         | 0   | ✅ triplet found → [-3, 1, 2]; then left++ & right-- |
-
-<hr class="step" data-step="Iteration 2: `i = 1` → `nums[i] = -1`"/>
-
-| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action                                               |
-| ---- | --- | ---- | ----- | -------------------------------- | --- | ---------------------------------------------------- |
-| 1    | 1   | 2    | 4     | -1, 0, 2                         | 1   | sum > 0 → right--                                    |
-| 2    | 1   | 2    | 3     | -1, 0, 1                         | 0   | ✅ triplet found → [-1, 0, 1]; then left++ & right-- |
-
-<hr class="step" data-step="Iteration 3: `i = 2` → `nums[i] = 0`"/>
-
-| Step | i   | left | right | nums[i], nums[left], nums[right] | sum | Action            |
-| ---- | --- | ---- | ----- | -------------------------------- | --- | ----------------- |
-| 1    | 2   | 3    | 4     | 0, 1, 2                          | 3   | sum > 0 → right-- |
-| 2    | 2   | 3    | 3     | —                                | —   | loop ends         |
-
----
-
-```js:title=Result
-[ [-1, 0, 1], [-3, 1, 2] ]
 ```
 
-</se>
   </div>
 </div>
 
-## Complexity Analysis:TwoPointer
+### Complexity Analysis
 
-1. **⏰ Time Complexity**
+<div class="div-flex">
+<div>
 
-- Sorting the input → `n log n`
-- Double nested loops
-  - Outer loop runs n times.
-  - Middle loop runs up to n times.
-  - Together → `O(n²)` combinations checked.
-- Hence T(n) = `n log n` + `O(n²)` ~ **O(n³)**
+**⏰ Time Complexity**
 
-2. **📦 Space Complexity**
+- **Sorting** → `O(n log n)`
+- **Double nested loops** → `O(n²)`
+- Hence **T(n)** = `n log n` + `O(n²)` ~ **`O(n²)`**
 
-- Triplets storage:
+> Two loops, quadratic cost
 
-  - Worst case, all possible triplets are stored.
-  - Maximum number of triplets is `O(n³)`
-  - Since from i, upto O(n) pairs can form valid triplets.
-  - Total storage: `O(n²)`
+</div>
+<div>
 
-- Auxiliary space:
+**📦 Space Complexity**
 
-  - Pointers (i, right, left) → O(1).
-  - Temporary sum → `O(1)`.
+- **Triplets storage** → `O(n³)` in worst case; from `i` up to `O(n)` ~ `O(n²)`
+- **Per triplet** → constant space (3 numbers) → `O(1)`
+- **Auxiliary** → temp array + sort overhead → `O(1)`
+- Hence **S(n)** ~ **`O(1)`** (excluding triplet storage)
 
-- Hence S(n) = `O(n²)`+ `O(1)` ~ **O(1)** (excluding output storage)
+> Triplets pile up quadratically.
+
+</div>
+</div>
 
 📌 This 2-pointer approach is a major improvement in Complexity
 
@@ -381,6 +404,11 @@ stop
 </div>
 </details>
 
+<div style="display:none;">
+
+## Hashmap
+
+</div>
 <details name="iq">
 <summary>3Sum: Hashmap
 </summary>
@@ -427,62 +455,106 @@ console.log(threeSumHash(nums));
 ```
 
   </div>
-  <div class="div-algo">
+  <div>
+  <se>
+
+<hr class="step" data-step="Iteration i = 0 (nums[i] = 0)"/>
+<br/>j = 1 → complement = -(0 + -1) = 1 → seen = {-1}
+<br/>j = 2 → complement = -(0 + 2) = -2 → seen = {-1, 2}
+<br/>j = 3 → complement = -(0 + -3) = 3 → seen = {-1, 2, -3}
+<br/>j = 4 → complement = -(0 + 1) = -1 → found in seen <br/>
+→ triplet = [-1, 0, 1] → result = {"-1,0,1"}
+
+<hr class="step" data-step="Iteration i = 1 (nums[i] = -1)"/>
+<br/>j = 2 → complement = -(-1 + 2) = -1 → seen = {2}
+<br/>j = 3 → complement = -(-1 + -3) = 4 → seen = {2, -3}
+<br/>j = 4 → complement = -(-1 + 1) = 0 → seen = {2, -3, 1}
+
+<hr class="step" data-step="Iteration i = 2 (nums[i] = 2)"/>
+<br/>j = 3 → complement = -(2 + -3) = 1 → seen = {-3}
+<br/>j = 4 → complement = -(2 + 1) = -3 → found in seen <br/>
+→ triplet = [-3, 1, 2] → result = {"-1,0,1", "-3,1,2"}
+
+<hr class="step" data-step="Iteration i = 3 (nums[i] = -3)"/>
+<br/>j = 4 → complement = -(-3 + 1) = 2 → seen = {1}
+
+<hr class="step" data-step="Iteration i = 4 (nums[i] = 1)"/>
+→ inner loop doesn’t run.
+</se>
 
   </div>
   </div>
   </div>
   <div class="div-item-50">
-<se>
 
-<hr class="step" data-step="Iteration i = 0 (nums[i] = 0)"/>  
-<br/>j = 1 → complement = -(0 + -1) = 1 → seen = {-1}  
-<br/>j = 2 → complement = -(0 + 2) = -2 → seen = {-1, 2}  
-<br/>j = 3 → complement = -(0 + -3) = 3 → seen = {-1, 2, -3}  
-<br/>j = 4 → complement = -(0 + 1) = -1 → found in seen <br/>
-→ triplet = [-1, 0, 1] → result = {"-1,0,1"}
+```plantuml
+@startuml
+title threeSumHash Execution Flow
 
-<hr class="step" data-step="Iteration i = 1 (nums[i] = -1)"/>  
-<br/>j = 2 → complement = -(-1 + 2) = -1 → seen = {2}  
-<br/>j = 3 → complement = -(-1 + -3) = 4 → seen = {2, -3}  
-<br/>j = 4 → complement = -(-1 + 1) = 0 → seen = {2, -3, 1}
+start
 
-<hr class="step" data-step="Iteration i = 2 (nums[i] = 2)"/>  
-<br/>j = 3 → complement = -(2 + -3) = 1 → seen = {-3}  
-<br/>j = 4 → complement = -(2 + 1) = -3 → found in seen <br/>
-→ triplet = [-3, 1, 2] → result = {"-1,0,1", "-3,1,2"}
+:Input nums[];
+:Initialize result = new Set();
 
-<hr class="step" data-step="Iteration i = 3 (nums[i] = -3)"/>  
-<br/>j = 4 → complement = -(-3 + 1) = 2 → seen = {1}
+repeat
+  :Loop i from 0 to nums.length-1;
+  :Initialize seen = new Set();
 
-<hr class="step" data-step="Iteration i = 4 (nums[i] = 1)"/> 
-→ inner loop doesn’t run.
-</se>
+  repeat
+    :Loop j from i+1 to nums.length-1;
+    :complement = -(nums[i] + nums[j]);
+
+    if (seen.has(complement)?) then (yes)
+      :triplet = [nums[i], nums[j], complement];
+      :Sort triplet ascending;
+      :Add triplet.join(',') to result;
+    else (no)
+      :Continue;
+    endif
+
+    :Add nums[j] to seen;
+  repeat while (j < nums.length)
+
+repeat while (i < nums.length)
+
+:Convert result to array of strings;
+:Split each string by ',' and map to numbers;
+:Return array of triplets;
+
+stop
+@enduml
+```
+
   </div>
 </div>
 
-## Complexity Analysis:TwoPointer
+### Complexity Analysis
 
-1. **⏰ Time Complexity**
+<div class="div-flex">
+<div>
 
-- Outer loop (i): Runs `n` times.
-- Inner loop (j): For each i, runs up to `n-i-1` times.
-- Hash set operations: `seen.has()` and `seen.add()` are `O(1)` average.
-- Sorting triplet: Each triplet has 3 elements → constant-time sort `O(1)`.
-- Result conversion: At the end, converting set to array is `O(k)`, where `k` is number of unique triplets (≤ `n^3`, but practically much smaller).
-- Hence T(n) = + `O(n²)`+ `O(1)`++ `O(1)` ~ **O(n²)**
+**⏰ Time Complexity**
 
-2. **📦 Space Complexity**
+- **Double nested loops** → `O(n²)`
+- **Hash set operations**: `seen.has()` and `seen.add()` → `O(1)`
+- **Result conversion:** → `O(k)`, where `k` is number of unique triplets (≤ `n^3`)
+- Hence **T(n)** = `O(n²)` + `O(1)` + `O(k)` ~ **`O(n²)`**
+
+> Two loops, quadratic cost
+
+</div>
+<div>
+
+**📦 Space Complexity**
 
 - `seen` set can hold up to `O(n)` elements per iteration.
 - `result` set can hold up to `O(n²)` triplets in worst case.
+- Hence **S(n)** = `O(n)`+ `O(n²)` ~ **O(n)** (excluding output storage)
 
-- Hence S(n) = `O(n)`+ `O(n²)` ~ **O(n²)**
+</div>
+</div>
 
 📌 This hashmap approach has improvement in complexity with tradeoff on memory used
-
-- Time: from `O(n³)` to `O(n²)`
-- Space: from `O(n³)` to `O(n²)`
 
 </div>
 </details>
