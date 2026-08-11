@@ -1,6 +1,6 @@
 ---
 title: "Container with most Water"
-slug: "06_dsa/03_coding_patterns/00_two_pointers/03_largest_container"
+slug: "06_dsa/03_coding_patterns/00_two_pointers/00_inward/03_largest_container"
 stack: "DSA"
 date: "2025-05-10T07:26:45.889Z"
 draft: false
@@ -12,7 +12,7 @@ draft: false
 - Find two lines that together with the **x-axis** form a container, such that the container contains the most water.
 - Return the maximum amount of water a container can store.
 
-![Container with most water](../../../../../src/images/06_dsa/dsa-1g.png)
+![Container with most water](../../../../../../src/images/06_dsa/dsa-1g.png)
 
 **Example:**
 

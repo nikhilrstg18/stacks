@@ -1,6 +1,6 @@
 ---
 title: "2Sum"
-slug: "06_dsa/03_coding_patterns/00_two_pointers/00_two_sum"
+slug: "06_dsa/03_coding_patterns/00_two_pointers/00_inward/00_two_sum"
 stack: "DSA"
 date: "2025-05-10T07:26:45.889Z"
 draft: false

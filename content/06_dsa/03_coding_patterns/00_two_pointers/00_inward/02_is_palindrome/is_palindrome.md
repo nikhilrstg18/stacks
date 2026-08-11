@@ -1,6 +1,6 @@
 ---
 title: "Is Palindrome"
-slug: "06_dsa/03_coding_patterns/00_two_pointers/02_is_palindrome"
+slug: "06_dsa/03_coding_patterns/00_two_pointers/00_inward/02_is_palindrome"
 stack: "DSA"
 date: "2025-05-10T07:26:45.889Z"
 draft: false

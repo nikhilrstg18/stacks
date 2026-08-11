@@ -119,5 +119,6 @@
     "vectorstores",
     "Vectra",
     "Wochen"
-  ]
+  ],
+  "snyk.advanced.autoSelectOrganization": true
 }
