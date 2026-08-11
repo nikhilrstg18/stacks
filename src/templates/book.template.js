@@ -54,24 +54,7 @@ export default function Book({ data }) {
             <h4>In this page</h4>
             <div dangerouslySetInnerHTML={{ __html: tableOfContents }}></div>
           </div>
-
           <div dangerouslySetInnerHTML={{ __html: html }} />
-          {/* <div className={styles.np}>
-            {prev ? (
-              <Link to={prev} title="Prev">
-                👈
-              </Link>
-            ) : (
-              ""
-            )}
-            {next ? (
-              <Link to={next} title="Next">
-                👉
-              </Link>
-            ) : (
-              ""
-            )}
-          </div> */}
           <footer className={styles.footer}>
             © {new Date(Date.now()).getFullYear()} <em>Nikhil Rustagi</em>.
             Published on {date.slice(0, 10)}
