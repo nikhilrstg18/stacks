@@ -1,6 +1,6 @@
 ---
 title: "HTTP Context"
-slug: "09_dotnet/1_asp_net_core/0_fundamentals/8_http_context"
+slug: "09_dotnet/1_asp_net_core/0_fundamentals/8_Http-Context"
 stack: "ASP.NET Core"
 date: "2026-08-11T00:00:00.000Z"
 draft: false

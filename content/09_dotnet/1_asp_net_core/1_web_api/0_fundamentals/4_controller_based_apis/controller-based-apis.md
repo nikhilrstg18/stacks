@@ -1,6 +1,6 @@
 ---
 title: "Controller-based APIs"
-slug: "09_dotnet/1_asp_net_core/1_web_api/0_fundamentals/4_controller-based-apis"
+slug: "09_dotnet/1_asp_net_core/1_web_api/0_fundamentals/4_controller_based_apis"
 stack: "ASP.NET Core"
 date: "2026-08-12T00:00:00.000Z"
 draft: false
