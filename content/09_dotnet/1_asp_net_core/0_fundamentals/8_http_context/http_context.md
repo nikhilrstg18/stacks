@@ -7,44 +7,57 @@ draft: false
 ---
 
 <details>
-  <summary>HttpContext - Like a complete dossier on a visitor</summary>
+  <summary>HttpContext Overview - Complete Request/Response Information</summary>
   <div>
 
-## What is HttpContext?
+## HttpContext in ASP.NET Core
 
-**Real-life analogy**: HttpContext is like a complete dossier on a visitor to your building. It contains everything you need to know about the visitor - who they are (user), what they want (request), what they're allowed to do (authorization), and what you should give them (response). Instead of looking up information in different places, everything about this specific visitor is in one convenient dossier.
+**Real-life analogy**: HttpContext is like a complete dossier on a specific visitor or transaction. When a customer arrives at a business, you create a file containing everything about them - who they are (user), what they want (request), what they're allowed to do (authorization), and what you should give them (response). This dossier travels through different departments (middleware) with everyone adding or reading information. HttpContext provides the same comprehensive information package for HTTP requests, accessible throughout the request pipeline.
 
-**Technical explanation**: HttpContext encapsulates all information about an individual HTTP request and response. It's initialized when an HTTP request is received and provides access to the request, response, user information, and other HTTP-related data. HttpContext is accessible by middleware and app frameworks like controllers, Razor Pages, and SignalR.
+**Technical explanation**: HttpContext encapsulates all information about an individual HTTP request and response. It's initialized when an HTTP request is received and provides access to HttpRequest (incoming request details), HttpResponse (outgoing response details), User (authenticated user information), and other HTTP-related data. HttpContext is accessible by middleware, controllers, Razor Pages, SignalR, gRPC, and other frameworks. It serves as the central hub for request/response information throughout the application.
 
 **Key jargon explained**:
-- **HttpContext**: The main object containing all HTTP request/response information
+- **HttpContext**: Central object containing all HTTP request/response information
 - **HttpRequest**: Information about the incoming HTTP request
 - **HttpResponse**: Information about the outgoing HTTP response
 - **User**: Information about the authenticated user
-- **Items**: A key-value collection for sharing data between middleware
+- **Items**: Key-value collection for sharing data between middleware
 
 ```csharp:title=Program.cs
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
 app.MapGet("/", (HttpContext context) =>
 {
     var method = context.Request.Method;
     var path = context.Request.Path;
-    return $"Method: {method}, Path: {path}";
+    var userAgent = context.Request.Headers.UserAgent;
+    
+    return $"Method: {method}, Path: {path}, User-Agent: {userAgent}";
 });
-
-app.Run();
 ```
 
-**How it works in practice**: HttpContext provides:
-- **Complete Information**: Everything about the request and response in one place
-- **Request Access**: Get method, path, headers, query string, body
-- **Response Access**: Set status code, headers, write response body
-- **User Information**: Access authenticated user and their claims
-- **Data Sharing**: Use Items collection to share data between middleware
+```csharp:title=RequestResponse.cs
+app.MapPost("/api/data", (HttpContext context) =>
+{
+    // Access request information
+    var body = context.Request.Body;
+    var contentType = context.Request.ContentType;
+    var queryParam = context.Request.Query["filter"];
+    
+    // Set response information
+    context.Response.StatusCode = 200;
+    context.Response.ContentType = "application/json";
+    
+    return Results.Ok(new { message = "Data processed" });
+});
+```
 
-HttpContext is your central hub for all HTTP-related information during request processing.
+**How it works in practice**: HttpContext is created when the HTTP request arrives and flows through the middleware pipeline. Each middleware component can read from and write to the HttpContext, modifying the request, adding response data, or sharing information via the Items collection. The HttpRequest property provides access to method, path, headers, query string, body, and other request details. The HttpResponse property allows setting status code, headers, and writing response body. The User property provides authentication information.
+
+**Key takeaways for interviews**:
+- HttpContext contains all HTTP request/response information
+- Accessible throughout the middleware pipeline and frameworks
+- HttpRequest provides incoming request details
+- HttpResponse enables response configuration
+- Items collection enables data sharing between middleware
 
   </div>
 </details>
@@ -55,105 +68,78 @@ HttpContext is your central hub for all HTTP-related information during request 
 <br/>
 
 <details>
-  <summary>HttpRequest - Like the visitor's request form</summary>
+  <summary>HttpRequest - Incoming Request Details</summary>
   <div>
 
 ## HttpRequest
 
-**Real-life analogy**: HttpRequest is like the visitor's request form. When someone visits your building, they fill out a form saying what they want (method), where they want to go (path), any special instructions (headers), and additional information (query string, body). This form contains everything you need to understand what the visitor is asking for.
+**Real-life analogy**: HttpRequest is like the detailed order form that a customer submits. It contains everything about their request - what they want (method), where they want it delivered (path), special instructions (headers), additional requirements (query string), and the actual content (body). Different departments (middleware) can read and modify this form to add information or change delivery instructions before the order is processed.
 
-**Technical explanation**: HttpRequest provides access to information about the incoming HTTP request. It includes the HTTP method, URL path, headers, query string, route values, and request body. HttpRequest is initialized when an HTTP request is received and can be modified by middleware in the pipeline.
+**Technical explanation**: HttpRequest provides access to all information about the incoming HTTP request. It includes the HTTP method (GET, POST, etc.), request path, headers, query string, route values, form data, and request body. HttpRequest is not read-only - middleware can modify request values in the pipeline. Common properties include Path, Method, Headers, RouteValues, Query, and Body. EnableBuffering allows multiple reads of the request body when needed.
 
 **Key jargon explained**:
-- **HttpRequest**: Object containing incoming HTTP request information
-- **Method**: HTTP method (GET, POST, PUT, DELETE, etc.)
-- **Path**: The URL path being requested
-- **Headers**: HTTP headers sent with the request
+- **HttpRequest**: Information about the incoming HTTP request
+- **HTTP Method**: GET, POST, PUT, DELETE, etc.
+- **Headers**: Key-value pairs sent with the request
 - **Query String**: URL parameters after the ?
-- **Route Values**: Values extracted from the URL route pattern
+- **Request Body**: Content payload (JSON, form data, etc.)
 
-### Common HttpRequest Properties:
-```csharp:title=Properties.cs
-// Path: The request path
-var path = context.Request.Path;  // "/api/users/123"
-
-// Method: The HTTP method
-var method = context.Request.Method;  // "GET"
-
-// Headers: Request headers
-var userAgent = context.Request.Headers.UserAgent;
-var contentType = context.Request.Headers.ContentType;
-
-// Query: Query string parameters
-var page = context.Request.Query["page"];  // "1"
-var filter = context.Request.Query["filter"];  // "active"
-
-// Route Values: Values from route matching
-var id = context.Request.RouteValues["id"];  // "123"
-
-// Body: Request body stream
-var body = context.Request.Body;
+```csharp:title=RequestProperties.cs
+app.MapGet("/", (HttpRequest request) =>
+{
+    var method = request.Method;           // GET, POST, etc.
+    var path = request.Path;               // /api/users
+    var headers = request.Headers;         // Request headers
+    var userAgent = headers.UserAgent;     // Browser information
+    var query = request.Query["filter"];  // Query string parameter
+    var routeValues = request.RouteValues; // Route parameters
+    
+    return $"Method: {method}, Path: {path}";
+});
 ```
 
-### Accessing Headers:
 ```csharp:title=Headers.cs
-// Method 1: Use indexer (case-insensitive)
-var customHeader = context.Request.Headers["x-custom-header"];
-
-// Method 2: Use typed properties (IntelliSense support)
-var userAgent = context.Request.Headers.UserAgent;
-var contentType = context.Request.Headers.ContentType;
-
-// Example endpoint
-app.MapGet("/", (HttpRequest request) =>
+app.MapGet("/headers", (HttpRequest request) =>
 {
     var userAgent = request.Headers.UserAgent;
     var customHeader = request.Headers["x-custom-header"];
-    return Results.Ok(new { userAgent, customHeader });
+    var accept = request.Headers.Accept;
+    
+    return new { userAgent, customHeader, accept };
 });
 ```
 
-### Reading Query String:
-```csharp:title=QueryString.cs
-// Access individual query parameters
-var page = context.Request.Query["page"];
-var filter = context.Request.Query["filter"];
-
-// Get all query parameters
-var allQuery = context.Request.Query;
-
-// Example: /api/users?page=1&filter=active
-// page = "1"
-// filter = "active"
-```
-
-### Reading Request Body:
-```csharp:title=RequestBody.cs
-// Read body as stream
-app.MapPost("/upload", async (HttpContext context) =>
+```csharp:title=Body.cs
+app.MapPost("/upload", async (HttpRequest request) =>
 {
-    using var reader = new StreamReader(context.Request.Body);
+    using var reader = new StreamReader(request.Body);
     var body = await reader.ReadToEndAsync();
-    return $"Received: {body}";
-});
-
-// Copy body to file
-app.MapPost("/uploadstream", async (HttpContext context) =>
-{
-    await using var writeStream = File.Create("uploaded.dat");
-    await context.Request.Body.CopyToAsync(writeStream);
-    return "File uploaded";
+    
+    return $"Received body: {body}";
 });
 ```
 
-**How it works in practice**: HttpRequest provides:
-- **Request Information**: Method, path, protocol, scheme
-- **Headers**: Access to all HTTP headers
-- **Query Parameters**: Easy access to URL parameters
-- **Route Values**: Values extracted from URL patterns
-- **Body**: Stream for reading request body content
+```csharp:title=Buffering.cs
+// Enable multiple reads of request body
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+    // Read body
+    var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+    // Reset position for next middleware
+    context.Request.Body.Position = 0;
+    await next();
+});
+```
 
-HttpRequest gives you everything you need to understand and process the incoming request.
+**How it works in practice**: HttpRequest provides comprehensive access to request details. Headers can be accessed via the indexer or typed properties. The query string is parsed into a collection for easy parameter access. Route values are populated by the routing system. The request body is a stream that can be read once by default, but EnableBuffering allows multiple reads. Middleware can modify request properties to influence downstream processing.
+
+**Key takeaways for interviews**:
+- HttpRequest provides comprehensive request information
+- Headers, query string, route values, body all accessible
+- EnableBuffering allows multiple reads of request body
+- Middleware can modify request properties
+- Body is a stream that can only be read once by default
 
   </div>
 </details>
@@ -164,103 +150,76 @@ HttpRequest gives you everything you need to understand and process the incoming
 <br/>
 
 <details>
-  <summary>HttpResponse - Like your response letter</summary>
+  <summary>HttpResponse - Outgoing Response Configuration</summary>
   <div>
 
 ## HttpResponse
 
-**Real-life analogy**: HttpResponse is like your response letter to the visitor. After reviewing their request form, you write a response letter saying what you found (status code), any additional information (headers), and the main content (body). This letter is what the visitor receives as the answer to their request.
+**Real-life analogy**: HttpResponse is like the delivery confirmation and response package that a business prepares after processing a customer's request. It contains the result status (success/failure), delivery details (headers), and the actual content (body) being returned. Different departments can add information to this response package before it's sent back to the customer.
 
-**Technical explanation**: HttpResponse provides access to set the HTTP response status code, headers, and body. You use it to control what the client receives as the response. HttpResponse is initialized when the HTTP request is received and is modified by middleware and endpoint handlers to produce the final response.
+**Technical explanation**: HttpResponse provides access to configure the HTTP response that will be sent back to the client. It includes the HTTP status code, response headers, and response body. You can set the status code to indicate success (200), not found (404), error (500), etc. Headers can be added to provide metadata, caching instructions, or other response information. The response body can be written directly or using helper methods like WriteAsync and WriteAsJsonAsync.
 
 **Key jargon explained**:
-- **HttpResponse**: Object for setting HTTP response information
-- **StatusCode**: HTTP status code (200, 404, 500, etc.)
-- **Headers**: HTTP headers sent with the response
-- **Body**: Stream for writing the response body
-- **ContentType**: The type of content in the response (JSON, HTML, etc.)
+- **HttpResponse**: Configuration for the outgoing HTTP response
+- **Status Code**: HTTP status indicating request result
+- **Response Headers**: Metadata sent with the response
+- **Response Body**: Content being returned to the client
+- **Content-Type**: Header indicating response content format
 
-### Setting Status Code:
-```csharp:title=StatusCode.cs
-// Set status code
-context.Response.StatusCode = 200;  // OK
-context.Response.StatusCode = 404;  // Not Found
-context.Response.StatusCode = 500;  // Internal Server Error
-
-// Example endpoint
-app.MapGet("/notfound", (HttpContext context) =>
-{
-    context.Response.StatusCode = 404;
-    return "Page not found";
-});
-```
-
-### Setting Headers:
-```csharp:title=Headers.cs
-// Set headers
-context.Response.Headers.ContentType = "application/json";
-context.Response.Headers.CacheControl = "no-cache";
-context.Response.Headers["X-Custom-Header"] = "MyValue";
-
-// Example endpoint
-app.MapGet("/", (HttpContext context) =>
-{
-    context.Response.Headers.ContentType = "application/json";
-    context.Response.Headers["X-Custom-Header"] = "MyValue";
-    return Results.Ok(new { message = "Hello" });
-});
-```
-
-### Writing Response Body:
-```csharp:title=Body.cs
-// Write text response
-app.MapGet("/", (HttpContext context) =>
-{
-    context.Response.ContentType = "text/plain";
-    return context.Response.WriteAsync("Hello World");
-});
-
-// Write JSON response
-app.MapGet("/json", (HttpContext context) =>
-{
-    context.Response.ContentType = "application/json";
-    var data = new { message = "Hello" };
-    return context.Response.WriteAsJsonAsync(data);
-});
-
-// Write file response
-app.MapGet("/file", (HttpContext context) =>
-{
-    context.Response.ContentType = "application/octet-stream";
-    return context.Response.SendFileAsync("myfile.dat");
-});
-```
-
-### Complete Response Example:
-```csharp:title=Complete.cs
-app.MapGet("/custom", (HttpContext context) =>
+```csharp:title=ResponseConfiguration.cs
+app.MapGet("/data", (HttpContext context) =>
 {
     // Set status code
     context.Response.StatusCode = 200;
     
-    // Set headers
-    context.Response.Headers.ContentType = "application/json";
+    // Set content type
+    context.Response.ContentType = "application/json";
+    
+    // Write response body
+    return context.Response.WriteAsJsonAsync(new { message = "Success" });
+});
+```
+
+```csharp:title=StatusCode.cs
+app.MapGet("/notfound", (HttpContext context) =>
+{
+    context.Response.StatusCode = 404;
+    return context.Response.WriteAsync("Resource not found");
+});
+
+app.MapGet("/error", (HttpContext context) =>
+{
+    context.Response.StatusCode = 500;
+    return context.Response.WriteAsync("Internal server error");
+});
+```
+
+```csharp:title=Headers.cs
+app.MapGet("/custom", (HttpContext context) =>
+{
+    context.Response.Headers.Append("x-custom-header", "CustomValue");
     context.Response.Headers.CacheControl = "no-cache";
     
-    // Write body
-    var data = new { message = "Hello World", timestamp = DateTime.UtcNow };
-    return context.Response.WriteAsJsonAsync(data);
+    return "Response with custom headers";
 });
 ```
 
-**How it works in practice**: HttpResponse provides:
-- **Status Control**: Set appropriate HTTP status codes
-- **Header Control**: Add response headers for caching, content type, etc.
-- **Body Writing**: Write text, JSON, files, or other content
-- **Stream Access**: Direct access to response stream for advanced scenarios
-- **Complete Control**: Full control over every aspect of the response
+```csharp:title=Body.cs
+app.MapGet("/text", (HttpContext context) =>
+{
+    context.Response.ContentType = "text/plain";
+    return context.Response.WriteAsync("Plain text response");
+});
+```
 
-HttpResponse lets you craft exactly what the client receives as the response.
+**How it works in practice**: HttpResponse allows complete control over the HTTP response. Status codes indicate the result of request processing (2xx for success, 3xx for redirection, 4xx for client errors, 5xx for server errors). Headers provide metadata about the response. The response body can be written as text, JSON, HTML, or any content type. Middleware can modify the response before it's sent to the client, enabling cross-cutting concerns like compression, caching, and security headers.
+
+**Key takeaways for interviews**:
+- HttpResponse configures the HTTP response sent to client
+- Status codes indicate request processing result
+- Headers provide response metadata
+- Response body can be written in various formats
+- Middleware can modify response before sending
 
   </div>
 </details>
@@ -271,450 +230,60 @@ HttpResponse lets you craft exactly what the client receives as the response.
 <br/>
 
 <details>
-  <summary>HttpContext.Items - Like a temporary notepad</summary>
+  <summary>Common Interview Questions</summary>
   <div>
 
-## HttpContext.Items
+## Interview Preparation
 
-**Real-life analogy**: HttpContext.Items is like a temporary notepad that you and your colleagues can use while processing a visitor's request. You can write notes on it (add data), and other colleagues (middleware) can read those notes. When the visitor leaves (request completes), the notepad is thrown away. It's perfect for sharing information during request processing.
+**Real-life analogy**: Interview preparation for HttpContext concepts is like understanding complete customer relationship management. You need to understand how to capture all customer information, process requests, prepare appropriate responses, and share information across different departments while maintaining security and efficiency.
 
-**Technical explanation**: HttpContext.Items is a key-value collection used to store data that needs to be shared between middleware components during the processing of a single HTTP request. The data is stored only for the duration of the request and is discarded when the request completes.
+**Common interview questions**:
+1. **What is HttpContext and when is it used?**
+   - Central object containing all HTTP request/response information
+   - Accessible throughout middleware pipeline and frameworks
+   - Provides HttpRequest, HttpResponse, User, and Items
+   - Enables data sharing between middleware components
 
-**Key jargon explained**:
-- **Items**: Key-value collection for sharing data during request processing
-- **Key-Value Collection**: Dictionary-like structure with keys and values
-- **Request Scope**: Data exists only for the duration of the single request
-- **Middleware Communication**: Way for middleware to share information
-- **Temporary Storage**: Data is discarded when request completes
+2. **What information does HttpRequest provide?**
+   - HTTP method (GET, POST, etc.)
+   - Request path and URL details
+   - Headers, query string, route values
+   - Request body (form data, JSON, etc.)
+   - Can be modified by middleware
 
-### Storing and Retrieving Data:
-```csharp:title=Items.cs
-// Store data in Items
-context.Items["RequestId"] = Guid.NewGuid();
-context.Items["StartTime"] = DateTime.UtcNow;
-context.Items["UserData"] = new { Name = "John", Role = "Admin" };
+3. **How do you configure the HttpResponse?**
+   - Set HTTP status code (200, 404, 500, etc.)
+   - Add response headers for metadata
+   - Write response body in various formats
+   - Set content type header
+   - Middleware can modify response before sending
 
-// Retrieve data from Items
-var requestId = context.Items["RequestId"];
-var startTime = context.Items["StartTime"];
-var userData = context.Items["UserData"];
-```
+4. **What is the Items collection used for?**
+   - Key-value collection for sharing data between middleware
+   - Enables passing data through the pipeline
+   - Useful for request-scoped data sharing
+   - Data is available throughout the request lifecycle
 
-### Middleware Communication Example:
-```csharp:title=Middleware.cs
-// Middleware 1: Store data
-app.Use(async (context, next) =>
-{
-    context.Items["StartTime"] = DateTime.UtcNow;
-    context.Items["RequestId"] = Guid.NewGuid();
-    
-    await next(context);
-});
+5. **How do you handle request body reading?**
+   - Request.Body is a stream that can be read once by default
+   - EnableBuffering allows multiple reads of request body
+   - ReadFormAsync for form data
+   - Stream reading for JSON and other content
+   - Must reset position after reading if needed by downstream middleware
 
-// Middleware 2: Read and use data
-app.Use(async (context, next) =>
-{
-    var startTime = context.Items["StartTime"] as DateTime?;
-    var requestId = context.Items["RequestId"] as Guid?;
-    
-    Console.WriteLine($"Request {requestId} started at {startTime}");
-    
-    await next(context);
-});
+**Key interview concepts**:
+- **Central Hub**: HttpContext as central request/response information
+- **Request Details**: HttpRequest provides comprehensive request information
+- **Response Configuration**: HttpResponse enables complete response control
+- **Data Sharing**: Items collection enables middleware communication
+- **Body Handling**: Stream-based request body reading with buffering options
 
-// Endpoint: Use data
-app.MapGet("/", (HttpContext context) =>
-{
-    var requestId = context.Items["RequestId"];
-    return $"Request ID: {requestId}";
-});
-```
-
-### Passing Data to Endpoints:
-```csharp:title=PassingData.cs
-// Middleware: Extract and store user data
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers.Authorization.FirstOrDefault();
-    var userData = ValidateToken(token);  // Your validation logic
-    
-    context.Items["User"] = userData;
-    
-    await next(context);
-});
-
-// Endpoint: Access user data from Items
-app.MapGet("/profile", (HttpContext context) =>
-{
-    var user = context.Items["User"] as UserData;
-    if (user == null)
-    {
-        return Results.Unauthorized();
-    }
-    
-    return Results.Ok(new { Name = user.Name, Email = user.Email });
-});
-```
-
-### Request Tracking Example:
-```csharp:title=Tracking.cs
-// Middleware: Add request tracking
-app.Use(async (context, next) =>
-{
-    var requestId = Guid.NewGuid();
-    context.Items["RequestId"] = requestId;
-    context.Items["StartTime"] = DateTime.UtcNow;
-    
-    Console.WriteLine($"Request {requestId} started");
-    
-    try
-    {
-        await next(context);
-    }
-    finally
-    {
-        var startTime = context.Items["StartTime"] as DateTime?;
-        var duration = DateTime.UtcNow - startTime.Value;
-        Console.WriteLine($"Request {requestId} completed in {duration.TotalMilliseconds}ms");
-    }
-});
-```
-
-**How it works in practice**: HttpContext.Items provides:
-- **Data Sharing**: Share data between middleware components
-- **Request Scope**: Data exists only for the current request
-- **Type Safety**: Store and retrieve strongly-typed objects
-- **Simple API**: Easy dictionary-like access
-- **Automatic Cleanup**: Data is automatically discarded when request completes
-
-Items is perfect for temporary data sharing during request processing.
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>HttpContext.User - Like checking the visitor's ID</summary>
-  <div>
-
-## HttpContext.User
-
-**Real-life analogy**: HttpContext.User is like checking the visitor's ID badge. When someone enters your building, you check their ID to see who they are (identity), what they're allowed to do (roles), and any special permissions they have (claims). This information helps you decide what they can access and what they're authorized to do.
-
-**Technical explanation**: HttpContext.User provides access to the authenticated user's security principal. It contains the user's identity, claims, and roles. This information is set by authentication middleware and is used by authorization middleware to determine if the user is allowed to access specific resources.
-
-**Key jargon explained**:
-- **User**: The authenticated user's security principal
-- **Identity**: Information about who the user is (name, authentication type)
-- **Claims**: Statements about the user (name, email, role, etc.)
-- **Roles**: The user's roles or groups
-- **Authentication**: The process of verifying the user's identity
-
-### Accessing User Information:
-```csharp:title=UserInfo.cs
-// Check if user is authenticated
-var isAuthenticated = context.User.Identity?.IsAuthenticated ?? false;
-
-// Get user name
-var userName = context.User.Identity?.Name;
-
-// Check user claims
-var email = context.User.FindFirst("email")?.Value;
-var role = context.User.FindFirst("role")?.Value;
-```
-
-### Authentication Check:
-```csharp:title=AuthCheck.cs
-app.MapGet("/profile", (HttpContext context) =>
-{
-    // Check if user is authenticated
-    if (context.User.Identity?.IsAuthenticated != true)
-    {
-        return Results.Unauthorized();
-    }
-    
-    var userName = context.User.Identity?.Name;
-    return Results.Ok(new { message = $"Hello, {userName}" });
-});
-```
-
-### Role-Based Authorization:
-```csharp:title=Roles.cs
-app.MapGet("/admin", (HttpContext context) =>
-{
-    // Check if user has admin role
-    if (!context.User.IsInRole("Admin"))
-    {
-        return Results.Forbid();
-    }
-    
-    return Results.Ok(new { message = "Admin access granted" });
-});
-```
-
-### Claims-Based Authorization:
-```csharp:title=Claims.cs
-app.MapGet("/premium", (HttpContext context) =>
-{
-    // Check if user has premium claim
-    var isPremium = context.User.HasClaim("subscription", "premium");
-    if (!isPremium)
-    {
-        return Results.Forbid();
-    }
-    
-    return Results.Ok(new { message = "Premium content" });
-});
-```
-
-### Complete User Information:
-```csharp:title=CompleteUser.cs
-app.MapGet("/user-info", (HttpContext context) =>
-{
-    if (context.User.Identity?.IsAuthenticated != true)
-    {
-        return Results.Unauthorized();
-    }
-    
-    var userInfo = new
-    {
-        IsAuthenticated = context.User.Identity.IsAuthenticated,
-        Name = context.User.Identity.Name,
-        AuthenticationType = context.User.Identity.AuthenticationType,
-        Claims = context.User.Claims.Select(c => new { c.Type, c.Value }),
-        Roles = context.User.Claims.Where(c => c.Type == "role").Select(c => c.Value)
-    };
-    
-    return Results.Ok(userInfo);
-});
-```
-
-**How it works in practice**: HttpContext.User provides:
-- **Authentication Status**: Check if user is authenticated
-- **User Identity**: Get user name and authentication type
-- **Claims Access**: Access all user claims
-- **Role Checking**: Check if user has specific roles
-- **Authorization**: Make authorization decisions based on user information
-
-User information is set by authentication middleware and used throughout the request for authorization.
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>Request Body Buffering - Like making a copy of a document</summary>
-  <div>
-
-## Request Body Buffering
-
-**Real-life analogy**: Request body buffering is like making a copy of a document before letting others read it. Normally, when you read a document, you can only read it once from start to finish. But sometimes you need to read it multiple times (like reviewing it yourself and then passing it to a colleague). Buffering makes a copy so multiple people can read it.
-
-**Technical explanation**: By default, the request body can only be read once, from beginning to end. This forward-only reading avoids the overhead of buffering the entire body and reduces memory usage. However, sometimes middleware needs to read the body and then rewind it so the endpoint can read it too. EnableBuffering enables multiple reads of the request body.
-
-**Key jargon explained**:
-- **Forward-Only Reading**: Can only read the body once from start to end
-- **Buffering**: Making a copy of the request body in memory
-- **EnableBuffering**: Method to enable multiple reads of the request body
-- **Rewinding**: Resetting the body stream to the beginning
-- **Memory vs Disk**: Buffering can use memory or disk for large bodies
-
-### Default Behavior (Single Read):
-```csharp:title=Default.cs
-// Body can only be read once
-app.MapPost("/upload", async (HttpContext context) =>
-{
-    using var reader = new StreamReader(context.Request.Body);
-    var body = await reader.ReadToEndAsync();
-    // After this, body cannot be read again
-    return $"Received: {body}";
-});
-```
-
-### Enable Buffering:
-```csharp:title=Buffering.cs
-app.Use(async (context, next) =>
-{
-    // Enable buffering - must be called before reading body
-    context.Request.EnableBuffering();
-    
-    // Read the body
-    using var reader = new StreamReader(context.Request.Body);
-    var body = await reader.ReadToEndAsync();
-    
-    Console.WriteLine($"Body read by middleware: {body}");
-    
-    // Rewind to start
-    context.Request.Body.Position = 0;
-    
-    // Pass to next middleware/endpoint
-    await next(context);
-});
-
-app.MapPost("/upload", async (HttpContext context) =>
-{
-    // Endpoint can now read the body too
-    using var reader = new StreamReader(context.Request.Body);
-    var body = await reader.ReadToEndAsync();
-    
-    return $"Received: {body}";
-});
-```
-
-### Buffering with Options:
-```csharp:title=Options.cs
-app.Use(async (context, next) =>
-{
-    // Enable buffering with options
-    context.Request.EnableBuffering(
-        new HttpRequestBufferingOptions
-        {
-            BufferThreshold = 1024 * 1024,  // 1MB
-            BufferLimit = 10 * 1024 * 1024   // 10MB
-        });
-    
-    // Read body
-    var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
-    
-    // Rewind
-    context.Request.Body.Position = 0;
-    
-    await next(context);
-});
-```
-
-### When to Use Buffering:
-```csharp:title=WhenToUse.cs
-// Use buffering when:
-// - Middleware needs to read and log the body
-// - Multiple middleware need to read the body
-// - You need to validate the body before processing
-// - You need to transform the body
-
-// Don't use buffering when:
-// - Only one component needs to read the body
-// - Performance is critical (buffering adds overhead)
-// - Request bodies are very large (memory usage)
-```
-
-**How it works in practice**: Request body buffering provides:
-- **Multiple Reads**: Allow multiple components to read the request body
-- **Flexibility**: Middleware can inspect and modify requests
-- **Validation**: Validate body before processing
-- **Logging**: Log request bodies for debugging
-- **Performance Tradeoff**: Buffering adds overhead but provides flexibility
-
-Use buffering only when you need multiple reads of the request body.
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>Best Practices - Like following proper dossier procedures</summary>
-  <div>
-
-## HttpContext Best Practices
-
-**Real-life analogy**: Following HttpContext best practices is like following proper procedures for handling visitor dossiers. You should only access what you need (don't read unnecessary information), handle sensitive data carefully (protect user privacy), clean up after yourself (don't leave temporary data), and follow the proper order (process requests in the right sequence).
-
-**Technical explanation**: Following best practices ensures you use HttpContext efficiently, securely, and correctly. This includes accessing only the data you need, protecting sensitive information, using appropriate methods for different scenarios, and following the correct order of operations.
-
-**Key jargon explained**:
-- **Efficient Access**: Access only the data you need
-- **Sensitive Data**: Protect user privacy and sensitive information
-- **Proper Methods**: Use the right methods for the right scenarios
-- **Order of Operations**: Process requests in the correct sequence
-- **Resource Management**: Properly manage resources like streams
-
-### DO:
-- **Access only the data you need** from HttpContext
-- **Use Items for temporary data sharing** during request processing
-- **Check User.Identity.IsAuthenticated** before accessing user information
-- **Use EnableBuffering only when you need multiple reads** of the request body
-- **Read form data with ReadFormAsync** instead of Request.Form
-- **Close and dispose streams** properly after use
-- **Set appropriate status codes** for different scenarios
-- **Use typed header properties** when available
-
-### DON'T:
-- **Store large objects in Items** (memory overhead)
-- **Read the request body multiple times without buffering**
-- **Access HttpContext from background threads** (it's request-scoped)
-- **Forget to rewind the body** after buffering
-- **Store sensitive data in HttpContext** without encryption
-- **Use Request.Form** (use ReadFormAsync instead)
-- **Ignore authentication status** before accessing user data
-- **Assume headers exist** (check for null)
-
-### Efficient Access:
-```csharp:title=Efficient.cs
-// DO: Access only what you need
-var path = context.Request.Path;
-var method = context.Request.Method;
-
-// DON'T: Access everything unnecessarily
-var allHeaders = context.Request.Headers;
-var allQuery = context.Request.Query;
-var allRouteValues = context.Request.RouteValues;
-```
-
-### Sensitive Data Handling:
-```csharp:title=Sensitive.cs
-// DO: Be careful with sensitive data
-var token = context.Request.Headers.Authorization;
-// Don't log this token
-
-// DON'T: Log sensitive information
-Console.WriteLine($"Token: {token}");  // BAD
-```
-
-### Proper Form Handling:
-```csharp:title=Forms.cs
-// DO: Use ReadFormAsync
-var form = await context.Request.ReadFormAsync();
-var email = form["email"];
-
-// DON'T: Use Request.Form
-var form = context.Request.Form;  // Can cause issues
-```
-
-### Background Thread Access:
-```csharp:title=Background.cs
-// DON'T: Access HttpContext from background threads
-Task.Run(() =>
-{
-    var user = context.User;  // BAD - HttpContext may be disposed
-});
-
-// DO: Capture the data you need before background work
-var userName = context.User.Identity?.Name;
-Task.Run(() =>
-{
-    Console.WriteLine($"User: {userName}");  // OK - captured value
-});
-```
-
-**How it works in practice**: Best practices ensure:
-- **Performance**: Efficient use of HttpContext reduces overhead
-- **Security**: Sensitive data is protected
-- **Reliability**: Proper resource management prevents issues
-- **Maintainability**: Code is clear and follows conventions
-- **Correctness**: Right methods for right scenarios
-
-Good practices make your use of HttpContext efficient, secure, and reliable.
+**How to approach interview questions**:
+- Start with clear definition of HttpContext architecture
+- Explain HttpRequest and HttpResponse properties and usage
+- Discuss Items collection for data sharing
+- Address request body handling and buffering
+- Mention accessibility across different frameworks and middleware
 
   </div>
 </details>

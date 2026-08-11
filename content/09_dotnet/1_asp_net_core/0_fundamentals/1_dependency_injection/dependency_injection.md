@@ -7,58 +7,24 @@ draft: false
 ---
 
 <details>
-  <summary>Dependency Injection Overview - Like ordering food at a restaurant</summary>
+  <summary>Dependency Injection Overview - Inversion of Control Pattern</summary>
   <div>
 
 ## Overview of Dependency Injection
 
-**Real-life analogy**: Dependency Injection is like ordering food at a restaurant. Instead of cooking your own meal (creating your own dependencies), you tell the waiter what you want, and the kitchen prepares and brings it to you. In code, instead of creating objects inside your class, you ask for them, and the framework provides them.
+**Real-life analogy**: Dependency Injection implements the Inversion of Control principle by externalizing dependency management, similar to how a modern manufacturing system uses external suppliers for components instead of building everything in-house. Instead of each department creating its own tools and materials (tight coupling), a centralized procurement system provides standardized components (loose coupling). This enables flexibility, quality control, and efficient resource management across the entire organization.
 
-**Technical explanation**: Dependency Injection (DI) is a design pattern where a class receives its dependencies from external sources rather than creating them itself. This makes your code more flexible, testable, and easier to maintain.
-
-**Key jargon explained**:
-- **Dependency**: An object that another object needs to function (like a car needing an engine)
-- **DI Container**: A built-in service that manages and provides dependencies (like the restaurant kitchen)
-- **Service**: A reusable component that can be injected into other classes (like a menu item)
-- **Inversion of Control**: Flipping the control from your class creating dependencies to the framework providing them
-
-```csharp:title=MyDependency.cs
-public class MyDependency
-{
-    public void WriteMessage(string message)
-    {
-        Console.WriteLine($"MyDependency.WriteMessage: {message}");
-    }
-}
-```
-
-**How it works in practice**: Without DI, you would create `new MyDependency()` inside your class. With DI, you ask for `IMyDependency` in your constructor, and ASP.NET Core provides it automatically. This makes it easy to swap implementations and test your code.
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>Problems with Direct Dependencies - Like building your own car from scratch</summary>
-  <div>
-
-## Problems with Direct Dependencies
-
-**Real-life analogy**: Creating dependencies directly is like building your own car from scratch every time you need to drive somewhere. If you want a different car, you have to rebuild it. If the car has problems, you have to fix them yourself. It's inefficient and hard to maintain.
-
-**Technical explanation**: When classes create their own dependencies directly, they become tightly coupled to specific implementations, making the code hard to test, maintain, and modify.
+**Technical explanation**: Dependency Injection (DI) is a software design pattern that implements Inversion of Control (IoC) for managing dependencies between objects. Instead of classes creating their own dependencies directly (tight coupling), dependencies are provided from external sources (loose coupling). ASP.NET Core includes a built-in DI container (IServiceProvider) that manages service lifetimes, resolves dependency graphs automatically, and handles disposal. This follows the Dependency Inversion Principle from SOLID - high-level modules shouldn't depend on low-level modules; both should depend on abstractions.
 
 **Key jargon explained**:
-- **Tight Coupling**: When classes are strongly dependent on specific implementations
-- **Hard-coded Dependencies**: Dependencies that are created directly with `new` keyword
-- **Testing Difficulty**: Hard to test because you can't easily replace real dependencies with test versions
+- **Dependency Injection**: Design pattern for achieving Inversion of Control
+- **IoC Container**: Built-in service provider (IServiceProvider) that manages dependencies
+- **Service Registration**: Process of mapping interfaces to implementations in the container
+- **Dependency Resolution**: Automatic creation and injection of dependency graphs
+- **Service Lifetime**: How long service instances live (transient, scoped, singleton)
 
-```csharp:title=BadExample.cs
-// BAD: Direct dependency creation
+```csharp:title=DirectDependency.cs
+// PROBLEMATIC: Direct dependency creation (tight coupling)
 public class IndexModel : PageModel
 {
     private readonly MyDependency _dependency = new MyDependency();
@@ -70,43 +36,15 @@ public class IndexModel : PageModel
 }
 ```
 
-**How it works in practice**: This code creates `MyDependency` directly inside the class. Problems:
-- You can't easily swap `MyDependency` with a different implementation
-- If `MyDependency` needs its own dependencies, this class has to create them too
-- It's hard to test because you can't replace `MyDependency` with a fake version
-- Configuration code gets scattered throughout your application
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>How DI Solves These Problems - Like using a rental car service</summary>
-  <div>
-
-## How DI Solves These Problems
-
-**Real-life analogy**: DI is like using a rental car service. Instead of building your own car, you request one from the service, and they provide it. If you need a different type of car, you just ask for a different model. If there's a problem, the service handles it. You just drive.
-
-**Technical explanation**: DI solves dependency problems by using interfaces to abstract implementations, registering services in a container, and injecting them where needed. The framework handles creation and disposal automatically.
-
-**Key jargon explained**:
-- **Interface**: A contract that defines what a service can do without specifying how
-- **Service Registration**: Telling the DI container which interface maps to which implementation
-- **Constructor Injection**: Receiving dependencies through your class's constructor
-
-```csharp:title=IMyDependency.cs
+```csharp:title=Interface.cs
+// SOLUTION: Interface abstraction
 public interface IMyDependency
 {
     void WriteMessage(string message);
 }
 ```
 
-```csharp:title=MyDependency.cs
+```csharp:title=Implementation.cs
 public class MyDependency : IMyDependency
 {
     public void WriteMessage(string message)
@@ -117,10 +55,36 @@ public class MyDependency : IMyDependency
 ```
 
 ```csharp:title=Program.cs
+// Register service in DI container
 builder.Services.AddScoped<IMyDependency, MyDependency>();
 ```
 
-**How it works in practice**: You define an interface, create a concrete implementation, register it in the DI container, and then request it where needed. The container handles creating and managing the service's lifecycle.
+```csharp:title=InjectedDependency.cs
+// SOLUTION: Constructor injection (loose coupling)
+public class IndexModel : PageModel
+{
+    private readonly IMyDependency _dependency;
+
+    public IndexModel(IMyDependency dependency)
+    {
+        _dependency = dependency;
+    }
+
+    public void OnGet()
+    {
+        _dependency.WriteMessage("IndexModel.OnGet called");
+    }
+}
+```
+
+**How it works in practice**: DI addresses the problems of direct dependency creation through three mechanisms: (1) Interface abstraction allows swapping implementations without modifying consuming classes, (2) Service registration centralizes configuration in Program.cs, eliminating scattered setup code, (3) Automatic dependency resolution handles complex dependency graphs. The DI container manages object lifetimes, ensuring proper disposal and supporting testing through mock injection.
+
+**Key takeaways for interviews**:
+- DI implements Inversion of Control to achieve loose coupling
+- Follows Dependency Inversion Principle from SOLID
+- Built-in IServiceProvider manages service lifetimes and resolution
+- Constructor injection is the primary injection pattern
+- Enables testability through mock dependency injection
 
   </div>
 </details>
@@ -131,58 +95,23 @@ builder.Services.AddScoped<IMyDependency, MyDependency>();
 <br/>
 
 <details>
-  <summary>Service Registration - Like menu planning for a restaurant</summary>
+  <summary>Service Lifetimes - Instance Management</summary>
   <div>
 
-## Registering Services
+## Service Lifetimes and Registration
 
-**Real-life analogy**: Service registration is like planning a restaurant menu. You decide which dishes (services) you'll offer and which recipes (implementations) to use for each dish. When customers order, the kitchen knows exactly what to prepare.
+**Real-life analogy**: Service lifetimes are like different procurement models in a supply chain. Transient services are like disposable items - new ones provided for each use. Scoped services are like project-specific equipment - one set per project duration. Singleton services are like shared infrastructure - one instance used across all projects. Choosing the right model balances efficiency, consistency, and resource management.
 
-**Technical explanation**: Services are registered in the DI container, typically in Program.cs, using methods like `AddTransient`, `AddScoped`, or `AddSingleton` to specify the service's lifetime.
-
-**Key jargon explained**:
-- **Service Registration**: The process of telling the DI container about your services
-- **Service Descriptor**: Information about a service including its interface, implementation, and lifetime
-- **IServiceCollection**: The collection where services are registered during app startup
-
-```csharp:title=Program.cs
-var builder = WebApplication.CreateBuilder(args);
-
-// Register services
-builder.Services.AddScoped<IMyDependency, MyDependency>();
-builder.Services.AddSingleton<ILogger, ConsoleLogger>();
-builder.Services.AddTransient<IEmailService, SmtpEmailService>();
-
-var app = builder.Build();
-```
-
-**How it works in practice**: You register services when the app starts up. The DI container remembers these registrations and can provide the requested services when your classes need them. This centralizes all service configuration in one place.
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>Service Lifetimes - Like different types of library memberships</summary>
-  <div>
-
-## Service Lifetimes
-
-**Real-life analogy**: Service lifetimes are like different types of library memberships. A transient membership gives you a new library card each visit. A scoped membership gives you one card that lasts for your entire visit. A singleton membership gives you one card that never expires and is shared with everyone.
-
-**Technical explanation**: Services can have different lifetimes that determine when new instances are created: transient (new each time), scoped (once per request), or singleton (once per application lifetime).
+**Technical explanation**: Services can be registered with different lifetimes that determine when new instances are created and how they're shared. Transient services create a new instance for every request. Scoped services create one instance per HTTP request (or Blazor circuit), enabling request-scoped state. Singleton services create one instance for the entire application lifetime, useful for shared resources and expensive-to-create objects. The DI container automatically manages disposal based on these lifetimes.
 
 **Key jargon explained**:
-- **Transient**: A new instance is created each time the service is requested
-- **Scoped**: One instance is created per HTTP request (or Blazor circuit)
-- **Singleton**: One instance is created for the entire application lifetime
-- **Service Lifetime**: How long a service instance lives and when it's disposed
+- **Transient**: New instance created each time the service is requested
+- **Scoped**: One instance per HTTP request or Blazor circuit
+- **Singleton**: One instance for the entire application lifetime
+- **Dependency Captive**: When a longer-lived service depends on a shorter-lived service
+- **Service Disposal**: Automatic cleanup of IDisposable services based on lifetime
 
-```csharp:title=Program.cs
+```csharp:title=Lifetimes.cs
 // Transient: New instance every time
 builder.Services.AddTransient<IMyTransientService, MyTransientService>();
 
@@ -193,55 +122,37 @@ builder.Services.AddScoped<IMyScopedService, MyScopedService>();
 builder.Services.AddSingleton<IMySingletonService, MySingletonService>();
 ```
 
-**How it works in practice**: Choose the right lifetime based on your needs:
-- **Transient**: For stateless services or when you need a fresh instance each time
-- **Scoped**: For services that need to maintain state within a single request
-- **Singleton**: For services that are expensive to create or need to be shared across the entire app
-
-  </div>
-</details>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<details>
-  <summary>Constructor Injection - Like receiving tools at the start of your shift</summary>
-  <div>
-
-## Constructor Injection
-
-**Real-life analogy**: Constructor injection is like receiving your tools at the start of your work shift. Instead of running to the toolbox every time you need something, your supervisor hands you the tools you'll need right at the beginning. You just focus on using them to do your job.
-
-**Technical explanation**: Constructor injection is the most common way to receive dependencies. You declare the services you need as parameters in your class's constructor, and the DI container provides them automatically when creating an instance.
-
-**Key jargon explained**:
-- **Constructor**: The special method that runs when creating a new instance of a class
-- **Dependency Chain**: When a service needs other services, which in turn need more services
-- **Automatic Resolution**: The DI container automatically figuring out all the dependencies needed
-
-```csharp:title=MyService.cs
+```csharp:title=Usage.cs
 public class MyService
 {
-    private readonly IMyDependency _dependency;
-    private readonly ILogger<MyService> _logger;
+    // Transient: Gets fresh instance each time
+    private readonly IMyTransientService _transient;
+    
+    // Scoped: Same instance within this HTTP request
+    private readonly IMyScopedService _scoped;
+    
+    // Singleton: Same instance across entire app
+    private readonly IMySingletonService _singleton;
 
-    public MyService(IMyDependency dependency, ILogger<MyService> logger)
+    public MyService(IMyTransientService transient, 
+                    IMyScopedService scoped, 
+                    IMySingletonService singleton)
     {
-        _dependency = dependency;
-        _logger = logger;
-    }
-
-    public void DoWork()
-    {
-        _logger.LogInformation("Starting work...");
-        _dependency.WriteMessage("Hello from MyService");
+        _transient = transient;
+        _scoped = scoped;
+        _singleton = singleton;
     }
 }
 ```
 
-**How it works in practice**: When you request `MyService` from the DI container, it automatically sees that `MyService` needs `IMyDependency` and `ILogger`. It creates those dependencies (or reuses existing ones based on lifetime) and passes them to the constructor. This happens recursively for all dependencies.
+**How it works in practice**: Choose lifetimes based on service characteristics and requirements: (1) Transient for stateless services or when fresh instances are needed, (2) Scoped for services that maintain request-specific state (database contexts, user session data), (3) Singleton for expensive-to-create services or shared resources (configuration, caching, logging). Avoid dependency captives - longer-lived services depending on shorter-lived services can cause unintended behavior and memory leaks.
+
+**Key takeaways for interviews**:
+- Three service lifetimes: transient, scoped, singleton
+- Scoped services maintain state within a single HTTP request
+- Singleton services are shared across the entire application
+- Avoid dependency captives (singleton depending on scoped)
+- IDisposable services are automatically disposed based on lifetime
 
   </div>
 </details>
@@ -252,52 +163,116 @@ public class MyService
 <br/>
 
 <details>
-  <summary>Framework-Provided Services - Like standard equipment in a new apartment</summary>
+  <summary>Constructor Injection - Primary Injection Pattern</summary>
+  <div>
+
+## Constructor Injection
+
+**Real-life analogy**: Constructor injection is like receiving all necessary equipment and materials at the start of a work shift. Instead of running to the supply room every time you need something (inefficient and error-prone), your supervisor provides everything you'll need upfront. This ensures you have all dependencies before starting work, making the process more efficient and reliable.
+
+**Technical explanation**: Constructor injection is the primary and recommended pattern for receiving dependencies in ASP.NET Core. Dependencies are declared as constructor parameters, and the DI container automatically provides them when creating instances. This approach makes dependencies explicit, enables immutability, and ensures classes are always in a valid state. The container recursively resolves the entire dependency graph, handling complex object hierarchies automatically.
+
+**Key jargon explained**:
+- **Constructor Injection**: Receiving dependencies through class constructor
+- **Dependency Graph**: The hierarchical tree of dependencies that need to be resolved
+- **Automatic Resolution**: DI container figuring out all required dependencies recursively
+- **Required Dependencies**: Constructor parameters that must be provided
+- **Optional Dependencies**: Dependencies that can be null (not recommended)
+
+```csharp:title=ConstructorInjection.cs
+public class OrderService
+{
+    private readonly IOrderRepository _repository;
+    private readonly IEmailService _emailService;
+    private readonly ILogger<OrderService> _logger;
+
+    // All dependencies required - class is never in invalid state
+    public OrderService(IOrderRepository repository, 
+                       IEmailService emailService,
+                       ILogger<OrderService> logger)
+    {
+        _repository = repository;
+        _emailService = emailService;
+        _logger = logger;
+    }
+
+    public async Task ProcessOrder(Order order)
+    {
+        _logger.LogInformation("Processing order {OrderId}", order.Id);
+        await _repository.SaveAsync(order);
+        await _emailService.SendConfirmationAsync(order.Email);
+        _logger.LogInformation("Order {OrderId} processed successfully", order.Id);
+    }
+}
+```
+
+**How it works in practice**: When you request OrderService from the DI container, it automatically resolves all dependencies: IOrderRepository, IEmailService, and ILogger<OrderService>. If these services have their own dependencies, the container resolves those recursively. This automatic resolution handles complex dependency graphs without manual configuration. Constructor injection ensures classes are always in a valid state since all required dependencies are provided before any methods can be called.
+
+**Key takeaways for interviews**:
+- Constructor injection is the primary and recommended pattern
+- Makes dependencies explicit and enables immutability
+- DI container recursively resolves entire dependency graphs
+- Ensures classes are always in a valid state
+- Avoids the service locator anti-pattern
+
+  </div>
+</details>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<details>
+  <summary>Framework Services - Pre-registered Dependencies</summary>
   <div>
 
 ## Framework-Provided Services
 
-**Real-life analogy**: Framework-provided services are like the standard equipment that comes with a new apartment - refrigerator, stove, water heater. You don't have to provide these yourself; they're already there and ready to use. You just need to know how to use them.
+**Real-life analogy**: Framework-provided services are like the standard infrastructure that comes with a modern office building - HVAC, security systems, network connectivity. You don't need to provide these yourself; they're available as part of the building. You just need to know how to use them effectively for your specific needs.
 
-**Technical explanation**: ASP.NET Core automatically registers many services in the DI container when you create a builder, including configuration, logging, hosting environment, and more. You can use these services immediately without additional registration.
+**Technical explanation**: ASP.NET Core automatically registers many framework services in the DI container when you create a WebApplicationBuilder. These include IConfiguration for settings access, ILogger for logging, IWebHostEnvironment for environment information, IServiceProvider for the DI container itself, and many more. These services are available immediately without additional registration, providing a consistent foundation for all applications.
 
 **Key jargon explained**:
-- **Framework Services**: Services automatically provided by ASP.NET Core
-- **IConfiguration**: Service for accessing app settings and configuration
-- **ILogger**: Service for logging messages with different severity levels
-- **IWebHostEnvironment**: Service for information about the hosting environment
+- **Framework Services**: Services automatically registered by ASP.NET Core
+- **IConfiguration**: Interface for accessing application settings
+- **ILogger<T>: Generic logging interface with category support
+- **IWebHostEnvironment**: Interface for environment information (Development, Production)
+- **IServiceProvider**: The root DI container interface
 
-```csharp:title=Program.cs
-var builder = WebApplication.CreateBuilder(args);
-
-// These services are automatically registered:
-// - IConfiguration (builder.Configuration)
-// - ILogger (builder.Logging)
-// - IWebHostEnvironment (builder.Environment)
-// - IServiceProvider (built DI container)
-
-var app = builder.Build();
-```
-
-```csharp:title=MyService.cs
+```csharp:title=FrameworkServices.cs
 public class MyService
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<MyService> _logger;
     private readonly IWebHostEnvironment _environment;
 
+    // Framework services are automatically available
     public MyService(IConfiguration configuration, 
-                    ILogger<MyService> logger, 
-                    IWebHostEnvironment environment)
+                   ILogger<MyService> logger,
+                   IWebHostEnvironment environment)
     {
         _configuration = configuration;
         _logger = logger;
         _environment = environment;
     }
+
+    public void DoWork()
+    {
+        var setting = _configuration["MySetting"];
+        _logger.LogInformation("Working in {Environment} environment", _environment.EnvironmentName);
+    }
 }
 ```
 
-**How it works in practice**: You don't need to register these framework services - they're available automatically. Just request them in your constructor and start using them. This saves you time and ensures consistent configuration across your application.
+**How it works in practice**: Framework services are registered during WebApplicationBuilder creation, following the principle of convention over configuration. This provides a consistent foundation across all ASP.NET Core applications. You can use these services immediately by requesting them in constructors, and you can also replace or extend them through custom registrations if needed.
+
+**Key takeaways for interviews**:
+- Framework services are automatically registered by WebApplicationBuilder
+- IConfiguration, ILogger, IWebHostEnvironment are commonly used
+- Available immediately without additional registration
+- Can be replaced or extended through custom registration
+- Provides consistent foundation across all ASP.NET Core applications
 
   </div>
 </details>
@@ -308,25 +283,27 @@ public class MyService
 <br/>
 
 <details>
-  <summary>DI Best Practices - Like following a recipe for consistent results</summary>
+  <summary>DI Best Practices - SOLID Principles</summary>
   <div>
 
-## Best Practices
+## Dependency Injection Best Practices
 
-**Real-life analogy**: Following DI best practices is like following a proven recipe. You could experiment and make mistakes, or you could follow established techniques that chefs have perfected over time. The results are more consistent and reliable.
+**Real-life analogy**: Following DI best practices is like following established engineering principles in construction. You could build structures however you want, but following proven principles ensures safety, maintainability, and efficiency. The same applies to software architecture - following established DI patterns leads to maintainable, testable, and performant applications.
 
-**Technical explanation**: Following DI best practices ensures your application is maintainable, testable, and performs well. These guidelines help avoid common pitfalls and make the most of the DI system.
+**Technical explanation**: DI best practices ensure applications are maintainable, testable, and follow SOLID principles. Key practices include using interfaces for abstraction, choosing appropriate service lifetimes, preferring constructor injection, avoiding the service locator pattern, preventing circular dependencies, and keeping interfaces focused. These practices prevent common pitfalls like tight coupling, memory leaks, and untestable code.
 
 **Key jargon explained**:
 - **Interface Segregation**: Keeping interfaces focused and small
-- **Service Locator Pattern**: An anti-pattern where services request the DI container directly
-- **Circular Dependencies**: When Service A needs Service B, but Service B also needs Service A
+- **Service Locator Pattern**: Anti-pattern where classes request IServiceProvider directly
+- **Circular Dependencies**: When Service A depends on Service B, but B also depends on A
+- **Dependency Captive**: Longer-lived service depending on shorter-lived service
+- **Over-injection**: Too many dependencies in a single constructor
 
 ### DO:
 - Use interfaces to abstract implementations
 - Register services with appropriate lifetimes
 - Use constructor injection for required dependencies
-- Keep interfaces focused and specific
+- Keep interfaces focused and specific (Interface Segregation Principle)
 - Dispose of resources that implement IDisposable
 
 ### DON'T:
@@ -334,10 +311,10 @@ public class MyService
 - Use the service locator pattern (requesting IServiceProvider directly)
 - Create circular dependencies between services
 - Use singleton services that depend on scoped services
-- Over-inject (too many dependencies in one constructor)
+- Over-inject (too many dependencies indicates violation of Single Responsibility Principle)
 
 ```csharp:title=GoodExample.cs
-// GOOD: Interface-based, constructor injection
+// GOOD: Interface-based, constructor injection, focused interface
 public class OrderService
 {
     private readonly IOrderRepository _repository;
@@ -357,7 +334,95 @@ public class OrderService
 }
 ```
 
-**How it works in practice**: Following these practices makes your code cleaner, easier to test, and more maintainable. When you need to change implementations or add new features, you can do so without breaking existing code.
+```csharp:title=BadExample.cs
+// BAD: Service locator pattern, tight coupling
+public class OrderService
+{
+    private readonly IServiceProvider _serviceProvider;
+
+    public OrderService(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public async Task ProcessOrder(Order order)
+    {
+        var repository = _serviceProvider.GetRequiredService<IOrderRepository>();
+        var emailService = _serviceProvider.GetRequiredService<IEmailService>();
+        await repository.SaveAsync(order);
+        await emailService.SendConfirmationAsync(order.Email);
+    }
+}
+```
+
+**How it works in practice**: Following these practices ensures your DI configuration is maintainable and your code is testable. Constructor injection makes dependencies explicit and enables immutability. Appropriate lifetimes prevent memory leaks and ensure correct behavior. Interface abstraction enables swapping implementations for testing or different environments. Avoiding anti-patterns like service locator keeps your code clean and follows SOLID principles.
+
+**Key takeaways for interviews**:
+- Use interfaces for abstraction and constructor injection
+- Choose appropriate service lifetimes to avoid memory leaks
+- Avoid service locator pattern and circular dependencies
+- Follow SOLID principles in interface design
+- Keep constructors focused - too many dependencies indicate design issues
+
+  </div>
+</details>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<details>
+  <summary>Common Interview Questions</summary>
+  <div>
+
+## Interview Preparation
+
+**Real-life analogy**: Interview preparation for dependency injection concepts is like understanding the complete supply chain management system. You need to understand how components are sourced, managed, and distributed throughout an organization, and how different procurement models affect efficiency and reliability.
+
+**Common interview questions**:
+1. **What is Dependency Injection and why is it important?**
+   - Explain it's a design pattern implementing Inversion of Control
+   - Discuss loose coupling, testability, and maintainability benefits
+   - Mention SOLID principles, especially Dependency Inversion Principle
+
+2. **What are the different service lifetimes in ASP.NET Core DI?**
+   - Transient: new instance each time
+   - Scoped: one instance per HTTP request
+   - Singleton: one instance for entire application
+   - Discuss when to use each and potential pitfalls
+
+3. **What is constructor injection and why is it preferred?**
+   - Primary pattern for receiving dependencies
+   - Makes dependencies explicit and enables immutability
+   - Ensures classes are always in valid state
+   - DI container resolves dependency graphs automatically
+
+4. **What are the common DI anti-patterns to avoid?**
+   - Service locator pattern (requesting IServiceProvider directly)
+   - Circular dependencies between services
+   - Dependency captive (singleton depending on scoped)
+   - Over-injection (too many constructor parameters)
+
+5. **How does DI support unit testing?**
+   - Enables swapping real dependencies with test doubles
+   - Constructor injection makes dependencies explicit
+   - Mock frameworks can replace implementations easily
+   - Supports testability without modifying production code
+
+**Key interview concepts**:
+- **Inversion of Control**: Flipping control from class to framework
+- **SOLID Principles**: Dependency Inversion and Interface Segregation
+- **Service Lifetimes**: Transient, scoped, singleton trade-offs
+- **Dependency Graph**: Recursive resolution of object hierarchies
+- **Testability**: Mock injection and test double patterns
+
+**How to approach interview questions**:
+- Start with clear definition and architectural purpose
+- Explain theoretical underpinnings (IoC, SOLID principles)
+- Provide practical code examples demonstrating patterns
+- Discuss trade-offs and when to use different approaches
+- Mention common pitfalls and how to avoid them
 
   </div>
 </details>
