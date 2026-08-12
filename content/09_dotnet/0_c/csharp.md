@@ -1,6 +1,6 @@
 ---
 title: "C# Language Overview"
-slug: "09_dotnet/0_c/csharp"
+slug: "09_dotnet/0_c"
 stack: "C#"
 date: "2026-08-12T00:00:00.000Z"
 draft: false
